@@ -6,6 +6,7 @@
 #define CANVAS_SETTING_H
 
 #include <string>
+#include "../../Asset/Asset.h"
 
 class Setting {
 public:
@@ -14,7 +15,15 @@ public:
     static void Restart();
     static void Stop();
 public:
+    enum GraphicAPI
+    {
+        DXD,OPENGL,VULKAN
+    };
+private:
+    class SettingAsset : public Asset
+    {
 
+    };
 };
 
 

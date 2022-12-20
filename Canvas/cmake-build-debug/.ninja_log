@@ -20,3 +20,8 @@
 2	360	6932333828234330	CMakeFiles/Canvas.dir/main.cpp.obj	9af25c47efd55072
 23	1093	6932333835564798	CMakeFiles/Canvas.dir/Source/Debug.cpp.obj	5e918eae8729ff35
 1093	1157	6932333836193158	Canvas.exe	8e21bdad7f786204
+9	275	6932375526576428	CMakeFiles/Canvas.dir/Source/Graphic.cpp.obj	f1698405f4f438f9
+5	287	6932375526696497	CMakeFiles/Canvas.dir/Source/Setting.cpp.obj	a463725f0fe30658
+2	346	6932375527284558	CMakeFiles/Canvas.dir/main.cpp.obj	9af25c47efd55072
+7	571	6932375529528565	CMakeFiles/Canvas.dir/Source/Asset.cpp.obj	d1af0856fc7b8678
+571	674	6932375530535865	Canvas.exe	8e21bdad7f786204
