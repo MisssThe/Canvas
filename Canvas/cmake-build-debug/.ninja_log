@@ -1,0 +1,22 @@
+# ninja log v5
+2	182	6932319677096742	CMakeFiles/Canvas.dir/Source/Graphic.cpp.obj	e8460bc50aeedc26
+2	235	6932328993592460	CMakeFiles/Canvas.dir/main.cpp.obj	e6ca6c0e39a920b9
+8	46	6931499480087339	CMakeFiles/Canvas.dir/Source/Platform.cpp.obj	798ee302a5a7a6a6
+2	828	6932329321839768	CMakeFiles/Canvas.dir/Source/Debug.cpp.obj	abf4c9af93946e51
+829	892	6932329322438167	Canvas.exe	8e21bdad7f786204
+1	92	6932333789507857	build.ninja	27a1dc64d3dd6314
+3	38	6932325182742854	CMakeFiles/Canvas.dir/Source/Music.cpp.obj	29f5fcb34c99f902
+8	110	6932319495398047	CMakeFiles/Canvas.dir/Source/AssetLoader.cpp.obj	186dc8732b2f7be2
+11	44	6931475652239991	CMakeFiles/Canvas.dir/Source/Physical.cpp.obj	8c5945f5884b57b
+5	216	6932319496455219	CMakeFiles/Canvas.dir/Source/Setting.cpp.obj	fe90baebc4aec85b
+4	184	6932319677126675	CMakeFiles/Canvas.dir/Source/Asset.cpp.obj	6b5821537e32ac03
+7	63	6932333825222391	CMakeFiles/Canvas.dir/Source/Physical.cpp.obj	9b198d14a4f20c70
+5	63	6932333825222391	CMakeFiles/Canvas.dir/Source/Platform.cpp.obj	2aaffb526a8d1586
+17	72	6932333825352045	CMakeFiles/Canvas.dir/Source/AssetLoader.cpp.obj	7fd381b3e910820b
+20	77	6932333825401912	CMakeFiles/Canvas.dir/Source/Music.cpp.obj	bdce9c7b111f1cec
+9	258	6932333827197126	CMakeFiles/Canvas.dir/Source/Setting.cpp.obj	a463725f0fe30658
+12	274	6932333827386616	CMakeFiles/Canvas.dir/Source/Graphic.cpp.obj	f1698405f4f438f9
+15	276	6932333827396587	CMakeFiles/Canvas.dir/Source/Asset.cpp.obj	d1af0856fc7b8678
+2	360	6932333828234330	CMakeFiles/Canvas.dir/main.cpp.obj	9af25c47efd55072
+23	1093	6932333835564798	CMakeFiles/Canvas.dir/Source/Debug.cpp.obj	5e918eae8729ff35
+1093	1157	6932333836193158	Canvas.exe	8e21bdad7f786204
