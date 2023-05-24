@@ -105,13 +105,6 @@ build CMakeFiles/Canvas_1_0.dir/Source/Time.cpp.o: CXX_COMPILER__Canvas_1_0_Debu
   OBJECT_DIR = CMakeFiles/Canvas_1_0.dir
   OBJECT_FILE_DIR = CMakeFiles/Canvas_1_0.dir/Source
 
-build CMakeFiles/Canvas_1_0.dir/Source/Transform.cpp.o: CXX_COMPILER__Canvas_1_0_Debug /Users/misthe/LearnWork/Practice/Canvas_1_0/Source/Transform.cpp || cmake_object_order_depends_target_Canvas_1_0
-  DEP_FILE = CMakeFiles/Canvas_1_0.dir/Source/Transform.cpp.o.d
-  FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++17
-  INCLUDES = -I/Users/misthe/LearnWork/Practice/Canvas_1_0/ThirdParty/Include
-  OBJECT_DIR = CMakeFiles/Canvas_1_0.dir
-  OBJECT_FILE_DIR = CMakeFiles/Canvas_1_0.dir/Source
-
 build CMakeFiles/Canvas_1_0.dir/Source/Scene.cpp.o: CXX_COMPILER__Canvas_1_0_Debug /Users/misthe/LearnWork/Practice/Canvas_1_0/Source/Scene.cpp || cmake_object_order_depends_target_Canvas_1_0
   DEP_FILE = CMakeFiles/Canvas_1_0.dir/Source/Scene.cpp.o.d
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -fcolor-diagnostics -std=gnu++17
@@ -134,7 +127,7 @@ build CMakeFiles/Canvas_1_0.dir/Include/Core/Asset/DefaultAsset.cpp.o: CXX_COMPI
 #############################################
 # Link the executable /Users/misthe/LearnWork/Practice/Canvas_1_0/CanvasOutput/Canvas_1_0
 
-build /Users/misthe/LearnWork/Practice/Canvas_1_0/CanvasOutput/Canvas_1_0: CXX_EXECUTABLE_LINKER__Canvas_1_0_Debug CMakeFiles/Canvas_1_0.dir/main.cpp.o CMakeFiles/Canvas_1_0.dir/Source/GarbageCollection.cpp.o CMakeFiles/Canvas_1_0.dir/Source/CustomPtr.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Canvas.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Serialize.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Asset.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Debug.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Time.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Transform.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Scene.cpp.o CMakeFiles/Canvas_1_0.dir/Include/Core/Asset/DefaultAsset.cpp.o
+build /Users/misthe/LearnWork/Practice/Canvas_1_0/CanvasOutput/Canvas_1_0: CXX_EXECUTABLE_LINKER__Canvas_1_0_Debug CMakeFiles/Canvas_1_0.dir/main.cpp.o CMakeFiles/Canvas_1_0.dir/Source/GarbageCollection.cpp.o CMakeFiles/Canvas_1_0.dir/Source/CustomPtr.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Canvas.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Serialize.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Asset.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Debug.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Time.cpp.o CMakeFiles/Canvas_1_0.dir/Source/Scene.cpp.o CMakeFiles/Canvas_1_0.dir/Include/Core/Asset/DefaultAsset.cpp.o
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk
   OBJECT_DIR = CMakeFiles/Canvas_1_0.dir
   POST_BUILD = :

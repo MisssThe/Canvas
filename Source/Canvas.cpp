@@ -4,9 +4,7 @@
 
 #include "../Include/Canvas.h"
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
-#include "../Include/Core/Asset/Asset.h"
 #include "../Include/Core/Asset/DefaultAsset.h"
-#include "../Include/Core/Scene/Transform.h"
 
 //初始化GC
 void Canvas::InitGarbageCollection() {
