@@ -4,10 +4,15 @@
 
 #include "../Include/Core/GarbageCollection/CustomPtr.h"
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
+#include "../Include/Core/GarbageCollection/ThreadPool.h"
 
 CustomPtr::CustomPtr() {
     this->isMark = false;
-    GarbageCollection::_Register(this);
+    GarbageCollection::S_Register(this);
+    //非主线程上创建的任务需要注册到线程池的数据集中
+    if (!ThreadPool::S_IsMainThread()) {
+        ThreadPool::S_RegisterPtr(this);
+    }
 }
 
 CustomPtr::~CustomPtr() {
@@ -16,14 +21,6 @@ CustomPtr::~CustomPtr() {
 
 void CustomPtr::Release() {
     delete this;
-}
-
-void CustomPtr::Mark() {
-    //避免循环引用
-    if (this->isMark)
-        return;
-    this->isMark = true;
-    this->CustomMark();
 }
 
 bool CustomPtr::S_IsCustomPtr(...) {
@@ -35,7 +32,13 @@ bool CustomPtr::S_IsCustomPtr(CustomPtr *ptr) {
 }
 
 void CustomPtr::S_Mark(CustomPtr *ptr) {
-    ptr->Mark();
+    if (ptr == nullptr)
+        return;
+    //避免循环引用
+    if (ptr->isMark)
+        return;
+    ptr->isMark = true;
+    ptr->CustomMark();
 }
 
 void CustomPtr::S_Mark(...) {

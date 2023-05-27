@@ -10,8 +10,6 @@
 
 class Serialize : public CustomPtr
 {
-protected:
-    ~Serialize() override = default;
 public:
     void serialize(cereal::BinaryInputArchive& archive);
     void serialize(cereal::BinaryOutputArchive& archive);

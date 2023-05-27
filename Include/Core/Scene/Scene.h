@@ -7,6 +7,7 @@
 
 
 #include "../Asset/Asset.h"
+#include "Entity.h"
 
 class Scene : public Asset
 {
@@ -18,10 +19,7 @@ protected:
     void Write(cereal::BinaryOutputArchive &archive) override;
     ~Scene() override;
 public:
-    static void Load(std::string path);
-    static void UnLoad();
-public:
-    static Scene* active;
+    Entity* root;
 };
 
 

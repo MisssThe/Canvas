@@ -5,41 +5,43 @@
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
 #include "../Include/General/Debug.h"
 
-Queue<CustomPtr*>* GarbageCollection::_ptrQueue;
-Queue<CustomPtr*>* GarbageCollection::_rootQueue;
+Queue<CustomPtr*>* GarbageCollection::S_ptrQueue;
+Queue<CustomPtr*>* GarbageCollection::S_rootQueue;
+
 int GarbageCollection::_interval = 0;
 int GarbageCollection::_waitTime = 0;
 
-void GarbageCollection::_Config(GarbageCollectionConfig config) {
+void GarbageCollection::S_Config(GarbageCollectionConfig config) {
     if (config.interval < 0)
         return;
     GarbageCollection::_interval = config.interval;
     GarbageCollection::_waitTime = 0;
 
-    if (GarbageCollection::_ptrQueue == nullptr)
-        GarbageCollection::_ptrQueue = new Queue<CustomPtr *>();
-    if (GarbageCollection::_rootQueue == nullptr)
-        GarbageCollection::_rootQueue = new Queue<CustomPtr *>();
-    GarbageCollection::_ptrQueue->Remove(GarbageCollection::_ptrQueue);
-    GarbageCollection::_ptrQueue->Remove(GarbageCollection::_rootQueue);
+    if (GarbageCollection::S_ptrQueue == nullptr)
+        GarbageCollection::S_ptrQueue = new Queue<CustomPtr *>();
+    if (GarbageCollection::S_rootQueue == nullptr)
+        GarbageCollection::S_rootQueue = new Queue<CustomPtr *>();
+    GarbageCollection::S_ptrQueue->Remove(GarbageCollection::S_ptrQueue);
+    GarbageCollection::S_ptrQueue->Remove(GarbageCollection::S_rootQueue);
 }
 
-void GarbageCollection::_Invoke() {
+//使用标记清除进行垃圾回收
+//垃圾回收前要保证线程池内的所有线程完成或暂停执行
+void GarbageCollection::S_Invoke() {
     if (GarbageCollection::_waitTime++ < GarbageCollection::_interval)
         return;
     GarbageCollection::_waitTime = GarbageCollection::_interval;
 
-    if (GarbageCollection::_rootQueue == nullptr || GarbageCollection::_ptrQueue == nullptr)
+    if (GarbageCollection::S_rootQueue == nullptr || GarbageCollection::S_ptrQueue == nullptr)
         return;
-    Debug::Info("Garbage Collection", "Start Collection [" + std::to_string(GarbageCollection::_rootQueue->Size()) + "]");
+    Debug::Info("Garbage Collection", "Start Collection [" + std::to_string(GarbageCollection::S_rootQueue->Size()) + "]");
     //遍历root节点判断是否需要mark
-    GarbageCollection::_rootQueue->IteratorWithout([](CustomPtr *ptr) {
-        ptr->Mark();
-        ptr->isMark = false;
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr *ptr) {
+        CustomPtr::S_Mark(ptr);
     });
-    int max = GarbageCollection::_ptrQueue->Size();
+    int max = GarbageCollection::S_ptrQueue->Size();
     int dropCount = 0;
-    GarbageCollection::_ptrQueue->IteratorWithRemove([&dropCount](CustomPtr *ptr) {
+    GarbageCollection::S_ptrQueue->IteratorWithRemove([&dropCount](CustomPtr *ptr) {
         if (ptr->isMark) {
             ptr->isMark = false;
             return true;
@@ -52,17 +54,17 @@ void GarbageCollection::_Invoke() {
     Debug::Info("Garbage Collection", "Collection Finish [" + std::to_string(dropCount) + "/" + std::to_string(max) + "]");
 }
 
-void GarbageCollection::_Register(CustomPtr *ptr) {
-    if (GarbageCollection::_ptrQueue == nullptr)
+void GarbageCollection::S_Register(CustomPtr *ptr) {
+    if (GarbageCollection::S_ptrQueue == nullptr)
         return;
-    GarbageCollection::_ptrQueue->Push(ptr);
+    GarbageCollection::S_ptrQueue->Push(ptr);
 }
 
-void GarbageCollection::AddRoot(CustomPtr *root) {
+void GarbageCollection::S_AddRoot(CustomPtr *root) {
     if (root == nullptr)
         return;
-    if (GarbageCollection::_rootQueue->Contain(root))
+    if (GarbageCollection::S_rootQueue->Contain(root))
         return;
-    GarbageCollection::_rootQueue->Push(root);
-    GarbageCollection::_ptrQueue->Remove(root);
+    GarbageCollection::S_rootQueue->Push(root);
+    GarbageCollection::S_ptrQueue->Remove(root);
 }

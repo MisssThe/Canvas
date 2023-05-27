@@ -3,28 +3,26 @@
 //
 
 #include "../Include/Core/Scene/Scene.h"
+#include <cereal/types/string.hpp>
 
 Scene::~Scene() {
 
 }
 
 void Scene::CustomMark() {
-    Asset::CustomMark();
-
+//    this->root->Mark();
 }
 
 void Scene::Construct() {
-
+    this->root = new Entity();
+    this->root->name = "root";
 }
 
 void Scene::Read(cereal::BinaryInputArchive &archive) {
-
+    this->root = new Entity();
+    archive(*this->root);
 }
 
 void Scene::Write(cereal::BinaryOutputArchive &archive) {
-
-}
-
-void Scene::Load(std::string path) {
-//    Scene* scene =
+//    archive(*this->root);
 }

@@ -16,7 +16,9 @@ public:
     ~Canvas();
     void Invoke();
 private:
+    void InitAsset();
     void InitGarbageCollection();
+    void InitThreadPool();
 };
 
 

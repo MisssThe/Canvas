@@ -11,7 +11,7 @@
 
 class GarbageCollection {
 public:
-    class GarbageCollectionConfig
+    struct GarbageCollectionConfig
     {
     public:
         int interval;   //调用间隔
@@ -19,16 +19,15 @@ public:
 public:
     GarbageCollection() = delete;
     ~GarbageCollection() = delete;
-    static void _Config(GarbageCollectionConfig config);
-    static void AddRoot(CustomPtr* root);
-    static void _Invoke();
-    static void _Register(CustomPtr* ptr);
-//    static void _UnDestroy(CustomPtr* ptr);
+    static void S_Config(GarbageCollectionConfig config);
+    static void S_AddRoot(CustomPtr* root);
+    static void S_Invoke();
+    static void S_Register(CustomPtr* ptr);
 private:
     static int _interval;
     static int _waitTime;
-    static Queue<CustomPtr*>* _rootQueue;
-    static Queue<CustomPtr*>* _ptrQueue;
+    static Queue<CustomPtr*>* S_rootQueue;
+    static Queue<CustomPtr*>* S_ptrQueue;
 };
 
 

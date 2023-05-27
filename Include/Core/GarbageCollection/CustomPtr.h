@@ -1,5 +1,7 @@
 //
 // Created by MisThe on 2023/5/21.
+// 禁止用户手动删除指针，用户只能通过ptr = null的方式去减少指针引用
+// 禁止用户手动开辟线程操作，只能通过提供的线程池进行线程操作
 //
 
 #ifndef CANVAS_1_0_CUSTOMPTR_H
@@ -13,7 +15,6 @@ public:
     CustomPtr();
     void Release();
 public:
-    void Mark();
     bool isMark;
 public:
     static bool S_IsCustomPtr(CustomPtr* ptr);

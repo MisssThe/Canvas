@@ -8,16 +8,15 @@
 
 #include <queue>
 #include <iostream>
-#include "../../Core/GarbageCollection/CustomPtr.h"
+#include <cereal/types/queue.hpp>
+#include "../../Core/Asset/Serialize.h"
 
-template<class T> class Queue : public CustomPtr {
+template<class T> class Queue : public Serialize {
 private:
     std::queue<T> queue;
 protected:
     ~Queue() override {
-        this->IteratorWithout([](T temp) {
-            temp->Mark();
-        });
+
     }
 
     void CustomMark() override {
@@ -25,6 +24,14 @@ protected:
             CustomPtr::S_Mark(temp);
         });
     };
+
+    void Read(cereal::BinaryInputArchive &archive) override {
+//        archive(this->queue);
+    }
+
+    void Write(cereal::BinaryOutputArchive &archive) override {
+//        archive(this->queue);
+    }
 public:
     Queue(Queue<T> const &temp) {
         this->queue = temp.queue;
