@@ -16,6 +16,12 @@ public:
 protected:
     virtual void Read(cereal::BinaryInputArchive& archive) = 0;
     virtual void Write(cereal::BinaryOutputArchive& archive) = 0;
+protected:
+    void Archive(cereal::BinaryInputArchive& archive,Serialize* ptr);
+    template<typename T> void Archive(cereal::BinaryInputArchive& archive, T temp)
+    {
+        archive(temp);
+    }
 };
 
 

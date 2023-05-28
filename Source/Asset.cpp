@@ -6,18 +6,7 @@
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
 #include "../Include/General/Debug.h"
 
-//会泄漏一个map
 Map<std::string, Asset*>* Asset::S_assetMap = nullptr;
-
-void Asset::CustomMark() {
-    CustomPtr::S_Mark(Asset::S_assetMap);
-}
-
-Asset::Asset() {
-    if (Asset::S_assetMap != nullptr)
-        return;
-    Asset::S_assetMap = new Map<std::string, Asset *>();
-}
 
 void Asset::S_Config(Asset::AssetConfig config) {
     if (Asset::S_assetMap == nullptr)

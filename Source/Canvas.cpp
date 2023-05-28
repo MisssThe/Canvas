@@ -4,8 +4,9 @@
 
 #include "../Include/Canvas.h"
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
-#include "../Include/Core/Asset/DefaultAsset.h"
 #include "../Include/Core/GarbageCollection/ThreadPool.h"
+#include "../Include/Core/Scene/Invoker/SceneInvoker.h"
+#include "../Include/Core/Scene/Invoker/Component/Test.h"
 
 //初始化GC
 void Canvas::InitGarbageCollection() {
@@ -37,10 +38,25 @@ Canvas::Canvas() {
 
 void Canvas::Invoke() {
     Scene* scene = Asset::S_Instance<Scene>("Canvas/Scene/editor.scene");
+    scene->Load();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
+    scene->AddEntity()->AddComponent<Test>();
 //    while (true) {
     //Canvas中提供线程操作以提高性能
     //Canvas在执行垃圾回收时需要挂起其他线程
     //合理利用render的同步时间
+    SceneInvoker::S_Instance()->Invoke();
+    Asset::S_Invoke();
     GarbageCollection::S_Invoke();
 //    }
 }

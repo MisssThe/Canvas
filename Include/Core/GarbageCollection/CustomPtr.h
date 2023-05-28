@@ -22,6 +22,13 @@ public:
     static void S_Mark(CustomPtr* ptr);
     static void S_Mark(...);
     static void S_Mark(std::string str);
+    template<class T> static T New(T temp) {
+        return temp;
+    }
+
+    template<class T> static T New(CustomPtr* ptr) {
+        return new T();
+    }
 protected:
     virtual void CustomMark() = 0;
     virtual ~CustomPtr();

@@ -8,18 +8,30 @@
 
 #include "../Asset/Serialize.h"
 #include "../../General/Container/Queue.h"
-#include "Component.h"
+#include "Invoker/Component/Component.h"
+#include "Invoker/SceneInvoker.h"
 
-class Entity : public Serialize
-{
+class Entity : public Serialize {
+public:
+    Entity();
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
     ~Entity() override;
 public:
+    void SetParent(Entity *entity);
+    void Iterator(std::function<void(Entity* entity)> func);
+    template<class T> void AddComponent() {
+        T* temp = new T();
+        this->components->Push(temp);
+        SceneInvoker::S_Instance()->invoker->Register(temp);
+    }
+public:
     std::string name;
     Queue<Component*>* components;
+    Queue<Entity*>* children;
+    Entity* parent;
 };
 
 

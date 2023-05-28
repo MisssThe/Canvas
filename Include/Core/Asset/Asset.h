@@ -15,13 +15,8 @@ class Asset : public Serialize
 {
 private:
     static Map<std::string, Asset*>* S_assetMap;
-public:
-    Asset();
 protected:
     ~Asset() override = default;
-    void CustomMark() override;
-public:
-    virtual void Construct() = 0;
 public:
     std::string name;
     std::string path;
@@ -48,8 +43,6 @@ public:
             success = false;
         }
         is.close();
-        if (!success)
-            temp->Construct();
         temp->name = IO::PathToName(path);
         temp->path = path;
         S_assetMap->Insert(path, temp);

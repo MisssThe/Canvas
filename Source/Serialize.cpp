@@ -12,3 +12,7 @@ void Serialize::serialize(cereal::BinaryInputArchive &archive) {
 void Serialize::serialize(cereal::BinaryOutputArchive &archive) {
     this->Write(archive);
 }
+
+void Serialize::Archive(cereal::BinaryInputArchive &archive, Serialize *ptr) {
+    archive(*ptr);
+}

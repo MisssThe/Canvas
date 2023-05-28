@@ -11,14 +11,17 @@
 
 class Scene : public Asset
 {
-public:
-    void Construct() override;
 protected:
     void CustomMark() override;
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     ~Scene() override;
 public:
+    Scene();
+    void Load();
+    void Unload();
+    Entity* AddEntity();
+private:
     Entity* root;
 };
 
