@@ -10,6 +10,7 @@
 #include "Serialize.h"
 #include "../../General/Container/Map.h"
 #include "../../General/IO.h"
+#include "../../General/Debug.h"
 
 class Asset : public Serialize
 {
@@ -32,15 +33,14 @@ public:
             return temp;
         temp = new T();
         std::ifstream is(path);
-        bool success = is.is_open();
         try {
-            if (success) {
+            if (is.is_open()) {
                 cereal::BinaryInputArchive archive(is);
                 temp = new T();
                 archive(*temp);
             }
         } catch (...) {
-            success = false;
+            Debug::Warn("Asset Instance", "The Asset Format Does Not Match");
         }
         is.close();
         temp->name = IO::PathToName(path);

@@ -3,7 +3,6 @@
 //
 
 #include "../Include/Core/Asset/Serialize.h"
-#include <cereal/types/string.hpp>
 
 void Serialize::serialize(cereal::BinaryInputArchive &archive) {
     this->Read(archive);

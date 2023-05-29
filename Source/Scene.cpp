@@ -17,27 +17,28 @@ void Scene::CustomMark() {
 }
 
 void Scene::Read(cereal::BinaryInputArchive &archive) {
-//    archive(*this->root);
+    archive(*this->root);
 }
 
 void Scene::Write(cereal::BinaryOutputArchive &archive) {
-//    archive(*this->root);
+    archive(*this->root);
 }
 
-Entity* Scene::AddEntity() {
+Entity* Scene::AddEntity(std::string name) {
     Entity *go = new Entity();
     go->SetParent(this->root);
+    go->name = name;
     return go;
 }
 
 void Scene::Load() {
-//    if (Scene::scenes == nullptr)
-//        Scene::scenes = new CustomQueue<Scene*>();
-//    Scene::scenes->Push(this);
+    this->root->Iterator([](Entity *entity) {
+
+    });
 }
 
 void Scene::Unload() {
-//    if (Scene::scenes == nullptr)
-//        return;
-//    Scene::scenes->Remove(this);
+    this->root->Iterator([](Entity *entity) {
+
+    });
 }

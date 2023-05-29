@@ -41,10 +41,14 @@ void CustomPtr::S_Mark(CustomPtr *ptr) {
     ptr->CustomMark();
 }
 
-void CustomPtr::S_Mark(...) {
+void CustomPtr::S_Mark(std::string str) {
 
 }
 
-void CustomPtr::S_Mark(std::string str) {
+void CustomPtr::S_Mark(std::function<void()> call) {
+
+}
+
+void CustomPtr::S_Mark(...) {
 
 }

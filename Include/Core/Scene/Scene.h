@@ -7,8 +7,7 @@
 
 
 #include "../Asset/Asset.h"
-#include "Entity.h"
-
+#include "Entity/Entity.h"
 class Scene : public Asset
 {
 protected:
@@ -20,9 +19,14 @@ public:
     Scene();
     void Load();
     void Unload();
-    Entity* AddEntity();
+    Entity* AddEntity(std::string name = "entity");
 private:
     Entity* root;
+private:
+    class SceneAsset : public Serialize
+    {
+
+    };
 };
 
 

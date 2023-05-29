@@ -7,75 +7,52 @@
 
 
 #include <queue>
-#include <iostream>
-#include <cereal/types/queue.hpp>
 #include "../../Core/Asset/Serialize.h"
 
-template<class T> class Queue : public Serialize {
+template<class T> class Queue : public CustomPtr {
 private:
     std::queue<T> queue;
 protected:
-    ~Queue() override {
-
-    }
-
+    ~Queue() override = default;
     void CustomMark() override {
         this->IteratorWithout([](T temp) {
             CustomPtr::S_Mark(temp);
         });
-    };
-
-    void Read(cereal::BinaryInputArchive &archive) override {
-//        archive(this->queue);
-    }
-
-    void Write(cereal::BinaryOutputArchive &archive) override {
-//        archive(this->queue);
     }
 public:
     Queue(Queue<T> const &temp) {
         this->queue = temp.queue;
     }
-
-    Queue() {
-
-    }
+    Queue() = default;
 public:
     void Push(T temp) {
         this->queue.push(temp);
     }
-
     T Front() {
         return this->queue.front();
     }
-
     T Pop() {
         T temp = this->queue.front();
         this->queue.pop();
         return temp;
     }
-
     void Remove(T t) {
         this->IteratorWithRemove([&t](T temp) {
             return temp != t;
         });
     }
-
     int Size() {
         return this->queue.size();
     }
-
     void Clear() {
         this->queue.swap(Queue<T>());
     }
-
     void IteratorWithout(std::function<void(T)> func) {
-        bool result = this->IteratorWithRemove([&func](T temp) -> bool {
+        this->IteratorWithRemove([&func](T temp) -> bool {
             func(temp);
             return true;
         });
     }
-
     bool IteratorWithRemove(std::function<bool(T)> func) {
         int size = this->queue.size();
         for (int index = 0; index < size; ++index) {
@@ -86,7 +63,6 @@ public:
         }
         return this->queue.size() == size;
     }
-
     bool IteratorWithResult(std::function<bool(T)> func) {
         int size = this->queue.size();
         bool result = true;
@@ -98,7 +74,6 @@ public:
         }
         return result;
     }
-
     bool Contain(T temp) {
         return !this->IteratorWithResult([&temp](T t) {
             return t != temp;

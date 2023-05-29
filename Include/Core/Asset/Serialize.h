@@ -1,5 +1,7 @@
 //
 // Created by MisThe on 2023/5/21.
+// 尽量不要序列化指针除了Asset
+// 严禁序列化指针相互引用
 //
 
 #ifndef CANVAS_1_0_SERIALIZE_H
@@ -18,10 +20,10 @@ protected:
     virtual void Write(cereal::BinaryOutputArchive& archive) = 0;
 protected:
     void Archive(cereal::BinaryInputArchive& archive,Serialize* ptr);
-    template<typename T> void Archive(cereal::BinaryInputArchive& archive, T temp)
-    {
-        archive(temp);
-    }
+//    template<typename T> void Archive(cereal::BinaryInputArchive& archive, T temp)
+//    {
+//        archive(temp);
+//    }
 };
 
 

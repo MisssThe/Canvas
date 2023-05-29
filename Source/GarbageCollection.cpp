@@ -36,6 +36,7 @@ void GarbageCollection::S_Invoke() {
         return;
     Debug::Info("Garbage Collection", "Start Collection [" + std::to_string(GarbageCollection::S_rootQueue->Size()) + "]");
     //遍历root节点判断是否需要mark
+
     GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr *ptr) {
         CustomPtr::S_Mark(ptr);
     });

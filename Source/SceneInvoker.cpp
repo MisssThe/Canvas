@@ -6,8 +6,9 @@
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
 
 SceneInvoker* SceneInvoker::S_instance = nullptr;
+
 void SceneInvoker::CustomMark() {
-    CustomPtr::S_Mark(this->invoker);
+    CustomPtr::S_Mark(this->components);
     CustomPtr::S_Mark(this->psycho);
     CustomPtr::S_Mark(this->graphic);
 }
@@ -22,14 +23,14 @@ SceneInvoker *SceneInvoker::S_Instance() {
 }
 
 SceneInvoker::SceneInvoker() {
-    this->invoker = new ComponentsInvoker();
+    this->components = new Components();
     this->psycho = new Psycho();
     this->graphic = new Graphic();
     GarbageCollection::S_AddRoot(this);
 }
 
-void SceneInvoker::Invoke() {
-    this->invoker->Invoke();
+void SceneInvoker::Invoke() const {
+    this->components->Invoke();
     this->psycho->Invoke();
     this->graphic->Invoke();
 }

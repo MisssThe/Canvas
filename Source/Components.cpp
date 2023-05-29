@@ -3,9 +3,10 @@
 //
 
 #include "../Include/General/Debug.h"
-#include "../Include/Core/Scene/Invoker/Component/ComponentsInvoker.h"
+#include "../Include/Core/Scene/Invoker/Component/Components.h"
+#include "../Include/Core/Scene/Invoker/Component/Component.h"
 
-void ComponentsInvoker::Invoke() {
+void Components::Invoke() {
     Debug::Info("Scene Invoker", "Start Invoker");
     //initial queue
     this->initial->IteratorWithRemove([this](Component *component) -> bool {
@@ -50,7 +51,7 @@ void ComponentsInvoker::Invoke() {
     });
 }
 
-void ComponentsInvoker::CustomMark() {
+void Components::CustomMark() {
     CustomPtr::S_Mark(initial);
     CustomPtr::S_Mark(onEnable);
     CustomPtr::S_Mark(invoke);
@@ -59,7 +60,7 @@ void ComponentsInvoker::CustomMark() {
     CustomPtr::S_Mark(destroy);
 }
 
-ComponentsInvoker::ComponentsInvoker() {
+Components::Components() {
     this->initial = new Queue<Component*>();
     this->onEnable = new Queue<Component*>();
     this->invoke = new Queue<Component*>();
@@ -68,7 +69,7 @@ ComponentsInvoker::ComponentsInvoker() {
     this->destroy = new Queue<Component*>();
 }
 
-void ComponentsInvoker::Register(Component *component) {
+void Components::Register(Component *component) {
     if (component == nullptr)
         return;
     this->initial->Push(component);

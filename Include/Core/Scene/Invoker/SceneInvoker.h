@@ -6,21 +6,27 @@
 #define CANVAS_1_0_SCENEINVOKER_H
 
 
-#include "Component/ComponentsInvoker.h"
+#include "Component/Components.h"
 #include "Psycho/Psycho.h"
 #include "Graphic/Graphic.h"
 
 class SceneInvoker : public CustomPtr
 {
 public:
+    struct SceneInvokerConfig
+    {
+
+    };
+public:
+    static void S_Config(SceneInvokerConfig config);
     static SceneInvoker* S_Instance();
 public:
-    void Invoke();
+    void Invoke() const;
 protected:
     void CustomMark() override;
     ~SceneInvoker() override;
 public:
-    ComponentsInvoker* invoker;
+    Components* components;
     Psycho* psycho;
     Graphic* graphic;
 private:

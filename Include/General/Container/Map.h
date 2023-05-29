@@ -20,29 +20,29 @@ protected:
             CustomPtr::S_Mark(v);
         });
     }
-    ~Map() override {
-
-    }
+    ~Map() override = default;
 public:
+    Map() = default;
+    Map(std::initializer_list<std::pair<Key, Value>> list) {
+        for (auto init : list) {
+            this->Insert(init.first, init.second);
+        }
+    }
     Value Get(Key& key) {
         auto temp = this->map.find(key);
         if (temp == this->map.end())
             return nullptr;
         return temp->second;
     }
-
     void Insert(Key key, Value value) {
         this->map.insert(std::pair<Key, Value>(key, value));
     }
-
     bool Contain(Key key) {
         return this->map.find(key) != nullptr;
     }
-
     void Remove(Key key) {
         this->map.earse(key);
     }
-
     void Clear() {
         this->map.clear();
     }
