@@ -7,7 +7,7 @@
 
 
 #include <queue>
-#include "../../Core/Asset/Serialize.h"
+#include "../../Core/GarbageCollection/CustomPtr.h"
 
 template<class T> class Queue : public CustomPtr {
 private:

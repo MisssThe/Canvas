@@ -36,7 +36,7 @@ void Entity::Write(cereal::BinaryOutputArchive &archive) {
 void Entity::CustomMark() {
     CustomPtr::S_Mark(this->components);
     CustomPtr::S_Mark(this->children);
-    CustomPtr::S_Mark(this->parent);
+//    CustomPtr::S_Mark(this->parent);
 }
 
 Entity::~Entity() = default;
