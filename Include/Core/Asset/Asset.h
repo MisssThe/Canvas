@@ -12,26 +12,36 @@
 #include "../../General/IO.h"
 #include "../../General/Debug.h"
 
-class Asset : public Serialize
-{
+class Asset : public Serialize {
 private:
-    static Map<std::string, Asset*>* S_assetMap;
+    static Map<std::string, Asset *> *S_assetMap;
 protected:
     ~Asset() override = default;
 public:
     std::string name;
     std::string path;
-    struct AssetConfig
-    {
+    struct AssetConfig {
 
     };
 public:
     static void S_Config(AssetConfig config);
-    template<class T> static T* S_Instance(std::string path) {
-        T* temp = dynamic_cast<T*>(Asset::S_assetMap->Get(path));
+    template<class T>
+    static T *S_Create(std::string path) {
+        if (IO::Exist(path)) {
+            Debug::Warn("Asset Create","The Asset Existed [" + path + "]");
+            return S_Instance<T>(path);
+        }
+        T* temp = new T();
+        temp->name = IO::PathToName(path);
+        temp->path = path;
+        S_assetMap->Insert(path, temp);
+        return temp;
+    }
+    template<class T>
+    static T *S_Instance(std::string path) {
+        T *temp = dynamic_cast<T *>(Asset::S_assetMap->Get(path));
         if (temp != nullptr)
             return temp;
-        temp = new T();
         std::ifstream is(path);
         try {
             if (is.is_open()) {
@@ -40,9 +50,11 @@ public:
                 archive(*temp);
             }
         } catch (...) {
-            Debug::Warn("Asset Instance", "The Asset Format Does Not Match");
+            Debug::Warn("Asset Instance", "The Asset Format Does Not Match [" + path + "]");
         }
         is.close();
+        if (temp == nullptr)
+            return temp;
         temp->name = IO::PathToName(path);
         temp->path = path;
         S_assetMap->Insert(path, temp);
@@ -50,9 +62,11 @@ public:
     }
     static void S_Invoke();
     static void S_Clear();
-    static void S_Destroy();
+    static void S_Release();
+    static void S_Remove(std::string path);
+    static void S_Remove(Asset *asset);
 private:
-    static void S_Update(Asset* asset);
+    static void S_Update(Asset *asset);
 };
 
 

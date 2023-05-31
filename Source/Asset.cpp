@@ -14,7 +14,7 @@ void Asset::S_Config(Asset::AssetConfig config) {
     GarbageCollection::S_AddRoot(Asset::S_assetMap);
 }
 
-void Asset::S_Destroy() {
+void Asset::S_Release() {
     Asset::S_Clear();
     Asset::S_assetMap = nullptr;
 }
@@ -38,4 +38,12 @@ void Asset::S_Update(Asset *asset) {
         archive(*asset);
     }
     os.close();
+}
+
+void Asset::S_Remove(std::string path) {
+    Asset* asset = Asset::S_assetMap->Get(path);
+    if (asset == nullptr)
+        return;
+    Asset::S_assetMap->Remove(path);
+    Asset::S_Update(asset);
 }

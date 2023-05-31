@@ -41,7 +41,7 @@ public:
         return this->map.find(key) != nullptr;
     }
     void Remove(Key key) {
-        this->map.earse(key);
+        this->map.erase(key);
     }
     void Clear() {
         this->map.clear();

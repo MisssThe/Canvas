@@ -22,11 +22,6 @@ public:
     Entity* AddEntity(std::string name = "entity");
 private:
     Entity* root;
-private:
-    class SceneAsset : public Serialize
-    {
-
-    };
 };
 
 
