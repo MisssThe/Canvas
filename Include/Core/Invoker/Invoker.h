@@ -2,15 +2,15 @@
 // Created by MisThe on 2023/5/28.
 //
 
-#ifndef CANVAS_1_0_SCENEINVOKER_H
-#define CANVAS_1_0_SCENEINVOKER_H
+#ifndef CANVAS_1_0_INVOKER_H
+#define CANVAS_1_0_INVOKER_H
 
 
 #include "Component/Components.h"
 #include "Psycho/Psycho.h"
 #include "Graphic/Graphic.h"
 
-class SceneInvoker : public CustomPtr
+class Invoker : public CustomPtr
 {
 public:
     struct SceneInvokerConfig
@@ -19,21 +19,24 @@ public:
     };
 public:
     static void S_Config(SceneInvokerConfig config);
-    static SceneInvoker* S_Instance();
+    static Invoker* S_Instance();
+    static void S_Pause();
+    static void S_Resume();
 public:
     void Invoke() const;
 protected:
     void CustomMark() override;
-    ~SceneInvoker() override;
+    ~Invoker() override;
 public:
     Components* components;
     Psycho* psycho;
     Graphic* graphic;
 private:
-    SceneInvoker();
+    Invoker();
 private:
-    static SceneInvoker* S_instance;
+    static Invoker* S_instance;
+    static bool S_notPause;
 };
 
 
-#endif //CANVAS_1_0_SCENEINVOKER_H
+#endif //CANVAS_1_0_INVOKER_H

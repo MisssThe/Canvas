@@ -6,8 +6,8 @@
 #define CANVAS_1_0_COMPONENT_H
 
 
-#include "../../../Asset/Serialize.h"
-#include "../SceneInvoker.h"
+#include "../../Asset/Serialize.h"
+#include "../Invoker.h"
 
 class Component : public Serialize
 {
@@ -35,7 +35,7 @@ public:
     static Component* S_Instance(std::string type);
     template<class T> static T* S_Instance() {
         T* temp = new T();
-        SceneInvoker::S_Instance()->components->Register(temp);
+        Invoker::S_Instance()->components->Register(temp);
         return temp;
     }
 private:

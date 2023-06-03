@@ -5,7 +5,7 @@
 #ifndef CANVAS_1_0_TRANSFORM_H
 #define CANVAS_1_0_TRANSFORM_H
 
-#include "../Invoker/Component/Component.h"
+#include "../../Invoker/Component/Component.h"
 
 class Transform : public Component {
 public:

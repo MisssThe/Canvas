@@ -6,6 +6,7 @@
 #define CANVAS_1_0_SCENEMANAGER_H
 
 #include "Scene.h"
+#include "../Asset/AssetManager.h"
 
 class SceneManager {
 public:

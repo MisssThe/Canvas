@@ -6,8 +6,11 @@
 #include "../Include/Core/GarbageCollection/GarbageCollection.h"
 #include "../Include/Core/GarbageCollection/ThreadPool.h"
 #include "../Include/Core/Scene/Entity/Transform.h"
+#include "../Include/Core/Asset/AssetManager.h"
+#include "../Include/Core/Scene/SceneManager.h"
 
-//初始化GC
+bool Canvas::S_exist = true;
+
 void Canvas::InitGarbageCollection() {
     GarbageCollection::GarbageCollectionConfig config{
         0
@@ -23,43 +26,41 @@ void Canvas::InitThreadPool() {
 }
 
 void Canvas::InitAsset() {
-    Asset::AssetConfig config {
+    AssetManager::AssetConfig config {
 
     };
-    Asset::S_Config(config);
+    AssetManager::S_Config(config);
+}
+
+void Canvas::InitScene() {
+    SceneManager::SceneManagerConfig config{
+            "Canvas/Scene/editor.scene"
+    };
+    SceneManager::S_Config(config);
 }
 
 Canvas::Canvas() {
     this->InitGarbageCollection();
     this->InitAsset();
     this->InitThreadPool();
+    this->InitScene();
 }
 
 void Canvas::Invoke() {
-    Scene* scene = Asset::S_Instance<Scene>("Canvas/Scene/editor.scene");
-    scene->Load();
-    scene->AddEntity();
-    scene->AddEntity();
-    scene->AddEntity();
-    scene->AddEntity();
-    scene->AddEntity();
-    scene->AddEntity();
-//    ComponentInstance::S_Instance<Transform>();
-//    ComponentInstance::S_Instance<Transform>();
-//    ComponentInstance::S_Instance<Transform>();
-//    ComponentInstance::S_Instance<Transform>();
-//    ComponentInstance::S_Instance<Transform>();
-//    ComponentInstance::S_Instance<Transform>();
-//    while (true) {
-    //Canvas中提供线程操作以提高性能
-    //Canvas在执行垃圾回收时需要挂起其他线程
-    //合理利用render的同步时间
-    SceneInvoker::S_Instance()->Invoke();
-    Asset::S_Invoke();
-    GarbageCollection::S_Invoke();
-//    }
+    while (Canvas::S_exist) {
+        //Canvas中提供线程操作以提高性能
+        //Canvas在执行垃圾回收时需要挂起其他线程
+        //合理利用render的同步时间
+        Invoker::S_Instance()->Invoke();
+        AssetManager::S_Invoke();
+        GarbageCollection::S_Invoke();
+    }
 }
 
 Canvas::~Canvas() {
-    Asset::S_Destroy();
+    AssetManager::S_Release();
+}
+
+void Canvas::S_Quit() {
+    Canvas::S_exist = false;
 }

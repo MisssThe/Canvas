@@ -8,6 +8,7 @@
 
 #include "../Asset/Asset.h"
 #include "Entity/Entity.h"
+
 class Scene : public Asset
 {
 protected:

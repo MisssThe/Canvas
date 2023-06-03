@@ -7,8 +7,8 @@
 
 #include "../../Asset/Serialize.h"
 #include "../../../General/Container/Queue.h"
-#include "../Invoker/Component/Component.h"
-#include "../Invoker/SceneInvoker.h"
+#include "../../Invoker/Component/Component.h"
+#include "../../Invoker/Invoker.h"
 
 class Entity : public Serialize {
 public:

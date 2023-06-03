@@ -15,10 +15,15 @@ public:
     Canvas();
     ~Canvas();
     void Invoke();
+public:
+    static void S_Quit();
 private:
     void InitAsset();
     void InitGarbageCollection();
     void InitThreadPool();
+    void InitScene();
+private:
+    static bool S_exist;
 };
 
 

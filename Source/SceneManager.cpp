@@ -14,7 +14,7 @@ void SceneManager::S_Config(SceneManagerConfig config) {
 }
 
 Scene *SceneManager::S_Load(std::string path, bool single) {
-    Scene* scene = Asset::S_Create<Scene>(path);
+    Scene* scene = AssetManager::S_Create<Scene>(path);
     if (single)
     {
         SceneManager::S_scenes->IteratorWithRemove([](std::string path) {
@@ -44,9 +44,9 @@ void SceneManager::S_Unload(Scene *scene) {
 }
 
 void SceneManager::S_OnlyUnload(std::string path) {
-    Scene* scene = Asset::S_Instance<Scene>(path);
+    Scene* scene = AssetManager::S_Instance<Scene>(path);
     if (scene == nullptr)
         return;
     scene->Unload();
-    Asset::S_Remove(path);
+    AssetManager::S_Remove(path);
 }

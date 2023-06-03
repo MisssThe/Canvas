@@ -3,7 +3,7 @@
 //
 
 #include "../Include/General/Debug.h"
-#include "../Include/Core/Scene/Invoker/Psycho/Psycho.h"
+#include "../Include/Core/Invoker/Psycho/Psycho.h"
 
 void Psycho::Invoke() {
     Debug::Info("Scene Psycho", "Start Invoker");

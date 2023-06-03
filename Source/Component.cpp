@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/5/25.
 //
 
-#include "../Include/Core/Scene/Invoker/Component/Component.h"
+#include "../Include/Core/Invoker/Component/Component.h"
 
 Map<std::string, std::function<Component*()>>* ComponentInstance::S_componentInstanceMap = nullptr;
 
@@ -29,6 +29,6 @@ Component *ComponentInstance::S_Instance(std::string type) {
     if (ComponentInstance::S_componentInstanceMap->Get(type) == nullptr)
         return nullptr;
     Component* component = ComponentInstance::S_componentInstanceMap->Get(type)();
-    SceneInvoker::S_Instance()->components->Register(component);
+    Invoker::S_Instance()->components->Register(component);
     return component;
 }

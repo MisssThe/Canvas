@@ -6,8 +6,8 @@
 #define CANVAS_1_0_COMPONENTS_H
 
 
-#include "../../../../General/Container/Queue.h"
-#include "../../../../General/Container/Map.h"
+#include "../../../General/Container/Queue.h"
+#include "../../../General/Container/Map.h"
 
 class Component;
 

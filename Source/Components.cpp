@@ -3,8 +3,8 @@
 //
 
 #include "../Include/General/Debug.h"
-#include "../Include/Core/Scene/Invoker/Component/Components.h"
-#include "../Include/Core/Scene/Invoker/Component/Component.h"
+#include "../Include/Core/Invoker/Component/Components.h"
+#include "../Include/Core/Invoker/Component/Component.h"
 
 void Components::Invoke() {
     Debug::Info("Scene Invoker", "Start Invoker");
