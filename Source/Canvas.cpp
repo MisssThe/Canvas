@@ -3,64 +3,49 @@
 //
 
 #include "../Include/Canvas.h"
-#include "../Include/Core/GarbageCollection/GarbageCollection.h"
-#include "../Include/Core/GarbageCollection/ThreadPool.h"
-#include "../Include/Core/Scene/Entity/Transform.h"
+#include "../Include/Core/Framework/GarbageCollection.h"
+#include "../Include/Core/Framework/ThreadPool.h"
 #include "../Include/Core/Asset/AssetManager.h"
 #include "../Include/Core/Scene/SceneManager.h"
+#include "../Include/Core/Framework/Static.h"
+#include "../Include/Core/Scene/Entity/Transform.h"
+#include "../Include/Core/Framework/ReflectFactory.h"
 
 bool Canvas::S_exist = true;
-
-void Canvas::InitGarbageCollection() {
-    GarbageCollection::GarbageCollectionConfig config{
-        0
-    };
-    GarbageCollection::S_Config(config);
-}
-
-void Canvas::InitThreadPool() {
-    ThreadPool::ThreadPoolConfig config {
-        20
-    };
-    ThreadPool::S_Config(config);
-}
-
-void Canvas::InitAsset() {
-    AssetManager::AssetConfig config {
-
-    };
-    AssetManager::S_Config(config);
-}
-
-void Canvas::InitScene() {
-    SceneManager::SceneManagerConfig config{
-            "Canvas/Scene/editor.scene"
-    };
-    SceneManager::S_Config(config);
-}
+bool Canvas::S_notPause = true;
 
 Canvas::Canvas() {
-    this->InitGarbageCollection();
-    this->InitAsset();
-    this->InitThreadPool();
-    this->InitScene();
+    Static::S_Initial();
+    ReflectFactory::S_Initial();
 }
 
 void Canvas::Invoke() {
     while (Canvas::S_exist) {
         //Canvas中提供线程操作以提高性能
+        if (Canvas::S_notPause) {
+            Static::S_Components()->Invoke();
+        }
+        Static::S_Psycho()->Invoke();
+        Static::S_Graphic()->Invoke();
+        Static::S_AssetManager()->Invoke();
         //Canvas在执行垃圾回收时需要挂起其他线程
         //合理利用render的同步时间
-        Invoker::S_Instance()->Invoke();
-        AssetManager::S_Invoke();
         GarbageCollection::S_Invoke();
     }
 }
 
 Canvas::~Canvas() {
-    AssetManager::S_Release();
+    Static::S_AssetManager()->Clear();
 }
 
 void Canvas::S_Quit() {
     Canvas::S_exist = false;
+}
+
+void Canvas::S_Pause() {
+    Canvas::S_notPause = false;
+}
+
+void Canvas::S_Resume() {
+    Canvas::S_notPause = true;
 }

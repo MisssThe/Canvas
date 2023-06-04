@@ -7,14 +7,20 @@
 
 
 #include "GraphicSetting.h"
+#include "SceneSetting.h"
 
-class SettingManager {
+class SettingManager : public CustomPtr
+{
 private:
-    static GraphicSetting* graphicSetting;
-private:
-    SettingManager() = delete;
+    GraphicSetting* graphicSetting;
+    SceneSetting* sceneSetting;
 public:
-    static GraphicSetting* GetGraphicSetting();
+    SettingManager();
+protected:
+    void CustomMark() override;
+public:
+    GraphicSetting* GetGraphicSetting();
+    SceneSetting* GetSceneSetting();
 };
 
 

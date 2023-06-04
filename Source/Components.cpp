@@ -52,12 +52,12 @@ void Components::Invoke() {
 }
 
 void Components::CustomMark() {
-    CustomPtr::S_Mark(initial);
-    CustomPtr::S_Mark(onEnable);
-    CustomPtr::S_Mark(invoke);
-    CustomPtr::S_Mark(onDisable);
-    CustomPtr::S_Mark(disabled);
-    CustomPtr::S_Mark(destroy);
+    CustomPtr::S_Mark(this->initial);
+    CustomPtr::S_Mark(this->onEnable);
+    CustomPtr::S_Mark(this->invoke);
+    CustomPtr::S_Mark(this->onDisable);
+    CustomPtr::S_Mark(this->disabled);
+    CustomPtr::S_Mark(this->destroy);
 }
 
 Components::Components() {

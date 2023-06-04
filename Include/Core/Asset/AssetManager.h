@@ -12,30 +12,25 @@
 #include "../../General/Debug.h"
 #include "Asset.h"
 
-class AssetManager {
+class AssetManager final : public CustomPtr
+{
 private:
-    static Map<std::string, Asset *> *S_assetMap;
+    Map<std::string, Asset *> *assetMap;
 public:
-    struct AssetConfig {
-
-    };
-public:
-    static void S_Config(AssetConfig config);
-    template<class T>
-    static T *S_Create(std::string path) {
+    AssetManager();
+    template<class T> T *Create(std::string path) {
         if (IO::Exist(path)) {
             Debug::Warn("Asset Create","The Asset Existed [" + path + "]");
-            return S_Instance<T>(path);
+            return this->Instance<T>(path);
         }
         T* temp = new T();
         temp->name = IO::PathToName(path);
         temp->path = path;
-        S_assetMap->Insert(path, temp);
+        this->assetMap->Insert(path, temp);
         return temp;
     }
-    template<class T>
-    static T *S_Instance(std::string path) {
-        T *temp = dynamic_cast<T *>(AssetManager::S_assetMap->Get(path));
+    template<class T> T *Instance(std::string path) {
+        T *temp = dynamic_cast<T *>(this->assetMap->Get(path));
         if (temp != nullptr)
             return temp;
         std::ifstream is(path);
@@ -53,16 +48,17 @@ public:
             return temp;
         temp->name = IO::PathToName(path);
         temp->path = path;
-        S_assetMap->Insert(path, temp);
+        this->assetMap->Insert(path, temp);
         return temp;
     }
-    static void S_Invoke();
-    static void S_Clear();
-    static void S_Release();
-    static void S_Remove(std::string path);
-    static void S_Remove(Asset *asset);
+    void Invoke();
+    void Clear();
+    void Remove(std::string path);
+    void Remove(Asset *asset);
 private:
-    static void S_Update(Asset *asset);
+    void Update(Asset *asset);
+protected:
+    void CustomMark() override;
 };
 
 

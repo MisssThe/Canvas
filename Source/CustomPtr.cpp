@@ -2,9 +2,9 @@
 // Created by MisThe on 2023/5/21.
 //
 
-#include "../Include/Core/GarbageCollection/CustomPtr.h"
-#include "../Include/Core/GarbageCollection/GarbageCollection.h"
-#include "../Include/Core/GarbageCollection/ThreadPool.h"
+#include "../Include/Core/Framework/CustomPtr.h"
+#include "../Include/Core/Framework/GarbageCollection.h"
+#include "../Include/Core/Framework/ThreadPool.h"
 
 CustomPtr::CustomPtr() {
     this->isMark = false;
@@ -13,10 +13,6 @@ CustomPtr::CustomPtr() {
     if (!ThreadPool::S_IsMainThread()) {
         ThreadPool::S_RegisterPtr(this);
     }
-}
-
-CustomPtr::~CustomPtr() {
-    //普普通通的析构
 }
 
 void CustomPtr::Release() {

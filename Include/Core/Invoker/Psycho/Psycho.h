@@ -6,9 +6,16 @@
 #define CANVAS_1_0_PSYCHO_H
 
 
-class Psycho {
+#include "../../Framework/CustomPtr.h"
+
+class Psycho final : public CustomPtr
+{
 public:
     void Invoke();
+
+protected:
+    void CustomMark() override;
+    ~Psycho() override = default;
 };
 
 

@@ -5,8 +5,6 @@
 #include "../Include/Core/Scene/Entity/Transform.h"
 #include "../Include/General/Debug.h"
 
-ComponentRegister(Transform)
-
 void Transform::Initial() {
 
 }
@@ -42,5 +40,3 @@ void Transform::ComponentRead(cereal::BinaryInputArchive &archive) {
 void Transform::ComponentWrite(cereal::BinaryOutputArchive &archive) {
 
 }
-
-Transform::~Transform() = default;

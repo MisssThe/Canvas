@@ -3,34 +3,29 @@
 //
 
 #include "../Include/Core/Asset/AssetManager.h"
-#include "../Include/Core/GarbageCollection/GarbageCollection.h"
 
+//void AssetManager::S_Config(AssetManager::AssetConfig config) {
+////    if (AssetManager::assetMap == nullptr)
+////      this->assetMap = new Map<std::string, Asset*>();
+////    Framework::S_AddRoot(AssetManager::assetMap);
+//}
 
-Map<std::string, Asset*>* AssetManager::S_assetMap = nullptr;
-
-void AssetManager::S_Config(AssetManager::AssetConfig config) {
-    if (AssetManager::S_assetMap == nullptr)
-        AssetManager::S_assetMap = new Map<std::string, Asset*>();
-    GarbageCollection::S_AddRoot(AssetManager::S_assetMap);
+AssetManager::AssetManager() {
+    this->assetMap = new Map<std::string, Asset*>();
 }
 
-void AssetManager::S_Release() {
-    AssetManager::S_Clear();
-    AssetManager::S_assetMap = nullptr;
-}
-
-void AssetManager::S_Clear() {
-    AssetManager::S_assetMap->Iterator([](std::string path, Asset* asset) {
-        AssetManager::S_Update(asset);
+void AssetManager::Clear() {
+  this->assetMap->Iterator([this](std::string path, Asset* asset) {
+      this->Update(asset);
     });
-    AssetManager::S_assetMap->Clear();
+  this->assetMap->Clear();
 }
 
-void AssetManager::S_Invoke() {
+void AssetManager::Invoke() {
 
 }
 
-void AssetManager::S_Update(Asset *asset) {
+void AssetManager::Update(Asset *asset) {
     Debug::Info("Asset", "Update Asset [" + asset->path + "]");
     std::ofstream os(asset->path);
     if (os.is_open()) {
@@ -40,10 +35,20 @@ void AssetManager::S_Update(Asset *asset) {
     os.close();
 }
 
-void AssetManager::S_Remove(std::string path) {
-    Asset* asset = AssetManager::S_assetMap->Get(path);
+void AssetManager::Remove(std::string path) {
+    Asset* asset = AssetManager::assetMap->Get(path);
     if (asset == nullptr)
         return;
-    AssetManager::S_assetMap->Remove(path);
-    AssetManager::S_Update(asset);
+  this->assetMap->Remove(path);
+  this->Update(asset);
+}
+
+void AssetManager::Remove(Asset *asset) {
+    if (asset == nullptr)
+        return;
+    this->Remove(asset);
+}
+
+void AssetManager::CustomMark() {
+    CustomPtr::S_Mark(this->assetMap);
 }

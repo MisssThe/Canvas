@@ -6,8 +6,12 @@
 #define CANVAS_1_0_GRAPHICDATA_H
 
 
-class GraphicData {
+#include "../../Framework/CustomPtr.h"
 
+class GraphicData : public CustomPtr
+{
+protected:
+    void CustomMark() override;
 };
 
 

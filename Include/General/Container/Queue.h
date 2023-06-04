@@ -7,13 +7,12 @@
 
 
 #include <queue>
-#include "../../Core/GarbageCollection/CustomPtr.h"
+#include "../../Core/Framework/CustomPtr.h"
 
 template<class T> class Queue : public CustomPtr {
 private:
     std::queue<T> queue;
 protected:
-    ~Queue() override = default;
     void CustomMark() override {
         this->IteratorWithout([](T temp) {
             CustomPtr::S_Mark(temp);

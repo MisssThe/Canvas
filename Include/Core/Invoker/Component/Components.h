@@ -19,7 +19,6 @@ public:
     void Register(Component*component);
 private:
     void CustomMark() override;
-    ~Components() override = default;
 private:
     Queue<Component *> *initial;
     Queue<Component *> *onEnable;

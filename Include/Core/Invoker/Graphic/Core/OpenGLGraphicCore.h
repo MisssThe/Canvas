@@ -8,10 +8,19 @@
 
 #include "GraphicCore.h"
 
+class GLFWwindow;
+
 class OpenGLGraphicCore : public GraphicCore
 {
+protected:
+    void CustomMark() override;
 public:
-    void Invoke(GraphicData* data) override;
+    void BeginFrame() override;
+    void EndFrame() override;
+public:
+    OpenGLGraphicCore();
+private:
+    GLFWwindow* window;
 };
 
 

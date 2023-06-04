@@ -3,3 +3,7 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/GraphicData.h"
+
+void GraphicData::CustomMark() {
+
+}

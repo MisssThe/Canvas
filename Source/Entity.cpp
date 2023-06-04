@@ -3,6 +3,7 @@
 //
 
 #include "../Include/Core/Scene/Entity/Entity.h"
+#include "../Include/Core/Framework/ReflectFactory.h"
 #include <cereal/types/string.hpp>
 
 void Entity::Read(cereal::BinaryInputArchive &archive) {
@@ -11,7 +12,7 @@ void Entity::Read(cereal::BinaryInputArchive &archive) {
     std::string componentName;
     for (int index = 0; index < componentSize; ++index) {
         archive(componentName);
-        Component* component = ComponentInstance::S_Instance(componentName);
+        Component* component = dynamic_cast<Component *>(ReflectFactory::S_Instance(componentName));
         archive(*component);
         this->components->Push(component);
     }
@@ -38,8 +39,6 @@ void Entity::CustomMark() {
     CustomPtr::S_Mark(this->children);
 //    CustomPtr::S_Mark(this->parent);
 }
-
-Entity::~Entity() = default;
 
 void Entity::SetParent(Entity *entity) {
     if (entity == nullptr)

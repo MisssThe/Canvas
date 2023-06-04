@@ -16,11 +16,18 @@ public:
     };
 public:
     GraphicType graphicType;
+    bool isSync;
+    int width,height;
+    std::string windowName;
+    bool useBoard;
+    bool useTransparent;
+    std::string featurePath;
+public:
+    GraphicSetting();
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
-    ~GraphicSetting() override;
 };
 
 

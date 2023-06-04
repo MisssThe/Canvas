@@ -9,7 +9,8 @@
 #include "../../General/Container/Map.h"
 #include "../../General/Container/Queue.h"
 
-class ThreadPool {
+class ThreadPool final
+{
 public:
     struct ThreadPoolConfig
     {
@@ -21,6 +22,8 @@ public:
 
     };
 public:
+    ThreadPool() = delete;
+    ~ThreadPool() = delete;
     static void S_Config(ThreadPoolConfig config);
     static bool S_IsMainThread();
     static Task S_InvokeTask(const std::function<void()>& task);

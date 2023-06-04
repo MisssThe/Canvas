@@ -10,8 +10,6 @@ Scene::Scene() {
     this->root->name = "root";
 }
 
-Scene::~Scene() = default;
-
 void Scene::CustomMark() {
     CustomPtr::S_Mark(this->root);
 }

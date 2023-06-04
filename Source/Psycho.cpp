@@ -8,3 +8,7 @@
 void Psycho::Invoke() {
     Debug::Info("Scene Psycho", "Start Invoker");
 }
+
+void Psycho::CustomMark() {
+
+}

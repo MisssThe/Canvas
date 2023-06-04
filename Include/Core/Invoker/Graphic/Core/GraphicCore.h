@@ -8,9 +8,11 @@
 
 #include "../GraphicData.h"
 
-class GraphicCore {
+class GraphicCore : public CustomPtr
+{
 public:
-    virtual void Invoke(GraphicData* data) = 0;
+    virtual void BeginFrame() = 0;
+    virtual void EndFrame() = 0;
 };
 
 

@@ -3,50 +3,60 @@
 //
 
 #include "../Include/Core/Scene/SceneManager.h"
+#include "../Include/Core/Framework/Static.h"
 
-Queue<std::string>* SceneManager::S_scenes = nullptr;
-
-void SceneManager::S_Config(SceneManagerConfig config) {
-    if (SceneManager::S_scenes == nullptr)
-        SceneManager::S_scenes = new Queue<std::string>();
-    SceneManager::S_Load(config.editorScenePath);
-    SceneManager::S_scenes->Remove(config.editorScenePath);
+void SceneManager::CustomMark() {
+    CustomPtr::S_Mark(this->scenes);
 }
 
-Scene *SceneManager::S_Load(std::string path, bool single) {
-    Scene* scene = AssetManager::S_Create<Scene>(path);
+SceneManager::SceneManager() {
+    this->scenes = new Queue<std::string>();
+    //加载editor场景
+    SceneSetting* setting = Static::S_SettingManager()->GetSceneSetting();
+    this->Load(setting->editorScenePath);
+}
+
+//void SceneManager::S_Config(SceneManagerConfig config) {
+//    if (this->scenes == nullptr)
+//        this->scenes = new Queue<std::string>();
+//    SceneManager::Load(config.editorScenePath);
+//    this->scenes->Remove(config.editorScenePath);
+//}
+
+Scene *SceneManager::Load(std::string path, bool single) {
+    Scene* scene = Static::S_AssetManager()->Create<Scene>(path);
     if (single)
     {
-        SceneManager::S_scenes->IteratorWithRemove([](std::string path) {
-           SceneManager::S_OnlyUnload(path);
+        this->scenes->IteratorWithRemove([this](std::string path) {
+            this->OnlyUnload(path);
             return false;
         });
     }
-    SceneManager::S_scenes->Push(path);
+    this->scenes->Push(path);
     return scene;
 }
 
-void SceneManager::S_Unload(std::string path) {
+void SceneManager::Unload(std::string path) {
     if (path.empty())
         return;
-    if (SceneManager::S_scenes == nullptr)
+    if (this->scenes == nullptr)
         return;
-    if (!SceneManager::S_scenes->Contain(path))
+    if (!this->scenes->Contain(path))
         return;
-    SceneManager::S_scenes->Remove(path);
-    SceneManager::S_OnlyUnload(path);
+    this->scenes->Remove(path);
+    this->OnlyUnload(path);
 }
 
-void SceneManager::S_Unload(Scene *scene) {
+void SceneManager::Unload(Scene *scene) {
     if (scene == nullptr)
         return;
-    SceneManager::S_Unload(scene->path);
+    this->Unload(scene->path);
 }
 
-void SceneManager::S_OnlyUnload(std::string path) {
-    Scene* scene = AssetManager::S_Instance<Scene>(path);
+void SceneManager::OnlyUnload(std::string path) {
+    Scene* scene = Static::S_AssetManager()->Instance<Scene>(path);
     if (scene == nullptr)
         return;
     scene->Unload();
-    AssetManager::S_Remove(path);
+    Static::S_AssetManager()->Remove(path);
 }

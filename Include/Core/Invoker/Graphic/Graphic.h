@@ -8,8 +8,13 @@
 
 #include "Core/GraphicCore.h"
 #include "GraphicData.h"
+#include "Feature/GraphicFeatures.h"
 
-class Graphic {
+class Graphic : public CustomPtr
+{
+public:
+protected:
+    void CustomMark() override;
 public:
     Graphic();
     void Invoke();
@@ -18,6 +23,7 @@ private:
 private:
     GraphicCore* core;
     GraphicData* data;
+    GraphicFeatures* features;
 };
 
 

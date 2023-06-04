@@ -6,7 +6,7 @@
 #define CANVAS_1_0_MAP_H
 
 
-#include "../../Core/GarbageCollection/CustomPtr.h"
+#include "../../Core/Framework/CustomPtr.h"
 #include <unordered_map>
 
 template<class Key, class Value> class Map : public CustomPtr
@@ -20,7 +20,6 @@ protected:
             CustomPtr::S_Mark(v);
         });
     }
-    ~Map() override = default;
 public:
     Map() = default;
     Map(std::initializer_list<std::pair<Key, Value>> list) {
@@ -38,7 +37,7 @@ public:
         this->map.insert(std::pair<Key, Value>(key, value));
     }
     bool Contain(Key key) {
-        return this->map.find(key) != nullptr;
+        return this->map.find(key) != map.end();
     }
     void Remove(Key key) {
         this->map.erase(key);

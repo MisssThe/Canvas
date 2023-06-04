@@ -2,8 +2,8 @@
 // Created by MisThe on 2023/5/28.
 //
 
-#include "../Include/Core/GarbageCollection/ThreadPool.h"
-#include "../Include/Core/GarbageCollection/GarbageCollection.h"
+#include "../Include/Core/Framework/ThreadPool.h"
+#include "../Include/Core/Framework/GarbageCollection.h"
 
 Map<std::thread::id, Queue<CustomPtr*>*>* ThreadPool::S_threadPtrMap = nullptr;
 Queue<Queue<CustomPtr*>*>* ThreadPool::S_threadPtrCacheQueue = nullptr;

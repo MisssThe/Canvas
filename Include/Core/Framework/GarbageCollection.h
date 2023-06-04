@@ -9,7 +9,8 @@
 #include "CustomPtr.h"
 #include "../../General/Container/Queue.h"
 
-class GarbageCollection {
+class GarbageCollection final
+{
 public:
     struct GarbageCollectionConfig
     {

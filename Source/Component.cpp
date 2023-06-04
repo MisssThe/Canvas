@@ -3,8 +3,7 @@
 //
 
 #include "../Include/Core/Invoker/Component/Component.h"
-
-Map<std::string, std::function<Component*()>>* ComponentInstance::S_componentInstanceMap = nullptr;
+#include "../Include/Core/Framework/Static.h"
 
 void Component::Read(cereal::BinaryInputArchive &archive) {
     archive(this->enable, this->destroy);
@@ -14,21 +13,4 @@ void Component::Read(cereal::BinaryInputArchive &archive) {
 void Component::Write(cereal::BinaryOutputArchive &archive) {
     archive(this->enable, this->destroy);
     this->ComponentWrite(archive);
-}
-
-bool ComponentInstance::S_Register(std::string type, std::function<Component *()> call) {
-    if (ComponentInstance::S_componentInstanceMap == nullptr)
-        ComponentInstance::S_componentInstanceMap = new Map<std::string, std::function<Component*()>>();
-    if (ComponentInstance::S_componentInstanceMap->Get(type) != nullptr)
-        return false;
-    ComponentInstance::S_componentInstanceMap->Insert(type, call);
-    return true;
-}
-
-Component *ComponentInstance::S_Instance(std::string type) {
-    if (ComponentInstance::S_componentInstanceMap->Get(type) == nullptr)
-        return nullptr;
-    Component* component = ComponentInstance::S_componentInstanceMap->Get(type)();
-    Invoker::S_Instance()->components->Register(component);
-    return component;
 }

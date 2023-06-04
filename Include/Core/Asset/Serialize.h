@@ -8,7 +8,7 @@
 #define CANVAS_1_0_SERIALIZE_H
 
 #include <cereal/archives/binary.hpp>
-#include "../../Core/GarbageCollection/CustomPtr.h"
+#include "../../Core/Framework/CustomPtr.h"
 
 class Serialize : public CustomPtr
 {

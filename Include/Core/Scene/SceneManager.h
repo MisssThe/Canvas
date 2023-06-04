@@ -5,26 +5,24 @@
 #ifndef CANVAS_1_0_SCENEMANAGER_H
 #define CANVAS_1_0_SCENEMANAGER_H
 
-#include "Scene.h"
+//#include "Scene.h"
 #include "../Asset/AssetManager.h"
+#include "Scene.h"
 
-class SceneManager {
+class SceneManager final : public CustomPtr
+{
+protected:
+    void CustomMark() override;
 public:
-    struct SceneManagerConfig
-    {
-    public:
-        std::string editorScenePath;
-    };
-public:
-    static void S_Config(SceneManagerConfig config);
-    static Scene* S_Load(std::string path, bool single = true);
-    static void S_Unload(std::string path);
-    static void S_Unload(Scene* scene);
+    SceneManager();
+//    static void S_Config(SceneManagerConfig config);
+    Scene* Load(std::string path, bool single = true);
+    void Unload(std::string path);
+    void Unload(Scene* scene);
 private:
-    static Queue<std::string>* S_scenes;
+    Queue<std::string>* scenes;
 private:
-    SceneManager() = delete;
-    static void S_OnlyUnload(std::string path);
+    void OnlyUnload(std::string path);
 };
 
 

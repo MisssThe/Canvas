@@ -4,11 +4,22 @@
 
 #include "../Include/Core/Setting/SettingManager.h"
 #include "../Include/Core/Asset/AssetManager.h"
+#include "../Include/Core/Framework/Static.h"
 
-GraphicSetting* SettingManager::graphicSetting = nullptr;
+SettingManager::SettingManager() {
+    this->graphicSetting = Static::S_AssetManager()->Create<GraphicSetting>("Canvas/Setting/graphic.setting");
+    this->sceneSetting = Static::S_AssetManager()->Create<SceneSetting>("Canvas/Setting/scene.setting");
+}
+
+void SettingManager::CustomMark() {
+    CustomPtr::S_Mark(this->graphicSetting);
+    CustomPtr::S_Mark(this->sceneSetting);
+}
 
 GraphicSetting *SettingManager::GetGraphicSetting() {
-    if (SettingManager::graphicSetting == nullptr)
-        SettingManager::graphicSetting = AssetManager::S_Create<GraphicSetting>("Canvas/Setting/graphic.setting");
-    return SettingManager::graphicSetting;
+    return this->graphicSetting;
+}
+
+SceneSetting *SettingManager::GetSceneSetting() {
+    return this->sceneSetting;
 }

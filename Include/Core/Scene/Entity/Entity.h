@@ -8,7 +8,6 @@
 #include "../../Asset/Serialize.h"
 #include "../../../General/Container/Queue.h"
 #include "../../Invoker/Component/Component.h"
-#include "../../Invoker/Invoker.h"
 
 class Entity : public Serialize {
 public:
@@ -17,7 +16,6 @@ protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
-    ~Entity() override;
 public:
     void SetParent(Entity *entity);
     void Iterator(std::function<void(Entity* entity)> func);

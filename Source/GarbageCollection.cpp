@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/5/21.
 //
 
-#include "../Include/Core/GarbageCollection/GarbageCollection.h"
+#include "../Include/Core/Framework/GarbageCollection.h"
 #include "../Include/General/Debug.h"
 
 Queue<CustomPtr*>* GarbageCollection::S_ptrQueue;
@@ -36,9 +36,9 @@ void GarbageCollection::S_Invoke() {
         return;
     Debug::Info("Garbage Collection", "Start Collection [" + std::to_string(GarbageCollection::S_rootQueue->Size()) + "]");
     //遍历root节点判断是否需要mark
-    GarbageCollection::S_ptrQueue->IteratorWithout([](CustomPtr* ptr) {
-       ptr->isMark = true;
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr* ptr) {
        CustomPtr::S_Mark(ptr);
+        ptr->isMark = true;
     });
     int max = GarbageCollection::S_ptrQueue->Size();
     int dropCount = 0;
@@ -51,6 +51,9 @@ void GarbageCollection::S_Invoke() {
             ptr->Release();
             return false;
         }
+    });
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr* ptr) {
+        ptr->isMark = false;
     });
     Debug::Info("Garbage Collection", "Collection Finish [" + std::to_string(dropCount) + "/" + std::to_string(max) + "]");
 }

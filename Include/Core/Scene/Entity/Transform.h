@@ -18,7 +18,6 @@ public:
     std::string Type() override;
 protected:
     void CustomMark() override;
-    ~Transform() override;
 protected:
     void ComponentRead(cereal::BinaryInputArchive &archive) override;
     void ComponentWrite(cereal::BinaryOutputArchive &archive) override;

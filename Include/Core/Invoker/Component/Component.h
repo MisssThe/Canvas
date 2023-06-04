@@ -7,7 +7,7 @@
 
 
 #include "../../Asset/Serialize.h"
-#include "../Invoker.h"
+#include "../../../General/Container/Map.h"
 
 class Component : public Serialize
 {
@@ -28,23 +28,5 @@ public:
     bool enable;
     bool destroy;
 };
-
-class ComponentInstance {
-public:
-    static bool S_Register(std::string type, std::function<Component*()> call);
-    static Component* S_Instance(std::string type);
-    template<class T> static T* S_Instance() {
-        T* temp = new T();
-        Invoker::S_Instance()->components->Register(temp);
-        return temp;
-    }
-private:
-    static Map<std::string, std::function<Component*()>>* S_componentInstanceMap;
-};
-
-#define ComponentRegister(type)                                      \
-bool type##Register = ComponentInstance::S_Register(#type,[](){      \
-    return new type();                                               \
-});
 
 #endif //CANVAS_1_0_COMPONENT_H
