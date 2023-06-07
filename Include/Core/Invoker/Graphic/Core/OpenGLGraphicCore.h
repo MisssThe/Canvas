@@ -19,6 +19,11 @@ public:
     void EndFrame() override;
 public:
     OpenGLGraphicCore();
+    void DrawRender(Mesh *mesh, Material *material) override;
+    void DrawRenderers() override;
+protected:
+    ~OpenGLGraphicCore() override = default;
+
 private:
     GLFWwindow* window;
 };

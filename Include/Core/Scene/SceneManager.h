@@ -15,6 +15,8 @@ protected:
     void CustomMark() override;
 public:
     SceneManager();
+    Scene* Editor();
+    Scene* Active();
 //    static void S_Config(SceneManagerConfig config);
     Scene* Load(std::string path, bool single = true);
     void Unload(std::string path);
@@ -23,6 +25,9 @@ private:
     Queue<std::string>* scenes;
 private:
     void OnlyUnload(std::string path);
+private:
+    Scene* editorScene;
+    Scene* activeScene;
 };
 
 

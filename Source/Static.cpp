@@ -13,14 +13,10 @@ Psycho* Static::S_psycho = nullptr;
 Graphic* Static::S_graphic = nullptr;
 
 void Static::S_Initial() {
-    GarbageCollection::GarbageCollectionConfig config{
-            0
-    };
-    GarbageCollection::S_Config(config);
     Static::S_assetManager = new AssetManager();
     Static::S_settingManager = new SettingManager();
-    Static::S_sceneManager = new SceneManager();
     Static::S_components = new Components();
+    Static::S_sceneManager = new SceneManager();
     Static::S_psycho = new Psycho();
     Static::S_graphic = new Graphic();
 

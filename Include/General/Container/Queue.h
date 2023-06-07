@@ -8,6 +8,7 @@
 
 #include <queue>
 #include "../../Core/Framework/CustomPtr.h"
+#include <cereal/archives/binary.hpp>
 
 template<class T> class Queue : public CustomPtr {
 private:
@@ -23,6 +24,12 @@ public:
         this->queue = temp.queue;
     }
     Queue() = default;
+    template<class S> void Read(cereal::BinaryInputArchive& archive) {
+
+    }
+    template<class S> void Write(cereal::BinaryOutputArchive& archive) {
+
+    }
 public:
     void Push(T temp) {
         this->queue.push(temp);

@@ -15,12 +15,17 @@ bool Canvas::S_exist = true;
 bool Canvas::S_notPause = true;
 
 Canvas::Canvas() {
-    Static::S_Initial();
+    GarbageCollection::GarbageCollectionConfig config{
+            0
+    };
+    GarbageCollection::S_Config(config);
     ReflectFactory::S_Initial();
+    Static::S_Initial();
 }
 
 void Canvas::Invoke() {
-    while (Canvas::S_exist) {
+//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
+//    while (Canvas::S_exist) {
         //Canvas中提供线程操作以提高性能
         if (Canvas::S_notPause) {
             Static::S_Components()->Invoke();
@@ -31,7 +36,7 @@ void Canvas::Invoke() {
         //Canvas在执行垃圾回收时需要挂起其他线程
         //合理利用render的同步时间
         GarbageCollection::S_Invoke();
-    }
+//    }
 }
 
 Canvas::~Canvas() {

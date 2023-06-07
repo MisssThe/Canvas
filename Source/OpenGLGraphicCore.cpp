@@ -18,9 +18,9 @@ OpenGLGraphicCore::OpenGLGraphicCore() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+    //设置窗口边框和透明模式
     glfwWindowHint(GLFW_DECORATED, setting->useBoard);
-    glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, setting->useTransparent);
+    glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, true);
 #ifdef __APPLE__
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
@@ -57,7 +57,8 @@ void OpenGLGraphicCore::CustomMark() {
 //}
 
 void OpenGLGraphicCore::BeginFrame() {
-
+    glClearColor(0,0,0,1);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 void OpenGLGraphicCore::EndFrame() {
@@ -65,4 +66,12 @@ void OpenGLGraphicCore::EndFrame() {
     glfwPollEvents();
     if (glfwWindowShouldClose(this->window))
         Canvas::S_Quit();
+}
+
+void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
+
+}
+
+void OpenGLGraphicCore::DrawRenderers() {
+
 }

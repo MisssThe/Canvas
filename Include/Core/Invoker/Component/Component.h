@@ -25,6 +25,8 @@ public:
 public:
     virtual std::string Type() = 0;
 public:
+    Component();
+public:
     bool enable;
     bool destroy;
 };

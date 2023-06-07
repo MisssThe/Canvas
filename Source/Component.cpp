@@ -14,3 +14,7 @@ void Component::Write(cereal::BinaryOutputArchive &archive) {
     archive(this->enable, this->destroy);
     this->ComponentWrite(archive);
 }
+
+Component::Component() {
+    Static::S_Components()->Register(this);
+}

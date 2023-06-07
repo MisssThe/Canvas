@@ -20,6 +20,7 @@ public:
     void SetParent(Entity *entity);
     void Iterator(std::function<void(Entity* entity)> func);
     void AddComponent(Component* component) const;
+    void AddComponent(std::string type) const;
 public:
     std::string name;
     Queue<Component*>* components;

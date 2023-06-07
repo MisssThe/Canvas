@@ -9,6 +9,7 @@
 
 #include <cereal/archives/binary.hpp>
 #include "../../Core/Framework/CustomPtr.h"
+#include <cereal/types/string.hpp>
 
 class Serialize : public CustomPtr
 {

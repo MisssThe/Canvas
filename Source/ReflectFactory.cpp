@@ -4,6 +4,7 @@
 
 #include "../Include/Core/Framework/ReflectFactory.h"
 #include "../Include/Core/Scene/Entity/Transform.h"
+#include "../Include/Core/Invoker/Graphic/Renderer.h"
 
 Map<std::string,std::function<CustomPtr*()>> ReflectFactory::S_instances;
 
@@ -21,8 +22,9 @@ bool ReflectFactory::S_Register(std::string type, std::function<CustomPtr*()> fu
 }
 
 //通过收集器收集文件夹下所有Custom Ptr子类
-#define RegisterFactory(Type) bool TypeRegister = ReflectFactory::S_Register(#Type, []() { return new Type(); })
+#define RegisterFactory(Type) bool Type##Register = ReflectFactory::S_Register(#Type, []() { return new Type(); })
 
 void ReflectFactory::S_Initial() {
     RegisterFactory(Transform);
+    RegisterFactory(Renderer);
 }

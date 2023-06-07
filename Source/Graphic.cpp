@@ -18,7 +18,7 @@ void Graphic::Invoke() {
 //    GraphicFeatures::Invoke(this->data);
     this->core->EndFrame();
     Debug::Info("Scene Graphic", "Start Invoker");
-    Canvas::S_Quit();
+//    Canvas::S_Quit();
 }
 
 Graphic::Graphic() {
