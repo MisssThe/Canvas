@@ -25,6 +25,9 @@ Canvas::Canvas() {
 
 void Canvas::Invoke() {
 //    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
+//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
+//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
+//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
 //    while (Canvas::S_exist) {
         //Canvas中提供线程操作以提高性能
         if (Canvas::S_notPause) {

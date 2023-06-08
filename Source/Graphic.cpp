@@ -10,12 +10,13 @@
 #include "../Include/Canvas.h"
 #include "../Include/Core/Invoker/Graphic/Feature/GraphicFeatures.h"
 #include "../Include/Core/Framework/Static.h"
+#include "../Include/Core/Invoker/Graphic/Renderer.h"
 
 void Graphic::Invoke() {
+    this->SetGraphicData();
     //计算graphic data
-//    this->core->Invoke(this->data);
     this->core->BeginFrame();
-//    GraphicFeatures::Invoke(this->data);
+    this->features->Invoke(this->data);
     this->core->EndFrame();
     Debug::Info("Scene Graphic", "Start Invoker");
 //    Canvas::S_Quit();
@@ -38,11 +39,22 @@ Graphic::Graphic() {
     }
     std::string path = setting->featurePath;
     this->features = Static::S_AssetManager()->Create<GraphicFeatures>(path);
+    this->data = new GraphicData();
 }
 
 void Graphic::SetGraphicData() {
-    if (this->data == nullptr)
-        this->data = new GraphicData();
+    this->data->renderers->Clear();
+    //获取所有renderer,剔除掉不正常的renderer（没有有效材质或mesh）
+    Queue<Component *> *renderers = Static::S_SceneManager()->Editor()->root->GetComponentsInChildren("Renderer");
+    renderers->IteratorWithout([this](Component *component) {
+        Renderer *renderer = reinterpret_cast<Renderer *>(component);
+        if (renderer->mesh == nullptr || renderer->material == nullptr)
+            return;
+        this->data->renderers->Push(renderer);
+    });
+    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], Invalid Renderer Count Is [" + std::to_string(renderers->Size()) + "]");
+    //指定core
+    this->data->core = this->core;
 }
 
 void Graphic::CustomMark() {

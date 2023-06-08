@@ -4,6 +4,7 @@
 
 #include "../Include/Core/Invoker/Graphic/Renderer.h"
 #include "../Include/General/Debug.h"
+#include "../Include/Core/Framework/Static.h"
 
 
 void Renderer::CustomMark() {
@@ -35,9 +36,17 @@ std::string Renderer::Type() {
 }
 
 void Renderer::ComponentRead(cereal::BinaryInputArchive &archive) {
-
+    std::string meshPath, materialPath;
+    if (this->mesh != nullptr)
+        meshPath = this->mesh->path;
+    if (this->material != nullptr)
+        materialPath = this->material->path;
+    archive(meshPath, materialPath);
 }
 
 void Renderer::ComponentWrite(cereal::BinaryOutputArchive &archive) {
-
+    std::string meshPath, materialPath;
+    archive(meshPath, materialPath);
+    this->mesh = Static::S_AssetManager()->Instance<Mesh>(meshPath);
+    this->material = Static::S_AssetManager()->Instance<Material>(materialPath);
 }

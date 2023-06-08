@@ -7,11 +7,19 @@
 
 
 #include "../../Framework/CustomPtr.h"
+#include "../../../General/Container/Queue.h"
 
+class Renderer;
+class GraphicCore;
 class GraphicData : public CustomPtr
 {
+public:
+    GraphicData();
 protected:
     void CustomMark() override;
+public:
+    Queue<Renderer*>* renderers;
+    GraphicCore* core;
 };
 
 

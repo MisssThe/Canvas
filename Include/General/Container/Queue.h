@@ -51,7 +51,8 @@ public:
         return this->queue.size();
     }
     void Clear() {
-        this->queue.swap(Queue<T>());
+        std::queue<T> empty;
+        std::swap(this->queue, empty);
     }
     void IteratorWithout(std::function<void(T)> func) {
         this->IteratorWithRemove([&func](T temp) -> bool {

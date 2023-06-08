@@ -21,6 +21,9 @@ public:
     void Iterator(std::function<void(Entity* entity)> func);
     void AddComponent(Component* component) const;
     void AddComponent(std::string type) const;
+    Component* GetComponent(std::string type);
+    Queue<Component*>* GetComponentsInChildren(std::string type);
+    void GetComponentsInChildren(std::string type, Queue<Component*>* result);
 public:
     std::string name;
     Queue<Component*>* components;

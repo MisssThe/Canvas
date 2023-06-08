@@ -75,3 +75,29 @@ void Entity::AddComponent(std::string type) const {
         Debug::Warn("Add Component", "Invalid Component Type");
     this->AddComponent(component);
 }
+
+Queue<Component *> *Entity::GetComponentsInChildren(std::string type) {
+    Queue<Component*>* result = new Queue<Component*>();
+    this->GetComponentsInChildren(type, result);
+    return result;
+}
+
+void Entity::GetComponentsInChildren(std::string type, Queue<Component *>* result) {
+    if (result == nullptr)
+        return;
+    Component *component = this->GetComponent(type);
+    if (component != nullptr)
+        result->Push(component);
+    this->children->IteratorWithout([&type, &result](Entity *entity) {
+        entity->GetComponentsInChildren(type, result);
+    });
+}
+
+Component *Entity::GetComponent(std::string type) {
+    Component *result = nullptr;
+    this->components->IteratorWithout([&type, &result](Component *component) {
+        if (component->Type() == type)
+            result = component;
+    });
+    return result;
+}

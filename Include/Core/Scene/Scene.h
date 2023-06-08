@@ -20,7 +20,7 @@ public:
     void Load();
     void Unload();
     Entity* AddEntity(std::string name = "entity");
-private:
+public:
     Entity* root;
 };
 
