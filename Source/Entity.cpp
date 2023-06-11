@@ -42,11 +42,11 @@ void Entity::CustomMark() {
 }
 
 void Entity::SetParent(Entity *entity) {
-    if (entity == nullptr)
-        return;
     if (this->parent)
         this->parent->children->Remove(this);
     this->parent = entity;
+    if (entity == nullptr)
+        return;
     entity->children->Push(this);
 }
 
@@ -76,17 +76,17 @@ void Entity::AddComponent(std::string type) const {
     this->AddComponent(component);
 }
 
-Queue<Component *> *Entity::GetComponentsInChildren(std::string type) {
+Queue<Component *> *Entity::GetComponentsInChildren(std::string type, bool all) {
     Queue<Component*>* result = new Queue<Component*>();
-    this->GetComponentsInChildren(type, result);
+    this->GetComponentsInChildren(type, result, all);
     return result;
 }
 
-void Entity::GetComponentsInChildren(std::string type, Queue<Component *>* result) {
+void Entity::GetComponentsInChildren(std::string type, Queue<Component *>* result, bool all) {
     if (result == nullptr)
         return;
     Component *component = this->GetComponent(type);
-    if (component != nullptr)
+    if (component != nullptr && (all || component->enable))
         result->Push(component);
     this->children->IteratorWithout([&type, &result](Entity *entity) {
         entity->GetComponentsInChildren(type, result);
@@ -100,4 +100,24 @@ Component *Entity::GetComponent(std::string type) {
             result = component;
     });
     return result;
+}
+
+void Entity::SetActive(bool active) {
+    if (this->active == active)
+        return;
+    this->active = active;
+    this->components->IteratorWithout([&active](Component* component) {
+       component->enable = active;
+    });
+}
+
+bool Entity::IsActive() {
+    return this->active;
+}
+
+void Entity::Destroy() {
+    this->SetParent(nullptr);
+    this->components->IteratorWithout([](Component* component) {
+        component->Destroy();
+    });
 }

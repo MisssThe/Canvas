@@ -19,4 +19,5 @@ void SceneSetting::CustomMark() {
 
 SceneSetting::SceneSetting() {
     this->editorScenePath = "Canvas/Scene/editor.scene";
+    this->activeScenePath = "Canvas/Scene/active.scene";
 }

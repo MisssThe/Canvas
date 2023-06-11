@@ -18,3 +18,8 @@ void Component::Write(cereal::BinaryOutputArchive &archive) {
 Component::Component() {
     Static::S_Components()->Register(this);
 }
+
+void Component::Destroy() {
+    this->enable = false;
+    this->destroy = true;
+}

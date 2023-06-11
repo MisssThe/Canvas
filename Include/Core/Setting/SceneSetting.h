@@ -12,6 +12,7 @@ class SceneSetting : public Setting
 {
 public:
     std::string editorScenePath;
+    std::string activeScenePath;
 public:
     SceneSetting();
 protected:

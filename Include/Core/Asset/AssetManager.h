@@ -18,6 +18,9 @@ private:
     Map<std::string, Asset *> *assetMap;
 public:
     AssetManager();
+protected:
+    ~AssetManager() override;
+public:
     template<class T> T *Create(std::string path) {
         if (IO::Exist(path)) {
             Debug::Warn("Asset Create","The Asset Existed [" + path + "]");

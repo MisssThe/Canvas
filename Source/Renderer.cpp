@@ -11,23 +11,20 @@ void Renderer::CustomMark() {
 
 }
 
-void Renderer::Initial() {
-    Debug::Info("Renderer", "Initial");
+void Renderer::OnInitial() {
 }
 
 void Renderer::OnEnable() {
-    Debug::Info("Renderer", "Enable");
 }
 
-void Renderer::Invoke() {
-    Debug::Info("Renderer", "Invoke");
+void Renderer::OnInvoke() {
 }
 
 void Renderer::OnDisable() {
 
 }
 
-void Renderer::Destroy() {
+void Renderer::OnDestroy() {
 
 }
 

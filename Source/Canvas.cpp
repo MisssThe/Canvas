@@ -24,11 +24,15 @@ Canvas::Canvas() {
 }
 
 void Canvas::Invoke() {
+//    Debug::Info("Count",std::to_string(Static::S_SceneManager()->Editor()->Root()->children->Size()));
+//    Static::S_SceneManager()->Editor()->ClearEntity();
+//    Debug::Info("Count",std::to_string(Static::S_SceneManager()->Editor()->Root()->children->Size()));
+
+//    AddEntity("test")->AddComponent("Renderer");
 //    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
 //    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
 //    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
-//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
-//    while (Canvas::S_exist) {
+    while (Canvas::S_exist) {
         //Canvas中提供线程操作以提高性能
         if (Canvas::S_notPause) {
             Static::S_Components()->Invoke();
@@ -39,11 +43,11 @@ void Canvas::Invoke() {
         //Canvas在执行垃圾回收时需要挂起其他线程
         //合理利用render的同步时间
         GarbageCollection::S_Invoke();
-//    }
+    }
 }
 
 Canvas::~Canvas() {
-    Static::S_AssetManager()->Clear();
+    GarbageCollection::S_Release();
 }
 
 void Canvas::S_Quit() {

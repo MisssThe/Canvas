@@ -7,8 +7,8 @@
 #include "../Include/Core/Setting/GraphicSetting.h"
 #include "../Include/Core/Setting/SettingManager.h"
 #include "../Include/Core/Invoker/Graphic/Core/OpenGLGraphicCore.h"
-#include "../Include/Canvas.h"
-#include "../Include/Core/Invoker/Graphic/Feature/GraphicFeatures.h"
+//#include "../Include/Canvas.h"
+//#include "../Include/Core/Invoker/Graphic/Feature/GraphicFeatures.h"
 #include "../Include/Core/Framework/Static.h"
 #include "../Include/Core/Invoker/Graphic/Renderer.h"
 
@@ -30,10 +30,13 @@ Graphic::Graphic() {
                 core = new OpenGLGraphicCore();
                 break;
             case GraphicSetting::DXD:
+                core = nullptr;
                 break;
             case GraphicSetting::Metal:
+                core = nullptr;
                 break;
             case GraphicSetting::Vulkan:
+                core = nullptr;
                 break;
         }
     }
@@ -43,18 +46,28 @@ Graphic::Graphic() {
 }
 
 void Graphic::SetGraphicData() {
+    //指定core
+    this->data->core = this->core;
     this->data->renderers->Clear();
     //获取所有renderer,剔除掉不正常的renderer（没有有效材质或mesh）
-    Queue<Component *> *renderers = Static::S_SceneManager()->Editor()->root->GetComponentsInChildren("Renderer");
-    renderers->IteratorWithout([this](Component *component) {
+    Queue<Component *> *editorRenderers = Static::S_SceneManager()->Editor()->Root()->GetComponentsInChildren("Renderer", false);
+    Queue<Component *> *activeRenderers = Static::S_SceneManager()->Active()->Root()->GetComponentsInChildren("Renderer", false);
+    editorRenderers->IteratorWithout([this](Component *component) {
         Renderer *renderer = reinterpret_cast<Renderer *>(component);
         if (renderer->mesh == nullptr || renderer->material == nullptr)
             return;
         this->data->renderers->Push(renderer);
     });
-    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], Invalid Renderer Count Is [" + std::to_string(renderers->Size()) + "]");
-    //指定core
-    this->data->core = this->core;
+    activeRenderers->IteratorWithout([this](Component *component) {
+        Renderer *renderer = reinterpret_cast<Renderer *>(component);
+        if (renderer->mesh == nullptr || renderer->material == nullptr)
+            return;
+        this->data->renderers->Push(renderer);
+    });
+    int sum = editorRenderers->Size() + activeRenderers->Size();
+    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], Invalid Renderer Count Is [" + std::to_string(sum) + "]");
+    //填充摄像机信息
+
 }
 
 void Graphic::CustomMark() {

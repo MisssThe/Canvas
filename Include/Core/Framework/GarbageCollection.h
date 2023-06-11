@@ -24,6 +24,7 @@ public:
     static void S_AddRoot(CustomPtr* root);
     static void S_Invoke();
     static void S_Register(CustomPtr* ptr);
+    static void S_Release();
 private:
     static int _interval;
     static int _waitTime;

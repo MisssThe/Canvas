@@ -46,9 +46,14 @@ void AssetManager::Remove(std::string path) {
 void AssetManager::Remove(Asset *asset) {
     if (asset == nullptr)
         return;
-    this->Remove(asset);
+    this->Remove(asset->path);
 }
 
 void AssetManager::CustomMark() {
     CustomPtr::S_Mark(this->assetMap);
 }
+
+AssetManager::~AssetManager() {
+    this->Clear();
+}
+

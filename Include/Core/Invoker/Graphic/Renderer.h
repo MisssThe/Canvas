@@ -15,11 +15,11 @@ public:
     Mesh* mesh;
     Material* material;
 public:
-    void Initial() override;
+    void OnInitial() override;
     void OnEnable() override;
-    void Invoke() override;
+    void OnInvoke() override;
     void OnDisable() override;
-    void Destroy() override;
+    void OnDestroy() override;
     std::string Type() override;
 protected:
     void ComponentRead(cereal::BinaryInputArchive &archive) override;

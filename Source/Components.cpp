@@ -10,7 +10,7 @@ void Components::Invoke() {
     Debug::Info("Scene Invoker", "Start Invoker");
     //initial queue
     this->initial->IteratorWithRemove([this](Component *component) -> bool {
-        component->Initial();
+        component->OnInitial();
         this->onEnable->Push(component);
         return false;
     });
@@ -22,7 +22,7 @@ void Components::Invoke() {
     });
     //invoke queue
     this->invoke->IteratorWithRemove([this](Component *component) -> bool {
-        component->Invoke();
+        component->OnInvoke();
         if (component->enable)
             return true;
         this->onDisable->Push(component);
@@ -46,7 +46,7 @@ void Components::Invoke() {
     });
     //destroy queue
     this->destroy->IteratorWithRemove([](Component *component) -> bool {
-        component->Destroy();
+        component->OnDestroy();
         return false;
     });
 }

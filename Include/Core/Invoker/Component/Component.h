@@ -17,13 +17,14 @@ protected:
     virtual void ComponentRead(cereal::BinaryInputArchive &archive) = 0;
     virtual void ComponentWrite(cereal::BinaryOutputArchive &archive) = 0;
 public:
-    virtual void Initial() = 0;
+    virtual void OnInitial() = 0;
     virtual void OnEnable() = 0;
-    virtual void Invoke() = 0;
+    virtual void OnInvoke() = 0;
     virtual void OnDisable() = 0;
-    virtual void Destroy() = 0;
+    virtual void OnDestroy() = 0;
 public:
     virtual std::string Type() = 0;
+    void Destroy();
 public:
     Component();
 public:

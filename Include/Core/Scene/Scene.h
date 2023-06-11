@@ -19,8 +19,9 @@ public:
     Scene();
     void Load();
     void Unload();
-    Entity* AddEntity(std::string name = "entity");
-public:
+    void ClearEntity();
+    Entity* Root();
+private:
     Entity* root;
 };
 

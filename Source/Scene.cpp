@@ -22,21 +22,27 @@ void Scene::Write(cereal::BinaryOutputArchive &archive) {
     archive(*this->root);
 }
 
-Entity* Scene::AddEntity(std::string name) {
-    Entity *go = new Entity();
-    go->SetParent(this->root);
-    go->name = name;
-    return go;
-}
+//Entity* Scene::AddEntity(Entity* entity) {
+//    Entity *go = new Entity();
+//    go->SetParent(this->root);
+//    go->name = name;
+//    return go;
+//}
 
 void Scene::Load() {
-    this->root->Iterator([](Entity *entity) {
 
-    });
 }
 
 void Scene::Unload() {
-    this->root->Iterator([](Entity *entity) {
 
+}
+
+void Scene::ClearEntity() {
+    this->root->children->IteratorWithout([](Entity* entity) {
+        entity->Destroy();
     });
+}
+
+Entity *Scene::Root() {
+    return this->root;
 }

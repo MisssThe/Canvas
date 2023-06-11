@@ -14,15 +14,9 @@ SceneManager::SceneManager() {
     //加载editor场景
     SceneSetting* setting = Static::S_SettingManager()->GetSceneSetting();
     this->editorScene = this->Load(setting->editorScenePath);
-    this->activeScene = nullptr;
+    this->scenes->Remove(setting->editorScenePath);
+    this->activeScene = this->Load(setting->activeScenePath);
 }
-
-//void SceneManager::S_Config(SceneManagerConfig config) {
-//    if (this->scenes == nullptr)
-//        this->scenes = new Queue<std::string>();
-//    SceneManager::Load(config.editorScenePath);
-//    this->scenes->Remove(config.editorScenePath);
-//}
 
 Scene *SceneManager::Load(std::string path, bool single) {
     Scene* scene = Static::S_AssetManager()->Create<Scene>(path);

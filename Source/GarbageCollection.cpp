@@ -72,3 +72,15 @@ void GarbageCollection::S_AddRoot(CustomPtr *root) {
     GarbageCollection::S_rootQueue->Push(root);
     GarbageCollection::S_ptrQueue->Remove(root);
 }
+
+//释放所有Custom Ptr
+void GarbageCollection::S_Release() {
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr* ptr) {
+        ptr->Release();
+    });
+    GarbageCollection::S_ptrQueue->IteratorWithout([](CustomPtr* ptr) {
+        ptr->Release();
+    });
+    GarbageCollection::S_ptrQueue->Release();
+    GarbageCollection::S_rootQueue->Release();
+}
