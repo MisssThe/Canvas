@@ -17,6 +17,7 @@ void Static::S_Initial() {
     Static::S_settingManager = new SettingManager();
     Static::S_components = new Components();
     Static::S_sceneManager = new SceneManager();
+    Static::S_sceneManager->Initial();
     Static::S_psycho = new Psycho();
     Static::S_graphic = new Graphic();
 

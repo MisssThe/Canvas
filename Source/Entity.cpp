@@ -5,7 +5,7 @@
 #include "../Include/Core/Scene/Entity/Entity.h"
 #include "../Include/Core/Framework/ReflectFactory.h"
 #include "../Include/General/Debug.h"
-#include <cereal/types/string.hpp>
+#include "../Include/Core/Framework/Static.h"
 
 void Entity::Read(cereal::BinaryInputArchive &archive) {
     int childSize, componentSize;
@@ -18,7 +18,7 @@ void Entity::Read(cereal::BinaryInputArchive &archive) {
         this->components->Push(component);
     }
     for (int index = 0; index < childSize; ++index) {
-        Entity* entity = new Entity();
+        Entity* entity = new Entity(true);
         entity->SetParent(this);
         archive(*entity);
     }
@@ -38,7 +38,6 @@ void Entity::Write(cereal::BinaryOutputArchive &archive) {
 void Entity::CustomMark() {
     CustomPtr::S_Mark(this->components);
     CustomPtr::S_Mark(this->children);
-//    CustomPtr::S_Mark(this->parent);
 }
 
 void Entity::SetParent(Entity *entity) {
@@ -57,10 +56,13 @@ void Entity::Iterator(std::function<void(Entity *)> func) {
     });
 }
 
-Entity::Entity() {
+Entity::Entity(bool isRoot) {
     this->children = new Queue<Entity*>();
     this->components = new Queue<Component*>();
     this->parent = nullptr;
+    if (isRoot)
+        return;
+    this->SetParent(Static::S_SceneManager()->Active()->Root());
 }
 
 void Entity::AddComponent(Component *component) const {
@@ -116,7 +118,7 @@ bool Entity::IsActive() {
 }
 
 void Entity::Destroy() {
-    this->SetParent(nullptr);
+    this->parent = nullptr;
     this->components->IteratorWithout([](Component* component) {
         component->Destroy();
     });

@@ -8,11 +8,13 @@
 
 #include "../Asset/Asset.h"
 #include "Entity/Entity.h"
+#include "SceneInfo.h"
 
 class Scene : public Asset
 {
 protected:
     void CustomMark() override;
+    ~Scene() override = default;
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
 public:
@@ -22,7 +24,7 @@ public:
     void ClearEntity();
     Entity* Root();
 private:
-    Entity* root;
+    SceneInfo* info;
 };
 
 

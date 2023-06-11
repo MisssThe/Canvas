@@ -63,3 +63,8 @@ Scene *SceneManager::Editor() {
 Scene *SceneManager::Active() {
     return activeScene;
 }
+
+void SceneManager::Initial() {
+    this->editorScene->Load();
+    this->activeScene->Load();
+}

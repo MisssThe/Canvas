@@ -11,7 +11,7 @@
 
 class Entity : public Serialize {
 public:
-    Entity();
+    Entity(bool isRoot = false);
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;

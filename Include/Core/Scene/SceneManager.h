@@ -15,6 +15,7 @@ protected:
     void CustomMark() override;
 public:
     SceneManager();
+    void Initial();
     Scene* Editor();
     Scene* Active();
 //    static void S_Config(SceneManagerConfig config);
