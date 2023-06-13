@@ -3,49 +3,50 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/Elements/Mesh.h"
+#include "../Include/General/Container/ContainSerialize/VectorSerialize.h"
 
 void Mesh::Read(cereal::BinaryInputArchive &archive) {
-    int size = -1;
-    float fValue;
-    unsigned int uiValue;
-    archive(size);
-    if (size >= 0) {
-        this->vertices = new Vector<float>();
-        for (int index = 0; index < size; ++index) {
-            archive(fValue);
-            this->vertices->Add(fValue);
-        }
-    }
-    archive(size);
-    if (size >= 0) {
-        this->indices = new Vector<unsigned int>();
-        for (int index = 0; index < size; ++index) {
-            archive(uiValue);
-            this->indices->Add(uiValue);
-        }
-    }
+    this->indices = VectorSerialize::Read<unsigned int>(archive);
+    this->vertices = VectorSerialize::Read<float>(archive);
+    this->normals = VectorSerialize::Read<float>(archive);
+    this->tangents = VectorSerialize::Read<float>(archive);
+    this->colors = VectorSerialize::Read<float>(archive);
+    this->uv0s = VectorSerialize::Read<float>(archive);
+    this->uv1s = VectorSerialize::Read<float>(archive);
+    this->uv2s = VectorSerialize::Read<float>(archive);
 }
 
 void Mesh::Write(cereal::BinaryOutputArchive &archive) {
-    if (this->vertices != nullptr) {
-        archive(this->vertices->Size());
-        for (int index = 0; index < this->vertices->Size(); ++index) {
-            archive(this->vertices->Get(index));
-        }
-    } else {
-        archive(-1);
-    }
-    if (this->indices != nullptr) {
-        archive(this->indices->Size());
-        for (int index = 0; index < this->indices->Size(); ++index) {
-            archive(this->indices->Get(index));
-        }
-    } else {
-        archive(-1);
-    }
+    VectorSerialize::Write(archive, this->indices);
+    VectorSerialize::Write(archive, this->vertices);
+    VectorSerialize::Write(archive, this->normals);
+    VectorSerialize::Write(archive, this->tangents);
+    VectorSerialize::Write(archive, this->colors);
+    VectorSerialize::Write(archive, this->uv0s);
+    VectorSerialize::Write(archive, this->uv1s);
+    VectorSerialize::Write(archive, this->uv2s);
 }
 
 void Mesh::CustomMark() {
     CustomPtr::S_Mark(this->vertices);
     CustomPtr::S_Mark(this->indices);
+}
+
+int Mesh::Size() {
+    int size = 0;
+    if (this->vertices)
+        size += this->vertices->MemorySize();
+    if (this->normals)
+        size += this->normals->MemorySize();
+    if (this->tangents)
+        size += this->tangents->MemorySize();
+    if (this->colors)
+        size += this->colors->MemorySize();
+    if (this->uv0s)
+        size += this->uv0s->MemorySize();
+    if (this->uv1s)
+        size += this->uv1s->MemorySize();
+    if (this->uv2s)
+        size += this->uv2s->MemorySize();
+    return size;
 }

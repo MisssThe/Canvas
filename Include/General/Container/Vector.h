@@ -49,5 +49,4 @@ private:
     std::vector<T> vector;
 };
 
-
 #endif //CANVAS_1_0_VECTOR_H

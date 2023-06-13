@@ -17,11 +17,16 @@ protected:
     void CustomMark() override;
     ~Mesh() override = default;
 public:
-    Vector<float>* vertices;
-    Vector<unsigned int>* indices;
-    Vector<int>* normals;
-//    Vector<int> normals;
+    int Size();
 public:
+    Vector<unsigned int>* indices;
+    Vector<float>* vertices;
+    Vector<float>* normals;
+    Vector<float>* tangents;
+    Vector<float>* colors;
+    Vector<float>* uv0s;
+    Vector<float>* uv1s;
+    Vector<float>* uv2s;
 };
 
 
