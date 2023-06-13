@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/6/3.
 //
 
-#include "../Include/Core/Invoker/Graphic/Core/OpenGLGraphicCore.h"
+#include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLGraphicCore.h"
 #include "../Include/General/Debug.h"
 #include "../Include/Core/Setting/SettingManager.h"
 #include "../Include/Canvas.h"
@@ -12,6 +12,60 @@
 #include <GLFW/glfw3.h>
 
 OpenGLGraphicCore::OpenGLGraphicCore() {
+    this->InitWindow();
+    this->shaders = new Map<Shader*, OpenGLShader*>();
+    this->meshes = new Map<Mesh*, OpenGLMesh*>();
+    this->InitErrorInfo();
+}
+
+void OpenGLGraphicCore::CustomMark() {
+    CustomPtr::S_Mark(this->shaders);
+    CustomPtr::S_Mark(this->meshes);
+}
+
+//OpenGLGraphicCore::~OpenGLGraphicCore() {
+//    glfwTerminate();
+//}
+
+void OpenGLGraphicCore::BeginFrame() {
+    glClearColor(0,0,0,1);
+    glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void OpenGLGraphicCore::EndFrame() {
+    glfwSwapBuffers(this->window);
+    glfwPollEvents();
+    if (glfwWindowShouldClose(this->window))
+        Canvas::S_Quit();
+}
+
+void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
+    //获取并绑定shader
+    Shader* shaderKey = material->shader;
+    if (shaderKey == nullptr)
+        shaderKey = nullptr;
+    if (!this->shaders->Contain(nullptr)) {
+        this->shaders->Insert(shaderKey, new OpenGLShader(shaderKey));
+    }
+    OpenGLShader* shader = this->shaders->Get(shaderKey);
+    if (shader == nullptr)
+        return;
+    shader->Bind();
+    //获取并绑定网格
+    if (!this->meshes->Contain(mesh))
+        this->meshes->Insert(mesh, new OpenGLMesh(mesh));
+    OpenGLMesh* realMesh = this->meshes->Get(mesh);
+    realMesh->Bind();
+//    glBindVertexArray();
+    //获取并设置属性
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+}
+
+void OpenGLGraphicCore::DrawRenderers() {
+
+}
+
+void OpenGLGraphicCore::InitWindow() {
     //通过设置初始化graphic
     GraphicSetting* setting = Static::S_SettingManager()->GetGraphicSetting();
     glfwInit();
@@ -48,30 +102,6 @@ OpenGLGraphicCore::OpenGLGraphicCore() {
     glfwSwapInterval(setting->isSync);
 }
 
-void OpenGLGraphicCore::CustomMark() {
-
-}
-
-//OpenGLGraphicCore::~OpenGLGraphicCore() {
-//    glfwTerminate();
-//}
-
-void OpenGLGraphicCore::BeginFrame() {
-    glClearColor(0,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void OpenGLGraphicCore::EndFrame() {
-    glfwSwapBuffers(this->window);
-    glfwPollEvents();
-    if (glfwWindowShouldClose(this->window))
-        Canvas::S_Quit();
-}
-
-void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
-
-}
-
-void OpenGLGraphicCore::DrawRenderers() {
+void OpenGLGraphicCore::InitErrorInfo() {
 
 }

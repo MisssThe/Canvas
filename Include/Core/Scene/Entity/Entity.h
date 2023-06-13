@@ -22,7 +22,7 @@ public:
     void SetActive(bool active);
     bool IsActive();
     void AddComponent(Component* component) const;
-    void AddComponent(std::string type) const;
+    Component* AddComponent(std::string type) const;
     Component* GetComponent(std::string type);
     Queue<Component*>* GetComponentsInChildren(std::string type, bool all = true);
     void GetComponentsInChildren(std::string type, Queue<Component*>* result, bool all = true);

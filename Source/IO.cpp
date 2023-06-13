@@ -4,6 +4,7 @@
 
 #include "../Include/General/IO.h"
 #include <fstream>
+#include <sstream>
 
 std::string IO::PathToName(const std::string& path) {
     int begin = path.find_last_of('/') + 1;
@@ -18,4 +19,18 @@ bool IO::Exist(std::string path) {
     bool result = is.is_open();
     is.close();
     return result;
+}
+
+bool IO::ReadInfo(const std::string& path, std::string& info) {
+    std::ifstream is(path);
+    bool success = false;
+    if (is.is_open())
+    {
+        success = true;
+        std::stringstream ss;
+        ss << is.rdbuf();
+        info = ss.str();
+    }
+    is.close();
+    return success;
 }

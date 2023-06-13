@@ -19,17 +19,12 @@ protected:
             CustomPtr::S_Mark(temp);
         });
     }
+    ~Queue() override = default;
 public:
     Queue(Queue<T> const &temp) {
         this->queue = temp.queue;
     }
     Queue() = default;
-    template<class S> void Read(cereal::BinaryInputArchive& archive) {
-
-    }
-    template<class S> void Write(cereal::BinaryOutputArchive& archive) {
-
-    }
 public:
     void Push(T temp) {
         this->queue.push(temp);

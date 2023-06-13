@@ -17,8 +17,8 @@ protected:
     ~Material() override = default;
 public:
     Shader* shader;
-    Queue<std::string> textureQueue;
-    Queue<float> floatQueue;
+    Queue<std::string>* textureQueue;
+    Queue<float>* floatQueue;
 };
 
 

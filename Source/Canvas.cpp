@@ -3,13 +3,13 @@
 //
 
 #include "../Include/Canvas.h"
+#include "../Include/Core/Invoker/Graphic/Renderer.h"
 #include "../Include/Core/Framework/GarbageCollection.h"
-#include "../Include/Core/Framework/ThreadPool.h"
 #include "../Include/Core/Asset/AssetManager.h"
 #include "../Include/Core/Scene/SceneManager.h"
 #include "../Include/Core/Framework/Static.h"
-#include "../Include/Core/Scene/Entity/Transform.h"
 #include "../Include/Core/Framework/ReflectFactory.h"
+
 
 bool Canvas::S_exist = true;
 bool Canvas::S_notPause = true;
@@ -24,14 +24,13 @@ Canvas::Canvas() {
 }
 
 void Canvas::Invoke() {
-//    Debug::Info("Count",std::to_string(Static::S_SceneManager()->Editor()->Root()->children->Size()));
-//    Static::S_SceneManager()->Editor()->ClearEntity();
-//    Debug::Info("Count",std::to_string(Static::S_SceneManager()->Editor()->Root()->children->Size()));
-
-//    AddEntity("test")->AddComponent("Renderer");
-//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
-//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
-//    Static::S_SceneManager()->Editor()->AddEntity("test")->AddComponent("Renderer");
+//    Static::S_SceneManager()->Active()->ClearEntity();
+//    Renderer* renderer = reinterpret_cast<Renderer *>((new Entity())->AddComponent("Renderer"));
+//    renderer->mesh = Static::S_AssetManager()->Create<Mesh>("Canvas/Arts/Mesh/test.mesh");
+//    renderer->material = Static::S_AssetManager()->Create<Material>("Canvas/Arts/Material/test.material");
+//    renderer->material->shader = Static::S_AssetManager()->Create<Shader>("Canvas/Graphic/ShaderCache/Texture/texture.shader");
+//    renderer->material->shader->vertexShaderPath = "Canvas/Graphic/ShaderCache/Texture/texture.vert";
+//    renderer->material->shader->fragmentShaderPath = "Canvas/Graphic/ShaderCache/Texture/texture.frag";
     while (Canvas::S_exist) {
         //Canvas中提供线程操作以提高性能
         if (Canvas::S_notPause) {

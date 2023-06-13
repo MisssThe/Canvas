@@ -71,11 +71,12 @@ void Entity::AddComponent(Component *component) const {
     this->components->Push(component);
 }
 
-void Entity::AddComponent(std::string type) const {
+Component* Entity::AddComponent(std::string type) const {
     Component* component = dynamic_cast<Component *>(ReflectFactory::S_Instance(type));
     if (component == nullptr)
         Debug::Warn("Add Component", "Invalid Component Type");
     this->AddComponent(component);
+    return component;
 }
 
 Queue<Component *> *Entity::GetComponentsInChildren(std::string type, bool all) {

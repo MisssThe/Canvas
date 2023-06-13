@@ -6,12 +6,14 @@
 #define CANVAS_1_0_OPENGLGRAPHICCORE_H
 
 
-#include "GraphicCore.h"
+#include "../GraphicCore.h"
+#include "OpenGLMesh.h"
+#include "OpenGLShader.h"
+#include "../../../../../General/Container/Map.h"
 
 class GLFWwindow;
 
-class OpenGLGraphicCore : public GraphicCore
-{
+class OpenGLGraphicCore : public GraphicCore {
 protected:
     void CustomMark() override;
 public:
@@ -21,11 +23,15 @@ public:
     OpenGLGraphicCore();
     void DrawRender(Mesh *mesh, Material *material) override;
     void DrawRenderers() override;
+private:
+    void InitWindow();
+    void InitErrorInfo();
 protected:
     ~OpenGLGraphicCore() override = default;
-
 private:
-    GLFWwindow* window;
+    GLFWwindow *window;
+    Map<Shader*, OpenGLShader *> *shaders;
+    Map<Mesh*, OpenGLMesh *> *meshes;
 };
 
 

@@ -7,6 +7,7 @@
 
 
 #include "../../../Asset/Asset.h"
+#include "../../../../General/Container/Vector.h"
 
 class Mesh : public Asset
 {
@@ -15,6 +16,12 @@ protected:
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
     ~Mesh() override = default;
+public:
+    Vector<float>* vertices;
+    Vector<unsigned int>* indices;
+    Vector<int>* normals;
+//    Vector<int> normals;
+public:
 };
 
 

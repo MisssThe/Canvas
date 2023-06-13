@@ -15,6 +15,7 @@ public:
     //根据路径获取文件名
     static std::string PathToName(const std::string& path);
     static bool Exist(std::string path);
+    static bool ReadInfo(const std::string& path,std::string& info);
 };
 
 

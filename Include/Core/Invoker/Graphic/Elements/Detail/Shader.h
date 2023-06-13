@@ -12,18 +12,18 @@
 
 class Shader : public Asset {
 public:
-    enum ShaderInfoType {
-        Float, Bool,
-        Vec, Vec2, Vec3, Vec4,
-        Matrix2x2, Matrix3x3, Matrix4x4,
-        Texture2D, Texture3D, TextureCube
-    };
-    struct ShaderInfo {
-        const char* name;
-        ShaderInfoType type;
-    };
+//    enum ShaderInfoType {
+//        Float, Bool,
+//        Vec, Vec2, Vec3, Vec4,
+//        Matrix2x2, Matrix3x3, Matrix4x4,
+//        Texture2D, Texture3D, TextureCube
+//    };
+//    struct ShaderInfo {
+//        const char* name;
+//        ShaderInfoType type;
+//    };
 public:
-    Queue<ShaderInfo> property;
+//    Queue<ShaderInfo> property;
     std::string vertexShaderPath;
     std::string fragmentShaderPath;
 protected:

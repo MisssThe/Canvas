@@ -6,7 +6,7 @@
 #include "../Include/Core/Invoker/Graphic/Graphic.h"
 #include "../Include/Core/Setting/GraphicSetting.h"
 #include "../Include/Core/Setting/SettingManager.h"
-#include "../Include/Core/Invoker/Graphic/Core/OpenGLGraphicCore.h"
+#include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLGraphicCore.h"
 //#include "../Include/Canvas.h"
 //#include "../Include/Core/Invoker/Graphic/Feature/GraphicFeatures.h"
 #include "../Include/Core/Framework/Static.h"
@@ -16,7 +16,10 @@ void Graphic::Invoke() {
     this->SetGraphicData();
     //计算graphic data
     this->core->BeginFrame();
-    this->features->Invoke(this->data);
+//    this->features->Invoke(this->data);
+    this->data->renderers->IteratorWithout([this](Renderer* renderer) {
+        this->core->DrawRender(renderer->mesh, renderer->material);
+    });
     this->core->EndFrame();
     Debug::Info("Scene Graphic", "Start Invoker");
 //    Canvas::S_Quit();
