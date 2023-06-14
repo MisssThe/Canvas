@@ -56,7 +56,6 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
         this->meshes->Insert(mesh, new OpenGLMesh(mesh));
     OpenGLMesh* realMesh = this->meshes->Get(mesh);
     realMesh->Bind();
-//    glBindVertexArray();
     //获取并设置属性
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

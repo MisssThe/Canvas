@@ -11,6 +11,8 @@ void OpenGLMesh::CustomMark() {
 
 OpenGLMesh::OpenGLMesh(Mesh *mesh) {
     unsigned int vbo, ebo;
+    glGenVertexArrays(1, &this->vao);
+    glBindVertexArray(this->vao);
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -24,26 +26,27 @@ OpenGLMesh::OpenGLMesh(Mesh *mesh) {
     offset += this->SubVertexBuffer(offset, mesh->uv0s);
     offset += this->SubVertexBuffer(offset, mesh->uv1s);
     offset += this->SubVertexBuffer(offset, mesh->uv2s);
-    if (offset < 1)
-        return;
 
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices->MemorySize(), mesh->indices->Begin(), GL_STATIC_DRAW);
 
-    glGenVertexArrays(1, &this->vao);
-    glBindVertexArray(this->vao);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
+    if (offset < 1) {
+        glDeleteVertexArrays(1, &this->vao);
+        this->vao = 0;
+    }
 }
 
 void OpenGLMesh::Bind() const {
+    if (this->vao < 1)
+        return;
     glBindVertexArray(this->vao);
 }
 
@@ -55,6 +58,6 @@ int OpenGLMesh::SubVertexBuffer(int offset, Vector<float> *buffer) {
     if (buffer == nullptr)
         return 0;
     int size = buffer->MemorySize();
-    glBufferSubData(GL_ARRAY_BUFFER, offset, size, buffer->Begin());
+    glBufferSubData(GL_ARRAY_BUFFER,offset,size,buffer->Begin());
     return size;
 }
