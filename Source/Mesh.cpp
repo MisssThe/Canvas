@@ -28,8 +28,14 @@ void Mesh::Write(cereal::BinaryOutputArchive &archive) {
 }
 
 void Mesh::CustomMark() {
-    CustomPtr::S_Mark(this->vertices);
     CustomPtr::S_Mark(this->indices);
+    CustomPtr::S_Mark(this->vertices);
+    CustomPtr::S_Mark(this->normals);
+    CustomPtr::S_Mark(this->tangents);
+    CustomPtr::S_Mark(this->colors);
+    CustomPtr::S_Mark(this->uv0s);
+    CustomPtr::S_Mark(this->uv1s);
+    CustomPtr::S_Mark(this->uv2s);
 }
 
 int Mesh::Size() {
