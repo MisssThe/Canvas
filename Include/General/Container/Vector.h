@@ -28,7 +28,7 @@ public:
             func(temp);
         }
     }
-    void Add(T& temp) {
+    void Add(T temp) {
         this->vector.push_back(temp);
     }
     void* Begin() {

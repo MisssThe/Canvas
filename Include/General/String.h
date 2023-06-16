@@ -6,10 +6,12 @@
 #define CANVAS_1_0_STRING_H
 
 #include <string>
+#include "Container/Vector.h"
 
 class String {
 public:
-    static std::string Replace(std::string source, std::string str1, std::string str2);
+    static std::string Replace(std::string& source, const std::string& str1, const std::string& str2);
+    static Vector<std::string>* Split(std::string source, const std::string &flag);
 };
 
 
