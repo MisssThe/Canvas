@@ -9,6 +9,7 @@
 #include "../Include/Core/Scene/SceneManager.h"
 #include "../Include/Core/Framework/Static.h"
 #include "../Include/Core/Framework/ReflectFactory.h"
+#include "../Include/Core/Framework/ThreadPool.h"
 
 
 bool Canvas::S_exist = true;
@@ -19,6 +20,7 @@ Canvas::Canvas() {
             0
     };
     GarbageCollection::S_Config(config);
+    ThreadPool::S_Config({});
     ReflectFactory::S_Initial();
     Static::S_Initial();
 }

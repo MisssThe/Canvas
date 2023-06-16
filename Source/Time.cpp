@@ -2,6 +2,7 @@
 // Created by MisThe on 2023/5/11.
 //
 
+#include <chrono>
 #include "../Include/General/Time.h"
 
 unsigned long int NowTime()

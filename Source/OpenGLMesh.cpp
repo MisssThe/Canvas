@@ -77,7 +77,7 @@ OpenGLMesh::~OpenGLMesh() {
     glDeleteVertexArrays(1, &this->vao);
 }
 
-int OpenGLMesh::SubVertexBuffer(long int offset, Vector<float> *buffer, int index, int stride) {
+int OpenGLMesh::SubVertexBuffer(long long int offset, Vector<float> *buffer, int index, int stride) {
     if (buffer == nullptr)
         return 0;
     int size = buffer->MemorySize();

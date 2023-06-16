@@ -8,8 +8,9 @@
 #ifndef CANVAS_1_0_CUSTOMPTR_H
 #define CANVAS_1_0_CUSTOMPTR_H
 
-#include <cstdlib>
 #include <queue>
+#include <string>
+#include <functional>
 
 class CustomPtr {
 public:

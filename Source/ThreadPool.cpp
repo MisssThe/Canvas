@@ -23,6 +23,8 @@ void ThreadPool::S_RegisterPtr(CustomPtr *ptr) {
     if (ptr == nullptr)
         return;
     std::thread::id ti = std::this_thread::get_id();
+    if (ThreadPool::S_threadPtrMap == nullptr)
+        return;
     if (ThreadPool::S_threadPtrMap->Get(ti) == nullptr)
     {
         ThreadPool::S_threadPtrMap->Insert(ti, ThreadPool::S_threadPtrCacheQueue->Pop());
