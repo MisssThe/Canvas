@@ -19,7 +19,7 @@ private:
     Map<std::string, std::string> *assetCacheMap = nullptr;
 public:
     AssetManager();
-    void RefreshCache(std::string directory = "Asset");
+    void RefreshCache(std::string directory = "Canvas/Assets");
 protected:
     ~AssetManager() override;
 public:

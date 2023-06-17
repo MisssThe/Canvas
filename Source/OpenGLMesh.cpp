@@ -13,24 +13,8 @@ OpenGLMesh::OpenGLMesh(Mesh *mesh) {
     this->CompileMesh(mesh);
 }
 
-void OpenGLMesh::Bind() const {
-    if (this->vao < 1)
-        return;
-    glBindVertexArray(this->vao);
-}
-
 OpenGLMesh::~OpenGLMesh() {
     glDeleteVertexArrays(1, &this->vao);
-}
-
-int OpenGLMesh::SubVertexBuffer(long int offset, Vector<float> *buffer, int index, int stride) {
-    if (buffer == nullptr)
-        return 0;
-    int size = buffer->MemorySize();
-    glBufferSubData(GL_ARRAY_BUFFER,offset,size,buffer->Begin());
-    glVertexAttribPointer(index, stride, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void *) offset);
-    glEnableVertexAttribArray(index);
-    return size;
 }
 
 bool OpenGLMesh::CompileMesh(Mesh *mesh) {
@@ -72,10 +56,6 @@ void OpenGLMesh::Bind() const {
     if (this->vao < 1)
         return;
     glBindVertexArray(this->vao);
-}
-
-OpenGLMesh::~OpenGLMesh() {
-    glDeleteVertexArrays(1, &this->vao);
 }
 
 int OpenGLMesh::SubVertexBuffer(long long int offset, Vector<float> *buffer, int index, int stride) {

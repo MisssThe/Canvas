@@ -4,20 +4,19 @@
 
 #include "../Include/General/IO.h"
 #include <fstream>
-#include <sstream>
 #include <iostream>
 #include <filesystem>
 #include <queue>
 
 std::string IO::PathToName(const std::string& path) {
-    int begin = path.find_last_of('/') + 1;
+    unsigned long begin = path.find_last_of('/') + 1;
     begin = begin == std::string::npos ? 0 : begin;
-    int end = path.find_last_of('.');
+    unsigned long end = path.find_last_of('.');
     end = end == std::string::npos ? path.length() : end;
     return path.substr(begin, end - begin);
 }
 
-bool IO::Exist(std::string path) {
+bool IO::Exist(const std::string& path) {
     std::ifstream is(path);
     bool result = is.is_open();
     is.close();
@@ -37,14 +36,15 @@ bool IO::ReadInfo(const std::string& path, std::string& info) {
     is.close();
     return success;
 }
-void createDirectory(const std::string& filePath) {
+
+void IO::CreateDirectory(const std::string& filePath) {
     std::string delimiter = "/";
     size_t pos = filePath.find(delimiter);
     if (pos == std::string::npos || filePath.substr(0, pos) != "Canvas") {
         throw std::runtime_error("一级目录必须是 'Canvas'");
     }
 
-    std::string directoryPath = "";
+    std::string directoryPath;
     std::string pathCopy = filePath;  // 创建一个副本
     std::string token;
     while ((pos = pathCopy.find(delimiter)) != std::string::npos) {
@@ -61,8 +61,8 @@ void createDirectory(const std::string& filePath) {
     }
 }
 
-std::queue<std::string> ChildrenFile(const std::string& path) {
-    std::queue<std::string> filesQueue;
+Queue<std::string>* IO::ChildrenFiles(const std::string& path) {
+    auto* filesQueue = new Queue<std::string>();
 
     // Check if the given path is valid
     if (!std::filesystem::exists(path)) {
@@ -76,7 +76,7 @@ std::queue<std::string> ChildrenFile(const std::string& path) {
         if (file.is_open()) {
             std::string line;
             while (std::getline(file, line)) {
-                filesQueue.push(line);
+                filesQueue->Push(line);
             }
             file.close();
         } else {
@@ -93,7 +93,7 @@ std::queue<std::string> ChildrenFile(const std::string& path) {
                 if (file.is_open()) {
                     std::string line;
                     while (std::getline(file, line)) {
-                        filesQueue.push(line);
+                        filesQueue->Push(line);
                     }
                     file.close();
                 } else {
@@ -102,16 +102,15 @@ std::queue<std::string> ChildrenFile(const std::string& path) {
             }
         }
     }
-        // Invalid value
+    // Invalid value
     else {
         throw std::invalid_argument("Invalid file or directory path.");
     }
-
     return filesQueue;
 }
 
 std::string IO::PathToExtension(const std::string &path) {
-    int begin = path.find_last_of('.') + 1;
+    unsigned long begin = path.find_last_of('.') + 1;
     begin = begin == std::string::npos ? 0 : begin;
     return path.substr(begin, path.length() - begin);
 }

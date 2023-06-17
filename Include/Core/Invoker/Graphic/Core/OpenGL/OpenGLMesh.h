@@ -18,6 +18,7 @@ public:
     void Bind() const;
 private:
     int SubVertexBuffer(long long int offset, Vector<float>* buffer,int index, int stride);
+    bool CompileMesh(Mesh *mesh);
 private:
     unsigned int vao;
 };

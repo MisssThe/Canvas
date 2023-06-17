@@ -15,9 +15,10 @@ private:
 public:
     static std::string PathToName(const std::string& path);
     static std::string PathToExtension(const std::string& path);
-    static bool Exist(std::string path);
+    static bool Exist(const std::string& path);
     static bool ReadInfo(const std::string& path,std::string& info);
-    static Queue<std::string>* ChildrenFiles(std::string& path);
+    static Queue<std::string>* ChildrenFiles(const std::string& path);
+    static void CreateDirectory(const std::string& filePath);
 };
 
 
