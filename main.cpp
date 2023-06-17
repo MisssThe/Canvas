@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Include/Canvas.h"
 
 int main() {

@@ -28,7 +28,7 @@ private:
     void InitWindow();
     void InitErrorInfo();
 protected:
-    ~OpenGLGraphicCore() override = default;
+    ~OpenGLGraphicCore() override;
 private:
     GLFWwindow *window;
     Map<Shader*, OpenGLShader *> *shaders;

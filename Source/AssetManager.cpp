@@ -9,6 +9,18 @@
 
 AssetManager::AssetManager() {
     this->assetMap = new Map<std::string, Asset*>();
+    //检查文件目录是否存在，不存在则创建
+    /**
+     * CanvasOutput
+     *      Art
+     *          Scene
+     *          Material
+     *          Shader
+     *          Mesh
+     *          Texture
+     *          Animation
+     *      Setting
+     **/
 }
 
 void AssetManager::Clear() {

@@ -26,21 +26,19 @@ void Graphic::Invoke() {
 
 Graphic::Graphic() {
     GraphicSetting *setting = Static::S_SettingManager()->GetGraphicSetting();
-    if (CustomPtr::S_IsNull(this->core)) {
-        switch (setting->graphicType) {
-            case GraphicSetting::OpenGL:
-                core = new OpenGLGraphicCore();
-                break;
-            case GraphicSetting::DXD:
-                core = nullptr;
-                break;
-            case GraphicSetting::Metal:
-                core = nullptr;
-                break;
-            case GraphicSetting::Vulkan:
-                core = nullptr;
-                break;
-        }
+    switch (setting->graphicType) {
+        case GraphicSetting::OpenGL:
+            core = new OpenGLGraphicCore();
+            break;
+        case GraphicSetting::DXD:
+            core = nullptr;
+            break;
+        case GraphicSetting::Metal:
+            core = nullptr;
+            break;
+        case GraphicSetting::Vulkan:
+            core = nullptr;
+            break;
     }
     std::string path = setting->featurePath;
     this->features = Static::S_AssetManager()->Create<GraphicFeatures>(path);

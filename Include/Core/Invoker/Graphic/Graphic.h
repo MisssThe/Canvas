@@ -21,9 +21,9 @@ public:
 private:
     void SetGraphicData();
 private:
-    GraphicCore* core;
-    GraphicData* data;
-    GraphicFeatures* features;
+    GraphicCore* core = nullptr;
+    GraphicData* data = nullptr;
+    GraphicFeatures* features = nullptr;
 };
 
 

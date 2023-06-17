@@ -118,3 +118,7 @@ void OpenGLGraphicCore::InitWindow() {
 void OpenGLGraphicCore::InitErrorInfo() {
 
 }
+
+OpenGLGraphicCore::~OpenGLGraphicCore() {
+    glfwTerminate();
+}
