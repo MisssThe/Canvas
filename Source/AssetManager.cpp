@@ -68,7 +68,6 @@ AssetManager::~AssetManager() {
 
 void AssetManager::RefreshCache(std::string directory) {
     Queue<std::string>* paths = IO::ChildrenFiles(directory);
-    paths->Push("CanvasOutput/Canvas/Assets/Texture/test.png");
     paths->IteratorWithout([this](std::string path) {
         //根据path生成cache
         std::string extension = IO::PathToExtension(path);
@@ -78,7 +77,7 @@ void AssetManager::RefreshCache(std::string directory) {
         std::string cache = path;
         String::Replace(cache,"/","_");
         String::Replace(cache, extension, type);
-        cache = "Canvas/Cache/" + type + "/" + cache;
+        cache = "Canvas/Caches/" + type + "/" + cache;
         if (IO::Exist(cache))
             return;
         Asset* ptr = dynamic_cast<Asset *>(ReflectFactory::S_Instance(type));

@@ -19,6 +19,8 @@ public:
     static bool ReadInfo(const std::string& path,std::string& info);
     static Queue<std::string>* ChildrenFiles(const std::string& path);
     static void CreateDirectory(const std::string& filePath);
+private:
+    static void GetChildrenFiles(const std::string& directory, Queue<std::string>* result);
 };
 
 

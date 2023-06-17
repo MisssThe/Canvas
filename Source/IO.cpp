@@ -61,52 +61,27 @@ void IO::CreateDirectory(const std::string& filePath) {
     }
 }
 
-Queue<std::string>* IO::ChildrenFiles(const std::string& path) {
-    auto* filesQueue = new Queue<std::string>();
+void IO::GetChildrenFiles(const std::string& directory, Queue<std::string>* result) {
+    if (result == nullptr)
+        return;
+    std::filesystem::path str(directory);
+    std::filesystem::directory_entry entry(str);
+    if (entry.status().type() != std::filesystem::file_type::directory) {
+        result->Push(entry.path());
+        return;
+    }
+    std::filesystem::directory_iterator children(str);
+    for (auto &child: children) {
+        IO::GetChildrenFiles(child.path(), result);
+    }
+}
 
-    // Check if the given path is valid
-    if (!std::filesystem::exists(path)) {
-        throw std::invalid_argument("Invalid file path.");
-    }
-
-    // Check if the given path is a regular file
-    if (std::filesystem::is_regular_file(path)) {
-        // Read the file and store its contents in the queue
-        std::ifstream file(path);
-        if (file.is_open()) {
-            std::string line;
-            while (std::getline(file, line)) {
-                filesQueue->Push(line);
-            }
-            file.close();
-        } else {
-            throw std::runtime_error("Failed to open file: " + path);
-        }
-    }
-        // Check if the given path is a directory
-    else if (std::filesystem::is_directory(path)) {
-        // Traverse the directory and its subdirectories
-        for (const auto& entry : std::filesystem::recursive_directory_iterator(path)) {
-            if (std::filesystem::is_regular_file(entry.path())) {
-                // Read the file and store its contents in the queue
-                std::ifstream file(entry.path());
-                if (file.is_open()) {
-                    std::string line;
-                    while (std::getline(file, line)) {
-                        filesQueue->Push(line);
-                    }
-                    file.close();
-                } else {
-                    throw std::runtime_error("Failed to open file: " + entry.path().string());
-                }
-            }
-        }
-    }
-    // Invalid value
-    else {
-        throw std::invalid_argument("Invalid file or directory path.");
-    }
-    return filesQueue;
+Queue<std::string>* IO::ChildrenFiles(const std::string& directory) {
+    auto* result = new Queue<std::string>();
+    if (!IO::Exist(directory))
+        return result;
+    IO::GetChildrenFiles(directory, result);
+    return result;
 }
 
 std::string IO::PathToExtension(const std::string &path) {

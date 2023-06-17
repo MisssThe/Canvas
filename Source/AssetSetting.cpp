@@ -16,7 +16,6 @@ void AssetSetting::Write(cereal::BinaryOutputArchive &archive) {
     std::function<void(std::string&,std::string&)> func = [&archive](std::string& extension,std::string& type) {
         archive(extension, type);
     };
-    std::cout << this->assetCacheMap->Size();
     MapSerialize::Write(archive, this->assetCacheMap, func);
 }
 
