@@ -24,7 +24,7 @@ AssetManager::AssetManager() {
 }
 
 void AssetManager::Clear() {
-  this->assetMap->Iterator([this](std::string path, Asset* asset) {
+  this->assetMap->Iterator([this](const std::string& path, Asset* asset) {
       this->Update(asset);
     });
   this->assetMap->Clear();
@@ -66,7 +66,9 @@ AssetManager::~AssetManager() {
     this->Clear();
 }
 
-void AssetManager::RefreshCache(std::string directory) {
+void AssetManager::RefreshCache(const std::string& directory) {
+    if (this->assetMap == nullptr)
+        return;
     Queue<std::string>* paths = IO::ChildrenFiles(directory);
     paths->IteratorWithout([this](std::string path) {
         //根据path生成cache
