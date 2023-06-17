@@ -6,10 +6,18 @@
 #define CANVAS_1_0_TEXTURE_H
 
 
-#include "../../../../Framework/CustomPtr.h"
+#include "../../../../Asset/Asset.h"
 
-class Texture : public CustomPtr {
-
+class Texture : public Asset {
+public:
+    std::string texturePath;
+protected:
+    void Read(cereal::BinaryInputArchive &archive) override;
+    void Write(cereal::BinaryOutputArchive &archive) override;
+    void CustomMark() override;
+    ~Texture() override = default;
+public:
+    void Cache(std::string file) override;
 };
 
 

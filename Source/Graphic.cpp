@@ -22,7 +22,6 @@ void Graphic::Invoke() {
     });
     this->core->EndFrame();
     Debug::Info("Scene Graphic", "Start Invoker");
-//    Canvas::S_Quit();
 }
 
 Graphic::Graphic() {

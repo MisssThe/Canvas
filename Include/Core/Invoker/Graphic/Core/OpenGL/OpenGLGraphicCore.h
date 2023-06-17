@@ -10,6 +10,7 @@
 #include "OpenGLMesh.h"
 #include "OpenGLShader.h"
 #include "../../../../../General/Container/Map.h"
+#include "OpenGLTexture.h"
 
 class GLFWwindow;
 
@@ -32,6 +33,7 @@ private:
     GLFWwindow *window;
     Map<Shader*, OpenGLShader *> *shaders;
     Map<Mesh*, OpenGLMesh *> *meshes;
+    Map<Texture*, OpenGLTexture *> *textures;
 };
 
 

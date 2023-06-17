@@ -23,7 +23,8 @@ void Scene::CustomMark() {
 //}
 
 void Scene::Load() {
-    std::string infoPath = String::Replace(this->path, ".scene", "_info.scene_info");
+    std::string infoPath = this->path;
+    String::Replace(infoPath, ".scene", "_info.scene_info");
     this->info = Static::S_AssetManager()->Create<SceneInfo>(infoPath);
 }
 

@@ -10,31 +10,30 @@ void OpenGLMesh::CustomMark() {
 }
 
 OpenGLMesh::OpenGLMesh(Mesh *mesh) {
-    mesh->indices = new Vector<unsigned int>{
-            0, 1, 3,
-            1, 2, 3
-    };
-    mesh->vertices = new Vector<float>{
-            0.5f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
-    };
-    mesh->colors = new Vector<float>{
-            1.0f, 1.0f, 1.0f, 1.0f,
-            1.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f, 1.0f,
-            1.0f, 0.0f, 0.0f, 1.0f,
-//            1.0f, 1.0f, 0.0f,
-//            0.0f, 0.0f, 1.0f,
-//            1.0f, 1.0f, 0.0f,
-    };
-    mesh->uv0s = new Vector<float>{
-            1.0f, 1.0f,
-            1.0f, 0.0f,
-            0.0f, 0.0f,
-            0.0f, 1.0f
-    };
+    this->CompileMesh(mesh);
+}
+
+void OpenGLMesh::Bind() const {
+    if (this->vao < 1)
+        return;
+    glBindVertexArray(this->vao);
+}
+
+OpenGLMesh::~OpenGLMesh() {
+    glDeleteVertexArrays(1, &this->vao);
+}
+
+int OpenGLMesh::SubVertexBuffer(long int offset, Vector<float> *buffer, int index, int stride) {
+    if (buffer == nullptr)
+        return 0;
+    int size = buffer->MemorySize();
+    glBufferSubData(GL_ARRAY_BUFFER,offset,size,buffer->Begin());
+    glVertexAttribPointer(index, stride, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void *) offset);
+    glEnableVertexAttribArray(index);
+    return size;
+}
+
+bool OpenGLMesh::CompileMesh(Mesh *mesh) {
     unsigned int vbo, ebo;
     glGenVertexArrays(1, &this->vao);
     glBindVertexArray(this->vao);
@@ -64,25 +63,7 @@ OpenGLMesh::OpenGLMesh(Mesh *mesh) {
     if (offset < 1) {
         glDeleteVertexArrays(1, &this->vao);
         this->vao = 0;
+        return false;
     }
-}
-
-void OpenGLMesh::Bind() const {
-    if (this->vao < 1)
-        return;
-    glBindVertexArray(this->vao);
-}
-
-OpenGLMesh::~OpenGLMesh() {
-    glDeleteVertexArrays(1, &this->vao);
-}
-
-int OpenGLMesh::SubVertexBuffer(long int offset, Vector<float> *buffer, int index, int stride) {
-    if (buffer == nullptr)
-        return 0;
-    int size = buffer->MemorySize();
-    glBufferSubData(GL_ARRAY_BUFFER,offset,size,buffer->Begin());
-    glVertexAttribPointer(index, stride, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void *) offset);
-    glEnableVertexAttribArray(index);
-    return size;
+    return true;
 }

@@ -5,10 +5,9 @@
 #ifndef CANVAS_1_0_SCENESETTING_H
 #define CANVAS_1_0_SCENESETTING_H
 
+#include "../Asset/Asset.h"
 
-#include "Setting.h"
-
-class SceneSetting : public Setting
+class SceneSetting : public Asset
 {
 public:
     std::string editorScenePath;

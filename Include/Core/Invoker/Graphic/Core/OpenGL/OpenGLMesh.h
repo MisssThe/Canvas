@@ -17,6 +17,7 @@ public:
     explicit OpenGLMesh(Mesh* mesh);
     void Bind() const;
 private:
+    bool CompileMesh(Mesh* mesh);
     int SubVertexBuffer(long int offset, Vector<float>* buffer,int index, int stride);
 private:
     unsigned int vao;

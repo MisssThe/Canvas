@@ -3,12 +3,9 @@
 //
 
 #include "../Include/Core/Asset/AssetManager.h"
-
-//void AssetManager::S_Config(AssetManager::AssetConfig config) {
-////    if (AssetManager::assetMap == nullptr)
-////      this->assetMap = new Map<std::string, Asset*>();
-////    Framework::S_AddRoot(AssetManager::assetMap);
-//}
+#include "../Include/Core/Framework/Static.h"
+#include "../Include/Core/Framework/ReflectFactory.h"
+#include "../Include/General/String.h"
 
 AssetManager::AssetManager() {
     this->assetMap = new Map<std::string, Asset*>();
@@ -22,7 +19,7 @@ void AssetManager::Clear() {
 }
 
 void AssetManager::Invoke() {
-
+    //更新Cache数据
 }
 
 void AssetManager::Update(Asset *asset) {
@@ -57,3 +54,25 @@ AssetManager::~AssetManager() {
     this->Clear();
 }
 
+void AssetManager::RefreshCache(std::string directory) {
+    Queue<std::string>* paths = IO::ChildrenFiles(directory);
+    paths->Push("CanvasOutput/Canvas/Assets/Texture/test.png");
+    paths->IteratorWithout([this](std::string path) {
+        //根据path生成cache
+        std::string extension = IO::PathToExtension(path);
+        std::string type = Static::S_SettingManager()->GetAssetSetting()->assetCacheMap->Get(extension);
+        if (type.empty())
+            return;
+        std::string cache = path;
+        String::Replace(cache,"/","_");
+        String::Replace(cache, extension, type);
+        cache = "Canvas/Cache/" + type + "/" + cache;
+        if (IO::Exist(cache))
+            return;
+        Asset* ptr = dynamic_cast<Asset *>(ReflectFactory::S_Instance(type));
+        ptr->path = cache;
+        ptr->Cache(path);
+        this->assetMap->Insert(cache, ptr);
+        Debug::Info("Asset Manager", "Create New Cache [" + path + "]");
+    });
+}

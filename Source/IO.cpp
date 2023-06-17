@@ -34,3 +34,14 @@ bool IO::ReadInfo(const std::string& path, std::string& info) {
     is.close();
     return success;
 }
+
+Queue<std::string> *IO::ChildrenFiles(std::string &path) {
+    Queue<std::string>* result = new Queue<std::string>();
+    return result;
+}
+
+std::string IO::PathToExtension(const std::string &path) {
+    int begin = path.find_last_of('.') + 1;
+    begin = begin == std::string::npos ? 0 : begin;
+    return path.substr(begin, path.length() - begin);
+}

@@ -6,16 +6,18 @@
 #define CANVAS_IO_H
 
 #include <string>
+#include "Container/Queue.h"
 
 class IO {
 private:
     IO() = delete;
     ~IO() = delete;
 public:
-    //根据路径获取文件名
     static std::string PathToName(const std::string& path);
+    static std::string PathToExtension(const std::string& path);
     static bool Exist(std::string path);
     static bool ReadInfo(const std::string& path,std::string& info);
+    static Queue<std::string>* ChildrenFiles(std::string& path);
 };
 
 

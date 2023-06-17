@@ -8,6 +8,7 @@
 
 #include "../../../Asset/Asset.h"
 #include "Detail/Shader.h"
+#include "Detail/Texture.h"
 
 class Material : public Asset {
 protected:
@@ -16,8 +17,10 @@ protected:
     void CustomMark() override;
     ~Material() override = default;
 public:
+    Material();
+public:
     Shader* shader;
-    Queue<std::string>* textureQueue;
+    Queue<Texture*>* textureQueue;
     Queue<float>* floatQueue;
 };
 

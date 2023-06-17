@@ -15,6 +15,7 @@ Graphic* Static::S_graphic = nullptr;
 void Static::S_Initial() {
     Static::S_assetManager = new AssetManager();
     Static::S_settingManager = new SettingManager();
+    Static::S_assetManager->RefreshCache();
     Static::S_components = new Components();
     Static::S_sceneManager = new SceneManager();
     Static::S_sceneManager->Initial();

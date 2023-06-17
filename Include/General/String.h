@@ -9,7 +9,7 @@
 
 class String {
 public:
-    static std::string Replace(std::string source, std::string str1, std::string str2);
+    static void Replace(std::string& source, const std::string& str1, const std::string& str2);
 };
 
 

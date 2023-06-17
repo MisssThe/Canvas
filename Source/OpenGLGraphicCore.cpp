@@ -13,14 +13,16 @@
 
 OpenGLGraphicCore::OpenGLGraphicCore() {
     this->InitWindow();
-    this->shaders = new Map<Shader*, OpenGLShader*>();
-    this->meshes = new Map<Mesh*, OpenGLMesh*>();
+    this->shaders = new Map<Shader *, OpenGLShader *>();
+    this->meshes = new Map<Mesh *, OpenGLMesh *>();
+    this->textures = new Map<Texture *, OpenGLTexture *>();
     this->InitErrorInfo();
 }
 
 void OpenGLGraphicCore::CustomMark() {
     CustomPtr::S_Mark(this->shaders);
     CustomPtr::S_Mark(this->meshes);
+    CustomPtr::S_Mark(this->textures);
 }
 
 //OpenGLGraphicCore::~OpenGLGraphicCore() {
@@ -47,16 +49,28 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     if (!this->shaders->Contain(nullptr)) {
         this->shaders->Insert(shaderKey, new OpenGLShader(shaderKey));
     }
-    OpenGLShader* shader = this->shaders->Get(shaderKey);
-    if (shader == nullptr)
-        return;
-    shader->Bind();
+    OpenGLShader* openGlShader = this->shaders->Get(shaderKey);
+    openGlShader->Bind();
     //获取并绑定网格
     if (!this->meshes->Contain(mesh))
         this->meshes->Insert(mesh, new OpenGLMesh(mesh));
-    OpenGLMesh* realMesh = this->meshes->Get(mesh);
-    realMesh->Bind();
+    OpenGLMesh* openGlMesh = this->meshes->Get(mesh);
+    openGlMesh->Bind();
     //获取并设置属性
+    //绑定贴图
+    int textureIndex = 0;
+    if (material->textureQueue->Size() < 1) {
+        Texture* t = Static::S_AssetManager()->Create<Texture>("");
+        t->texturePath = "Canvas/Assets/Texture/test.png";
+        material->textureQueue->Push(t);
+    }
+    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
+        if (!this->textures->Contain(texture))
+            this->textures->Insert(texture, new OpenGLTexture(texture));
+        OpenGLTexture* openGlTexture = this->textures->Get(texture);
+        openGlTexture->Bind(textureIndex++);
+    });
+    //设置浮点属性
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 

@@ -27,4 +27,7 @@ bool ReflectFactory::S_Register(std::string type, std::function<CustomPtr*()> fu
 void ReflectFactory::S_Initial() {
     RegisterFactory(Transform);
     RegisterFactory(Renderer);
+    RegisterFactory(Texture);
+    RegisterFactory(Shader);
+    RegisterFactory(Mesh);
 }

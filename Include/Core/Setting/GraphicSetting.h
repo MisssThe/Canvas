@@ -5,9 +5,9 @@
 #ifndef CANVAS_1_0_GRAPHICSETTING_H
 #define CANVAS_1_0_GRAPHICSETTING_H
 
-#include "Setting.h"
+#include "../Asset/Asset.h"
 
-class GraphicSetting : public Setting
+class GraphicSetting : public Asset
 {
 public:
     enum GraphicType

@@ -11,6 +11,8 @@ class Asset : public Serialize {
 public:
     std::string name;
     std::string path;
+public:
+    virtual void Cache(std::string file) {};
 };
 
 

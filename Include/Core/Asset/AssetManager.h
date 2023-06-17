@@ -15,9 +15,11 @@
 class AssetManager final : public CustomPtr
 {
 private:
-    Map<std::string, Asset *> *assetMap;
+    Map<std::string, Asset *> *assetMap = nullptr;
+    Map<std::string, std::string> *assetCacheMap = nullptr;
 public:
     AssetManager();
+    void RefreshCache(std::string directory = "Asset");
 protected:
     ~AssetManager() override;
 public:

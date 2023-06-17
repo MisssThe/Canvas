@@ -8,12 +8,14 @@
 
 #include "GraphicSetting.h"
 #include "SceneSetting.h"
+#include "AssetSetting.h"
 
 class SettingManager : public CustomPtr
 {
 private:
     GraphicSetting* graphicSetting;
     SceneSetting* sceneSetting;
+    AssetSetting* assetSetting;
 public:
     SettingManager();
 protected:
@@ -21,6 +23,7 @@ protected:
 public:
     GraphicSetting* GetGraphicSetting();
     SceneSetting* GetSceneSetting();
+    AssetSetting* GetAssetSetting();
 };
 
 
