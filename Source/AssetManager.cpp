@@ -77,8 +77,8 @@ void AssetManager::RefreshCache(const std::string& directory) {
         if (type.empty())
             return;
         std::string cache = path;
-        String::Replace(cache,"/","_");
-        String::Replace(cache, extension, type);
+        String::ReplaceAll(cache, "/", "_");
+        String::ReplaceAll(cache, extension, type);
         cache = "Canvas/Caches/" + type + "/" + cache;
         if (IO::Exist(cache))
             return;

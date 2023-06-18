@@ -4,13 +4,25 @@
 
 #include "../Include/General/String.h"
 
-void String::Replace(std::string& source, const std::string& str1, const std::string& str2) {
-    int pos = 0;
+void String::ReplaceAll(std::string& source, const std::string& str1, const std::string& str2) {
     int len1 = str1.length();
     int len2 = str2.length();
+    int pos = -len2;
     while ((pos = source.find(str1,pos + len2)) != std::string::npos) {
         source = source.replace(pos, len1, str2);
     }
+}
+
+void String::ReplaceFirst(std::string& source, const std::string& str1, const std::string& str2) {
+    int len1 = str1.length();
+    int pos = source.find(str1);
+    source = source.replace(pos, len1, str2);
+}
+
+void String::ReplaceLast(std::string& source, const std::string& str1, const std::string& str2) {
+    int len1 = str1.length();
+    int pos = source.find_last_of(str1) - len1 + 1;
+    source = source.replace(pos, len1, str2);
 }
 
 Vector<std::string> *String::Split(std::string source, const std::string &flag) {

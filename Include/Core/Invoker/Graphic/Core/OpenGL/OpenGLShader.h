@@ -17,7 +17,7 @@ public:
     explicit OpenGLShader(Shader* shader);
 private:
     void CompileShader(Shader* shader);
-    unsigned int CompileShaderSource(int type, const std::string& path) const;
+    unsigned int CompileShaderSource(int type, const std::string& code) const;
 public:
     void Bind() const;
 private:

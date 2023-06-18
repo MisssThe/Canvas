@@ -10,7 +10,9 @@
 
 class String {
 public:
-	static void Replace(std::string& source, const std::string& str1, const std::string& str2);
+	static void ReplaceAll(std::string& source, const std::string& str1, const std::string& str2);
+	static void ReplaceFirst(std::string& source, const std::string& str1, const std::string& str2);
+	static void ReplaceLast(std::string& source, const std::string& str1, const std::string& str2);
     static Vector<std::string>* Split(std::string source, const std::string &flag);
 };
 

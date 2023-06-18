@@ -4,7 +4,6 @@
 
 #include <glad/glad.h>
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLShader.h"
-#include "../Include/General/IO.h"
 #include "../Include/General/Debug.h"
 
 void OpenGLShader::CustomMark() {
@@ -14,28 +13,21 @@ void OpenGLShader::CustomMark() {
 OpenGLShader::OpenGLShader(Shader *shader) {
     if (shader == nullptr)
         return;
-    //compile shader
     this->program = -1;
     this->CompileShader(shader);
-//    this->CompileShader();
 }
 
 void OpenGLShader::Bind() const {
     glUseProgram(program);
 }
 
-unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& path) const {
+unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& code) const {
     unsigned int shaderSource = glCreateShader(type);
-    std::string info;
-    if (!IO::ReadInfo(path, info)) {
-        Debug::Error("Compile Shader Source", "Error Shader Source Path [" + path + "]");
+    if (code.empty()) {
+        Debug::Error("Compile Shader Source", "Empty Shader Source [" + code + "]");
         return -1;
     }
-    if (info.empty()) {
-        Debug::Error("Compile Shader Source", "Empty Shader Source [" + path + "]");
-        return -1;
-    }
-    const char* source = info.c_str();
+    const char* source = code.c_str();
     glShaderSource(shaderSource, 1, &source, nullptr);
     glCompileShader(shaderSource);
     // check for shader compile errors
@@ -53,8 +45,8 @@ unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& path
 void OpenGLShader::CompileShader(Shader* shader) {
     auto* shaderSource = new Queue<unsigned int>();
     this->program = glCreateProgram();
-    shaderSource->Push(this->CompileShaderSource(GL_VERTEX_SHADER, shader->vertexShaderPath));
-    shaderSource->Push(this->CompileShaderSource(GL_FRAGMENT_SHADER, shader->fragmentShaderPath));
+    shaderSource->Push(this->CompileShaderSource(GL_VERTEX_SHADER, shader->vertexShaderCode));
+    shaderSource->Push(this->CompileShaderSource(GL_FRAGMENT_SHADER, shader->fragmentShaderCode));
     glLinkProgram(this->program);
     int success;
     char infoLog[512];

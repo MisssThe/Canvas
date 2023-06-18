@@ -20,12 +20,13 @@ public:
 //    };
 //    struct ShaderInfo {
 //        const char* name;
+    void Cache(std::string file) override;
 //        ShaderInfoType type;
 //    };
 public:
 //    Queue<ShaderInfo> property;
-    std::string vertexShaderPath;
-    std::string fragmentShaderPath;
+    std::string vertexShaderCode;
+    std::string fragmentShaderCode;
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
