@@ -21,7 +21,6 @@ public:
     int Size() const;
 private:
     void LoadMesh(const std::string& file);
-    void LoadMeshNode();
 public:
     Vector<unsigned int>* indices;
     Vector<float>* vertices;
@@ -31,6 +30,8 @@ public:
     Vector<float>* uv0s;
     Vector<float>* uv1s;
     Vector<float>* uv2s;
+private:
+    int memorySize;
 };
 
 

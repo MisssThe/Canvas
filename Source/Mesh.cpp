@@ -11,6 +11,7 @@
 #include <assimp/postprocess.h>
 
 void Mesh::Read(cereal::BinaryInputArchive &archive) {
+    archive(this->memorySize);
     this->indices = VectorSerialize::Read<unsigned int>(archive);
     this->vertices = VectorSerialize::Read<float>(archive);
     this->normals = VectorSerialize::Read<float>(archive);
@@ -22,6 +23,7 @@ void Mesh::Read(cereal::BinaryInputArchive &archive) {
 }
 
 void Mesh::Write(cereal::BinaryOutputArchive &archive) {
+    archive(this->memorySize);
     VectorSerialize::Write(archive, this->indices);
     VectorSerialize::Write(archive, this->vertices);
     VectorSerialize::Write(archive, this->normals);
@@ -44,22 +46,7 @@ void Mesh::CustomMark() {
 }
 
 int Mesh::Size() const {
-    int size = 0;
-    if (this->vertices)
-        size += this->vertices->MemorySize();
-    if (this->normals)
-        size += this->normals->MemorySize();
-    if (this->tangents)
-        size += this->tangents->MemorySize();
-    if (this->colors)
-        size += this->colors->MemorySize();
-    if (this->uv0s)
-        size += this->uv0s->MemorySize();
-    if (this->uv1s)
-        size += this->uv1s->MemorySize();
-    if (this->uv2s)
-        size += this->uv2s->MemorySize();
-    return size;
+    return this->memorySize;
 }
 
 void Mesh::Cache(std::string file) {
@@ -92,29 +79,39 @@ void Mesh::LoadMesh(const std::string& file) {
             return false;
         });
     }
+    this->indices = new Vector<unsigned int>();
+    this->vertices = new Vector<float>();
+    this->normals = new Vector<float>();
+    this->tangents = new Vector<float>();
+    this->colors = new Vector<float>();
+    this->uv0s = new Vector<float>();
+    this->uv1s= new Vector<float>();
+    this->uv2s= new Vector<float>();
+
     meshes->IteratorWithout([this](aiMesh* am) {
+        for(unsigned int x = 0; x < am->mNumFaces; x++) {
+            auto face = am->mFaces[x];
+            for (unsigned int y = 0; y < face.mNumIndices; y++)
+                this->indices->Add(face.mIndices[y]);
+        }
         for (int index = 0; index < am->mNumVertices; ++index) {
-            this->vertices = new Vector<float>();
             this->vertices->Add(am->mVertices[index].x);
             this->vertices->Add(am->mVertices[index].y);
             this->vertices->Add(am->mVertices[index].z);
 
             if (am->HasNormals()) {
-                this->normals = new Vector<float>();
                 this->normals->Add(am->mNormals[index].x);
                 this->normals->Add(am->mNormals[index].y);
                 this->normals->Add(am->mNormals[index].z);
             }
 
             if (am->HasTangentsAndBitangents()) {
-                this->tangents = new Vector<float>();
                 this->tangents->Add(am->mTangents[index].x);
                 this->tangents->Add(am->mTangents[index].y);
                 this->tangents->Add(am->mTangents[index].z);
             }
 
             if (am->mColors[0]) {
-                this->colors = new Vector<float>();
                 this->colors->Add(am->mColors[0][index].r);
                 this->colors->Add(am->mColors[0][index].g);
                 this->colors->Add(am->mColors[0][index].b);
@@ -122,20 +119,37 @@ void Mesh::LoadMesh(const std::string& file) {
             }
 
             if (am->mTextureCoords[0]) {
-                this->uv0s = new Vector<float>();
                 this->uv0s->Add(am->mTextureCoords[0][index].x);
                 this->uv0s->Add(am->mTextureCoords[0][index].y);
             }
             if (am->mTextureCoords[1]) {
-                this->uv1s = new Vector<float>();
                 this->uv0s->Add(am->mTextureCoords[1][index].x);
                 this->uv0s->Add(am->mTextureCoords[1][index].y);
             }
             if (am->mTextureCoords[2]) {
-                this->uv2s = new Vector<float>();
                 this->uv0s->Add(am->mTextureCoords[2][index].x);
                 this->uv0s->Add(am->mTextureCoords[2][index].y);
             }
         }
     });
+    this->memorySize = 0;
+    this->memorySize += this->vertices->MemorySize();
+    this->memorySize += this->normals->MemorySize();
+    this->memorySize += this->tangents->MemorySize();
+    this->memorySize += this->colors->MemorySize();
+    this->memorySize += this->uv0s->MemorySize();
+    this->memorySize += this->uv1s->MemorySize();
+    this->memorySize += this->uv2s->MemorySize();
+    if (this->normals->Size() < 1)
+        this->normals = nullptr;
+    if (this->tangents->Size() < 1)
+        this->tangents = nullptr;
+    if (this->colors->Size() < 1)
+        this->colors = nullptr;
+    if (this->uv0s->Size() < 1)
+        this->uv0s = nullptr;
+    if (this->uv1s->Size() < 1)
+        this->uv1s = nullptr;
+    if (this->uv2s->Size() < 1)
+        this->uv2s = nullptr;
 }
