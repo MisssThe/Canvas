@@ -16,7 +16,6 @@ class AssetManager final : public CustomPtr
 {
 private:
     Map<std::string, Asset *> *assetMap = nullptr;
-    Map<std::string, std::string> *assetCacheMap = nullptr;
 public:
     AssetManager();
     void RefreshCache(const std::string& directory = "Canvas/Assets");
@@ -24,11 +23,12 @@ protected:
     ~AssetManager() override;
 public:
     template<class T> T *Create(std::string path) {
-        if (IO::Exist(path)) {
+        T* temp = this->Instance<T>(path);
+        if (temp != nullptr) {
             Debug::Warn("Asset Create","The Asset Existed [" + path + "]");
-            return this->Instance<T>(path);
+            return temp;
         }
-        T* temp = new T();
+        temp = new T();
         temp->name = IO::PathToName(path);
         temp->path = path;
         this->assetMap->Insert(path, temp);

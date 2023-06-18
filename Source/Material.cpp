@@ -34,7 +34,7 @@ void Material::Write(cereal::BinaryOutputArchive &archive) {
 }
 
 Material::Material() {
-    this->shader = Static::S_AssetManager()->Instance<Shader>("Canvas/Graphic/ShaderCache/Texture/texture.shader");
+    this->shader = Static::S_AssetManager()->Instance<Shader>("Canvas/Caches/Shader/Canvas_Assets_Shader_Texture_texture.Shader");
     this->textureQueue = new Queue<Texture*>();
     this->floatQueue = new Queue<float>();
 }

@@ -27,5 +27,5 @@ void Shader::Cache(std::string file) {
     String::ReplaceLast(fragShaderPath, extension, "frag");
     //收集shader info
     IO::ReadInfo(vertShaderPath, this->vertexShaderCode);
-    IO::ReadInfo(vertShaderPath, this->fragmentShaderCode);
+    IO::ReadInfo(fragShaderPath, this->fragmentShaderCode);
 }

@@ -65,7 +65,7 @@ void Graphic::SetGraphicData() {
         this->data->renderers->Push(renderer);
     });
     int sum = editorRenderers->Size() + activeRenderers->Size();
-    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], Invalid Renderer Count Is [" + std::to_string(sum) + "]");
+    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], All Renderer Count Is [" + std::to_string(sum) + "]");
     //填充摄像机信息
 
 }

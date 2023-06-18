@@ -26,15 +26,8 @@ Canvas::Canvas() {
 }
 
 void Canvas::Invoke() {
-//    Static::S_SceneManager()->Active()->ClearEntity();
-//    Renderer* renderer = reinterpret_cast<Renderer *>((new Entity())->AddComponent("Renderer"));
-//    renderer->mesh = Static::S_AssetManager()->Create<Mesh>("Canvas/Assets/Mesh/test.mesh");
-//    renderer->material = Static::S_AssetManager()->Create<Material>("Canvas/Assets/Material/test.material");
-//    renderer->material->shader = Static::S_AssetManager()->Create<Shader>("Canvas/Graphic/ShaderCache/Texture/texture.shader");
-//    renderer->material->shader->vertexShaderPath = "Canvas/Graphic/ShaderCache/Texture/texture.vert";
-//    renderer->material->shader->fragmentShaderPath = "Canvas/Graphic/ShaderCache/Texture/texture.frag";
     while (Canvas::S_exist) {
-        //Canvas中提供线程操作以提高性能
+        //Canvas中提供线程操作以提高性能`
         if (Canvas::S_notPause) {
             Static::S_Components()->Invoke();
         }

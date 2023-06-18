@@ -46,7 +46,7 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     Shader* shaderKey = material->shader;
     if (shaderKey == nullptr)
         shaderKey = nullptr;
-    if (!this->shaders->Contain(nullptr)) {
+    if (!this->shaders->Contain(shaderKey)) {
         this->shaders->Insert(shaderKey, new OpenGLShader(shaderKey));
     }
     OpenGLShader* openGlShader = this->shaders->Get(shaderKey);
@@ -58,20 +58,15 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     openGlMesh->Bind();
     //获取并设置属性
     //绑定贴图
-    int textureIndex = 0;
-    if (material->textureQueue->Size() < 1) {
-        Texture* t = Static::S_AssetManager()->Create<Texture>("");
-        t->texturePath = "Canvas/Assets/Texture/test.png";
-        material->textureQueue->Push(t);
-    }
-    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
-        if (!this->textures->Contain(texture))
-            this->textures->Insert(texture, new OpenGLTexture(texture));
-        OpenGLTexture* openGlTexture = this->textures->Get(texture);
-        openGlTexture->Bind(textureIndex++);
-    });
+//    int textureIndex = 0;
+//    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
+//        if (!this->textures->Contain(texture))
+//            this->textures->Insert(texture, new OpenGLTexture(texture));
+//        OpenGLTexture* openGlTexture = this->textures->Get(texture);
+//        openGlTexture->Bind(textureIndex++);
+//    });
     //设置浮点属性
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, openGlMesh->Count(), GL_UNSIGNED_INT, 0);
 }
 
 void OpenGLGraphicCore::DrawRenderers() {

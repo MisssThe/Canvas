@@ -36,7 +36,7 @@ unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& code
     glGetShaderiv(shaderSource, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shaderSource, 512, nullptr, infoLog);
-        Debug::Error("Compile Shader Source", infoLog);
+        Debug::Warn("Compile Shader Source", infoLog);
     }
     glAttachShader(this->program, shaderSource);
     return shaderSource;
@@ -53,7 +53,7 @@ void OpenGLShader::CompileShader(Shader* shader) {
     glGetProgramiv(this->program, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(this->program, 512, nullptr, infoLog);
-        Debug::Error("Compile Shader Source", infoLog);
+        Debug::Warn("Compile Shader Source", infoLog);
     }
     shaderSource->IteratorWithout([](unsigned int shaderSource) {
         glDeleteShader(shaderSource);

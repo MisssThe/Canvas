@@ -4,6 +4,7 @@
 
 #include <glad/glad.h>
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLMesh.h"
+#include "../Include/General/Debug.h"
 
 void OpenGLMesh::CustomMark() {
 
@@ -25,6 +26,7 @@ bool OpenGLMesh::CompileMesh(Mesh *mesh) {
     glGenBuffers(1, &ebo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->indices->MemorySize(), mesh->indices->Begin(), GL_STATIC_DRAW);
+    this->count = mesh->indices->Size();
 
     glGenBuffers(1, &vbo);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -47,6 +49,7 @@ bool OpenGLMesh::CompileMesh(Mesh *mesh) {
     if (offset < 1) {
         glDeleteVertexArrays(1, &this->vao);
         this->vao = 0;
+        Debug::Warn("OpenGL Mesh Compile", "Compile Failed [" + mesh->path + "]");
         return false;
     }
     return true;
@@ -66,4 +69,8 @@ int OpenGLMesh::SubVertexBuffer(long long int offset, Vector<float> *buffer, int
     glVertexAttribPointer(index, stride, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void *) offset);
     glEnableVertexAttribArray(index);
     return size;
+}
+
+int OpenGLMesh::Count() const {
+    return this->count;
 }
