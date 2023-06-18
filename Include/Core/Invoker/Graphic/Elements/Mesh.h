@@ -17,7 +17,11 @@ protected:
     void CustomMark() override;
     ~Mesh() override = default;
 public:
-    int Size();
+    void Cache(std::string file) override;
+    int Size() const;
+private:
+    void LoadMesh(const std::string& file);
+    void LoadMeshNode();
 public:
     Vector<unsigned int>* indices;
     Vector<float>* vertices;
