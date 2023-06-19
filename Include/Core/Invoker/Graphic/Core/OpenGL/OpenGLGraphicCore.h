@@ -30,10 +30,10 @@ private:
 protected:
     ~OpenGLGraphicCore() override;
 private:
-    GLFWwindow *window;
-    Map<Shader*, OpenGLShader *> *shaders;
-    Map<Mesh*, OpenGLMesh *> *meshes;
-    Map<Texture*, OpenGLTexture *> *textures;
+    GLFWwindow *window = nullptr;
+    Map<Shader*, OpenGLShader *> *shaders = nullptr;
+    Map<Mesh*, OpenGLMesh *> *meshes = nullptr;
+    Map<Texture*, OpenGLTexture *> *textures = nullptr;
 };
 
 

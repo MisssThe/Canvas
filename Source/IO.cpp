@@ -67,12 +67,12 @@ void IO::GetChildrenFiles(const std::string& directory, Queue<std::string>* resu
     std::filesystem::path str(directory);
     std::filesystem::directory_entry entry(str);
     if (entry.status().type() != std::filesystem::file_type::directory) {
-        result->Push(entry.path());
+        result->Push(entry.path().string());
         return;
     }
     std::filesystem::directory_iterator children(str);
     for (auto &child: children) {
-        IO::GetChildrenFiles(child.path(), result);
+        IO::GetChildrenFiles(child.path().string(), result);
     }
 }
 
