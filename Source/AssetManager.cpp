@@ -73,7 +73,7 @@ void AssetManager::RefreshCache(const std::string& directory) {
     paths->IteratorWithout([this](std::string path) {
         //根据path生成cache
         std::string extension = IO::PathToExtension(path);
-        std::string type = Static::S_SettingManager()->GetAssetSetting()->assetCacheMap->Get(extension);
+        std::string type = Static::S_SettingManager()->GetAssetSetting()->assetCacheMap->At(extension);
         if (type.empty())
             return;
         std::string cache = path;

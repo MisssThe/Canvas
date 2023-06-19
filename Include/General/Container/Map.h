@@ -27,11 +27,16 @@ public:
             this->Insert(init.first, init.second);
         }
     }
+    //string无法使用建议使用下面At
     Value Get(Key& key) {
         auto temp = this->map.find(key);
         if (temp == this->map.end())
             return nullptr;
         return temp->second;
+    }
+    //数据不存在时返回空
+    Value At(Key& key) {
+        return this->map[key];
     }
     void Insert(Key key, Value value) {
         this->map.insert(std::pair<Key, Value>(key, value));

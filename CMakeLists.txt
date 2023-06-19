@@ -8,21 +8,22 @@ set(EXECUTABLE_OUTPUT_PATH ../CanvasOutput)
 
 IF (WIN32)
     set(GLFW_H ${PROJECT_SOURCE_DIR}/ThirdParty/glfw/3.3.8_Windows/include/)
+    set(ASSIMP_H ${PROJECT_SOURCE_DIR}/ThirdParty/assimp/5.2.5_Window/include)
 ELSEIF (APPLE)
     set(GLFW_H ${PROJECT_SOURCE_DIR}/ThirdParty/glfw/3.3.8_MacOS/include/)
+    set(ASSIMP_H ${PROJECT_SOURCE_DIR}/ThirdParty/assimp/5.2.5_MacOS/include)
 ENDIF()
 
 # 添加头文件
 set(GLAD_H ${PROJECT_SOURCE_DIR}/ThirdParty/glad/4.6/include/)
 set(CEREAL_H ${PROJECT_SOURCE_DIR}/ThirdParty/cereal/)
-set(ASSIMP_H ${PROJECT_SOURCE_DIR}/ThirdParty/assimp/5.2.5/include)
 set(STB_IMAGE_H ${PROJECT_SOURCE_DIR}/ThirdParty/stb_image)
 
 include_directories(${GLFW_H} ${GLAD_H} ${CEREAL_H} ${STB_IMAGE_H} ${ASSIMP_H})
 
 IF (APPLE)
     set(GLFW_LINK ${PROJECT_SOURCE_DIR}/ThirdParty/glfw/3.3.8_MacOS/lib/libglfw.3.dylib)
-    set(ASSIMP_LINK ${PROJECT_SOURCE_DIR}/ThirdParty/assimp/5.2.5/lib/libassimp.dylib)
+    set(ASSIMP_LINK ${PROJECT_SOURCE_DIR}/ThirdParty/assimp/5.2.5_MacOS/lib/libassimp.dylib)
     link_libraries(${OPENGL} ${GLFW_LINK} ${ASSIMP_LINK})
 ENDIF()
 

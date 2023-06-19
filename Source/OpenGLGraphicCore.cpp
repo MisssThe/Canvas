@@ -12,6 +12,7 @@
 #include <GLFW/glfw3.h>
 
 OpenGLGraphicCore::OpenGLGraphicCore() {
+    this->window = nullptr;
     this->InitWindow();
     this->shaders = new Map<Shader *, OpenGLShader *>();
     this->meshes = new Map<Mesh *, OpenGLMesh *>();
@@ -58,13 +59,13 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     openGlMesh->Bind();
     //获取并设置属性
     //绑定贴图
-//    int textureIndex = 0;
-//    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
-//        if (!this->textures->Contain(texture))
-//            this->textures->Insert(texture, new OpenGLTexture(texture));
-//        OpenGLTexture* openGlTexture = this->textures->Get(texture);
-//        openGlTexture->Bind(textureIndex++);
-//    });
+    int textureIndex = 0;
+    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
+        if (!this->textures->Contain(texture))
+            this->textures->Insert(texture, new OpenGLTexture(texture));
+        OpenGLTexture* openGlTexture = this->textures->Get(texture);
+        openGlTexture->Bind(textureIndex++);
+    });
     //设置浮点属性
     glDrawElements(GL_TRIANGLES, openGlMesh->Count(), GL_UNSIGNED_INT, 0);
 }
@@ -95,7 +96,7 @@ void OpenGLGraphicCore::InitWindow() {
         setting->width = mode->width;
         setting->height = mode->height;
     }
-    this->window = glfwCreateWindow(setting->width, setting->height, setting->name.c_str(), NULL, NULL);
+    this->window = glfwCreateWindow(setting->width, setting->height, setting->name.c_str(), nullptr, nullptr);
     if (window == nullptr)
     {
         glfwTerminate();

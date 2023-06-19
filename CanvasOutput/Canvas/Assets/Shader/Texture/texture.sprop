@@ -1,0 +1,6 @@
+{
+  "color": "vec4",
+  "mainTexture": "sampler2D",
+  "normalTexture": "sampler2D",
+  "maskTexture": "sampler2D"
+}
