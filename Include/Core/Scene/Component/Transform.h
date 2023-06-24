@@ -16,6 +16,9 @@ public:
     void OnDestroy() override;
 public:
     std::string_view Type() override;
+    Queue<std::string_view>* RequireComponent() override;
+protected:
+    ~Transform() override = default;
 protected:
     void CustomMark() override;
 protected:

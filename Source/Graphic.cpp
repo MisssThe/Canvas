@@ -10,7 +10,7 @@
 //#include "../Include/Canvas.h"
 //#include "../Include/Core/Invoker/Graphic/Feature/GraphicFeatures.h"
 #include "../Include/Core/Framework/Static.h"
-#include "../Include/Core/Invoker/Graphic/Renderer.h"
+#include "../Include/Core/Scene/Component/Renderer.h"
 
 void Graphic::Invoke() {
     this->SetGraphicData();

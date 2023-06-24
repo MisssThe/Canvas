@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/5/28.
 //
 
-#include "../Include/Core/Scene/Entity/Transform.h"
+#include "../Include/Core/Scene/Component/Transform.h"
 #include "../Include/General/Tool/Debug.h"
 
 void Transform::OnInitial() {
@@ -39,4 +39,8 @@ void Transform::ComponentRead(cereal::BinaryInputArchive &archive) {
 
 void Transform::ComponentWrite(cereal::BinaryOutputArchive &archive) {
 
+}
+
+Queue<std::string_view>* Transform::RequireComponent() {
+    return nullptr;
 }

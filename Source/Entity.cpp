@@ -70,6 +70,15 @@ Entity::Entity(bool isRoot) {
 void Entity::AddComponent(Component *component) const {
     if (component == nullptr)
         return;
+    //查找实体上是否有对应组件
+    auto require = component->RequireComponent();
+    if (require != nullptr) {
+        if (!require->IteratorWithResult([this](std::string_view ct) {
+            return this->GetComponent(ct);
+        })) {
+            return;
+        }
+    }
     this->components->Push(component);
 }
 

@@ -8,6 +8,7 @@
 
 #include "../../Asset/Serialize.h"
 #include "../../../General/Container/Map.h"
+#include "../../../General/Container/Queue.h"
 
 class Component : public Serialize
 {
@@ -24,6 +25,7 @@ public:
     virtual void OnDestroy() = 0;
 public:
     virtual std::string_view Type() = 0;
+    virtual Queue<std::string_view>* RequireComponent() = 0;
     void Destroy();
 public:
     Component();

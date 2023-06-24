@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Canvas.h"
-#include "../Include/Core/Invoker/Graphic/Renderer.h"
+#include "../Include/Core/Scene/Component/Renderer.h"
 #include "../Include/Core/Framework/GarbageCollection.h"
 #include "../Include/Core/Asset/AssetManager.h"
 #include "../Include/Core/Scene/SceneManager.h"

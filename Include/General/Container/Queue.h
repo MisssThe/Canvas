@@ -24,6 +24,11 @@ public:
     Queue(Queue<T> const &temp) {
         this->queue = temp.queue;
     }
+    Queue(std::initializer_list<T> init) {
+        for (auto info : init) {
+            this->Push(info);
+        }
+    }
     Queue() = default;
 public:
     void Push(T temp) {

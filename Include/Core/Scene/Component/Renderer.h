@@ -5,9 +5,9 @@
 #ifndef CANVAS_1_0_RENDERER_H
 #define CANVAS_1_0_RENDERER_H
 
-#include "../Component/Component.h"
-#include "Elements/Mesh.h"
-#include "Elements/Material.h"
+#include "../../Invoker/Component/Component.h"
+#include "../../Invoker/Graphic/Elements/Mesh.h"
+#include "../../Invoker/Graphic/Elements/Material.h"
 
 class Renderer : public Component
 {
@@ -20,7 +20,9 @@ public:
     void OnInvoke() override;
     void OnDisable() override;
     void OnDestroy() override;
+public:
     std::string_view Type() override;
+    Queue<std::string_view> *RequireComponent() override;
 protected:
     void ComponentRead(cereal::BinaryInputArchive &archive) override;
     void ComponentWrite(cereal::BinaryOutputArchive &archive) override;

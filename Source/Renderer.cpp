@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/6/8.
 //
 
-#include "../Include/Core/Invoker/Graphic/Renderer.h"
+#include "../Include/Core/Scene/Component/Renderer.h"
 #include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Framework/Static.h"
 
@@ -49,4 +49,8 @@ void Renderer::ComponentWrite(cereal::BinaryOutputArchive &archive) {
     if (this->material != nullptr)
         materialPath = this->material->path;
     String::Write(archive, {meshPath, materialPath});
+}
+
+Queue<std::string_view> *Renderer::RequireComponent() {
+    return nullptr;
 }

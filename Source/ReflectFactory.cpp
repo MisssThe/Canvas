@@ -3,8 +3,9 @@
 //
 
 #include "../Include/Core/Framework/ReflectFactory.h"
-#include "../Include/Core/Scene/Entity/Transform.h"
-#include "../Include/Core/Invoker/Graphic/Renderer.h"
+#include "../Include/Core/Scene/Component/Transform.h"
+#include "../Include/Core/Scene/Component/Renderer.h"
+#include "../Include/Core/Scene/Component/Camera.h"
 
 Map<std::string_view,std::function<CustomPtr*()>> ReflectFactory::S_instances;
 
@@ -30,4 +31,5 @@ void ReflectFactory::S_Initial() {
     RegisterFactory(Texture);
     RegisterFactory(Shader);
     RegisterFactory(Mesh);
+    RegisterFactory(Camera);
 }
