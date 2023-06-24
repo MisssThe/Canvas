@@ -4,7 +4,7 @@
 
 #include <glad/glad.h>
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLShader.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 
 void OpenGLShader::CustomMark() {
 
@@ -24,7 +24,7 @@ void OpenGLShader::Bind() const {
 unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& code) const {
     unsigned int shaderSource = glCreateShader(type);
     if (code.empty()) {
-        Debug::Error("Compile Shader Source", "Empty Shader Source [" + code + "]");
+        Debug::Error("Compile Shader Source", {"Empty Shader Source [", code, "]"});
         return -1;
     }
     const char* source = code.c_str();
@@ -36,7 +36,7 @@ unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& code
     glGetShaderiv(shaderSource, GL_COMPILE_STATUS, &success);
     if (!success) {
         glGetShaderInfoLog(shaderSource, 512, nullptr, infoLog);
-        Debug::Warn("Compile Shader Source", infoLog);
+        Debug::Warn("Compile Shader Source", {infoLog});
     }
     glAttachShader(this->program, shaderSource);
     return shaderSource;
@@ -45,15 +45,15 @@ unsigned int OpenGLShader::CompileShaderSource(int type, const std::string& code
 void OpenGLShader::CompileShader(Shader* shader) {
     auto* shaderSource = new Queue<unsigned int>();
     this->program = glCreateProgram();
-    shaderSource->Push(this->CompileShaderSource(GL_VERTEX_SHADER, shader->vertexShaderCode));
-    shaderSource->Push(this->CompileShaderSource(GL_FRAGMENT_SHADER, shader->fragmentShaderCode));
+    shaderSource->Push(this->CompileShaderSource(GL_VERTEX_SHADER, shader->vertexShaderCode.data()));
+    shaderSource->Push(this->CompileShaderSource(GL_FRAGMENT_SHADER, shader->fragmentShaderCode.data()));
     glLinkProgram(this->program);
     int success;
     char infoLog[512];
     glGetProgramiv(this->program, GL_LINK_STATUS, &success);
     if (!success) {
         glGetProgramInfoLog(this->program, 512, nullptr, infoLog);
-        Debug::Warn("Compile Shader Source", infoLog);
+        Debug::Warn("Compile Shader Source", {infoLog});
     }
     shaderSource->IteratorWithout([](unsigned int shaderSource) {
         glDeleteShader(shaderSource);

@@ -1,7 +1,5 @@
 #version 330
 
-out vec4 FragColor;
-
 SHADER_MATERIAL_PROPERTY material;
 
 struct VertexOutput
@@ -11,6 +9,7 @@ struct VertexOutput
 };
 
 in VertexOutput vo;
+out vec4 FragColor;
 
 void main()
 {

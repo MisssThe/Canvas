@@ -8,33 +8,32 @@
 #include <fstream>
 #include "Serialize.h"
 #include "../../General/Container/Map.h"
-#include "../../General/IO.h"
-#include "../../General/Debug.h"
+#include "../../General/Tool/IO.h"
+#include "../../General/Tool/Debug.h"
 #include "Asset.h"
+#include "../../General/Tool/String.h"
 
 class AssetManager final : public CustomPtr
 {
 private:
-    Map<std::string, Asset *> *assetMap = nullptr;
+    Map<std::string_view, Asset *> *assetMap = nullptr;
 public:
     AssetManager();
-    void RefreshCache(const std::string& directory = "Canvas/Assets");
+    void RefreshCache(const std::string_view& directory = "Canvas/Assets");
 protected:
     ~AssetManager() override;
 public:
-    template<class T> T *Create(std::string path) {
+    template<class T> T *Create(std::string_view path) {
         T* temp = this->Instance<T>(path);
         if (temp != nullptr) {
-            Debug::Warn("Asset Create","The Asset Existed [" + path + "]");
+            Debug::Warn("Asset Create", {"The Asset Existed [",path,"]"});
             return temp;
         }
         temp = new T();
-        temp->name = IO::PathToName(path);
-        temp->path = path;
-        this->assetMap->Insert(path, temp);
+        this->SetInfo(temp, path);
         return temp;
     }
-    template<class T> T *Instance(std::string path) {
+    template<class T> T *Instance(std::string_view path) {
         T *temp = dynamic_cast<T *>(this->assetMap->Get(path));
         if (temp != nullptr)
             return temp;
@@ -46,22 +45,21 @@ public:
                 archive(*temp);
             }
         } catch (...) {
-            Debug::Warn("Asset Instance", "The Asset Format Does Not Match [" + path + "]");
+            Debug::Warn("Asset Instance", {"The Asset Format Does Not Match [", path, "]"});
         }
         is.close();
         if (temp == nullptr)
             return temp;
-        temp->name = IO::PathToName(path);
-        temp->path = path;
-        this->assetMap->Insert(path, temp);
+        this->SetInfo(temp, path);
         return temp;
     }
     void Invoke();
     void Clear();
-    void Remove(std::string path);
+    void Remove(std::string_view path);
     void Remove(Asset *asset);
 private:
     void Update(Asset *asset);
+    void SetInfo(Asset* asset, std::string_view& path);
 protected:
     void CustomMark() override;
 };

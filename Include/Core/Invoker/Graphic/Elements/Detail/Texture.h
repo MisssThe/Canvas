@@ -10,14 +10,14 @@
 
 class Texture : public Asset {
 public:
-    std::string texturePath;
+    std::string_view texturePath;
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
     ~Texture() override = default;
 public:
-    void Cache(std::string file) override;
+    void Cache(std::string_view file) override;
 };
 
 

@@ -18,10 +18,10 @@ public:
     GraphicType graphicType;
     bool isSync;
     int width,height;
-    std::string windowName;
+    std::string_view windowName;
     bool useBoard;
     bool useTransparent;
-    std::string featurePath;
+    std::string_view featurePath;
 public:
     GraphicSetting();
 protected:

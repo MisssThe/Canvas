@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Core/Scene/Scene.h"
-#include "../Include/General/String.h"
+#include "../Include/General/Tool/String.h"
 #include "../Include/Core/Asset/AssetManager.h"
 #include "../Include/Core/Framework/Static.h"
 
@@ -23,7 +23,7 @@ void Scene::CustomMark() {
 //}
 
 void Scene::Load() {
-    std::string infoPath = this->path;
+    std::string_view infoPath = this->path;
     String::ReplaceAll(infoPath, ".scene", "_info.scene_info");
     this->info = Static::S_AssetManager()->Create<SceneInfo>(infoPath);
 }

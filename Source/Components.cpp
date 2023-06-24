@@ -2,12 +2,12 @@
 // Created by MisThe on 2023/5/28.
 //
 
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Invoker/Component/Components.h"
 #include "../Include/Core/Invoker/Component/Component.h"
 
 void Components::Invoke() {
-    Debug::Info("Scene Invoker", "Start Invoker");
+    Debug::Info("Scene Invoker", {"Start Invoker"});
     //initial queue
     this->initial->IteratorWithRemove([this](Component *component) -> bool {
         component->OnInitial();

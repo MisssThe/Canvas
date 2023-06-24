@@ -15,10 +15,10 @@ class ReflectFactory final
 {
 public:
     static void S_Initial();
-    static CustomPtr* S_Instance(std::string type);
-    static bool S_Register(std::string type, std::function<CustomPtr*()> func);
+    static CustomPtr* S_Instance(std::string_view type);
+    static bool S_Register(std::string_view type, std::function<CustomPtr*()> func);
 private:
-    static Map<std::string,std::function<CustomPtr*()>> S_instances;
+    static Map<std::string_view,std::function<CustomPtr*()>> S_instances;
 };
 
 #endif //CANVAS_1_0_REFLECTFACTORY_H

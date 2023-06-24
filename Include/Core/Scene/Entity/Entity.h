@@ -19,21 +19,21 @@ protected:
 public:
     void SetParent(Entity *entity);
     void Iterator(std::function<void(Entity* entity)> func);
-    void SetActive(bool active);
-    bool IsActive();
+    void SetActive(bool flag);
+    bool IsActive() const;
     void AddComponent(Component* component) const;
-    Component* AddComponent(std::string type) const;
-    Component* GetComponent(std::string type);
-    Queue<Component*>* GetComponentsInChildren(std::string type, bool all = true);
-    void GetComponentsInChildren(std::string type, Queue<Component*>* result, bool all = true);
+    Component* AddComponent(std::string_view type) const;
+    Component* GetComponent(std::string_view type) const;
+    Queue<Component*>* GetComponentsInChildren(std::string_view type, bool all = true) const;
+    void GetComponentsInChildren(std::string_view type, Queue<Component*>* result, bool all = true) const;
     void Destroy();
 public:
-    std::string name;
+    std::string_view name;
     Queue<Component*>* components;
     Queue<Entity*>* children;
     Entity* parent;
 private:
-    bool active;
+    bool active{};
 };
 
 #endif //CANVAS_1_0_ENTITY_H

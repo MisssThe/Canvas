@@ -11,10 +11,10 @@
 
 class CustomJson : public CustomPtr {
 public:
-    explicit CustomJson(const std::string& path);
-    void Iterator(const std::function<void(std::string&,Json::Value&)>& call);
+    explicit CustomJson(const std::string_view & path);
+    void Iterator(const std::function<void(std::string_view &,Json::Value&)>& call);
 private:
-    void PrivateIterator(const std::function<void(std::string&, Json::Value&)>& call, const Json::Value& value);
+    void PrivateIterator(const std::function<void(std::string_view &, Json::Value&)>& call, const Json::Value& value);
 protected:
     void CustomMark() override;
     ~CustomJson() override = default;

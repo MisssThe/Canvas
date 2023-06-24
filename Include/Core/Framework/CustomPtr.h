@@ -29,7 +29,7 @@ public:
     }
     static void S_Mark(CustomPtr* ptr);
     static void S_Mark(...);
-    static void S_Mark(std::string str);
+//    static void S_Mark(std::string str);
     static void S_Mark(std::function<void()> call);
 protected:
     virtual void CustomMark() = 0;

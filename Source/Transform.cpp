@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Core/Scene/Entity/Transform.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 
 void Transform::OnInitial() {
 
@@ -25,7 +25,7 @@ void Transform::OnDestroy() {
 
 }
 
-std::string Transform::Type() {
+std::string_view Transform::Type() {
     return "Transform";
 }
 

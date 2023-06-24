@@ -10,7 +10,7 @@ void SceneManager::CustomMark() {
 }
 
 SceneManager::SceneManager() {
-    this->scenes = new Queue<std::string>();
+    this->scenes = new Queue<std::string_view>();
     //加载editor场景
     SceneSetting* setting = Static::S_SettingManager()->GetSceneSetting();
     this->editorScene = this->Load(setting->editorScenePath);
@@ -18,11 +18,11 @@ SceneManager::SceneManager() {
     this->activeScene = this->Load(setting->activeScenePath);
 }
 
-Scene *SceneManager::Load(std::string path, bool single) {
+Scene *SceneManager::Load(std::string_view path, bool single) {
     Scene* scene = Static::S_AssetManager()->Create<Scene>(path);
     if (single)
     {
-        this->scenes->IteratorWithRemove([this](std::string path) {
+        this->scenes->IteratorWithRemove([this](std::string_view path) {
             this->OnlyUnload(path);
             return false;
         });
@@ -31,7 +31,7 @@ Scene *SceneManager::Load(std::string path, bool single) {
     return scene;
 }
 
-void SceneManager::Unload(std::string path) {
+void SceneManager::Unload(std::string_view path) {
     if (path.empty())
         return;
     if (this->scenes == nullptr)
@@ -48,7 +48,7 @@ void SceneManager::Unload(Scene *scene) {
     this->Unload(scene->path);
 }
 
-void SceneManager::OnlyUnload(std::string path) {
+void SceneManager::OnlyUnload(std::string_view path) {
     Scene* scene = Static::S_AssetManager()->Instance<Scene>(path);
     if (scene == nullptr)
         return;

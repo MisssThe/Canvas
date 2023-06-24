@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLGraphicCore.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Setting/SettingManager.h"
 #include "../Include/Canvas.h"
 #include "../Include/Core/Framework/Static.h"
@@ -96,17 +96,17 @@ void OpenGLGraphicCore::InitWindow() {
         setting->width = mode->width;
         setting->height = mode->height;
     }
-    this->window = glfwCreateWindow(setting->width, setting->height, setting->name.c_str(), nullptr, nullptr);
+    this->window = glfwCreateWindow(setting->width, setting->height, setting->name.data(), nullptr, nullptr);
     if (window == nullptr)
     {
         glfwTerminate();
-        Debug::Error("Init OpenGL Graphic Core","Create Window Failed");
+        Debug::Error("Init OpenGL Graphic Core", {"Create Window Failed"});
     }
     glfwMakeContextCurrent(window);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        Debug::Error("Init OpenGL Graphic Core","Init OpenGL Failed");
+        Debug::Error("Init OpenGL Graphic Core", {"Init OpenGL Failed"});
     }
     glfwSwapInterval(setting->isSync);
 }

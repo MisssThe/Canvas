@@ -4,17 +4,23 @@
 
 #include "../Include/Core/Setting/AssetSetting.h"
 #include "../Include/General/Container/ContainSerialize/MapSerialize.h"
+#include "../Include/General/Tool/String.h"
 
 void AssetSetting::Read(cereal::BinaryInputArchive &archive) {
-    std::function<void(std::string&,std::string&)> func = [&archive](std::string& extension,std::string& type) {
-        archive(extension, type);
+    this->assetCacheMap->Clear();
+    std::function<void(std::string_view &, std::string_view &)> func = [&archive](std::string_view &extension,
+                                                                                  std::string_view &type) {
+        auto result = String::Read(archive, 2);
+        extension = result->Pop();
+        type = result->Pop();
     };
     MapSerialize::Read(archive, this->assetCacheMap, func);
 }
 
 void AssetSetting::Write(cereal::BinaryOutputArchive &archive) {
-    std::function<void(std::string&,std::string&)> func = [&archive](std::string& extension,std::string& type) {
-        archive(extension, type);
+    std::function<void(std::string_view &, std::string_view &)> func = [&archive](std::string_view &extension,
+                                                                                  std::string_view &type) {
+        String::Write(archive, {extension, type});
     };
     MapSerialize::Write(archive, this->assetCacheMap, func);
 }
@@ -24,5 +30,5 @@ void AssetSetting::CustomMark() {
 }
 
 AssetSetting::AssetSetting() {
-    this->assetCacheMap = new Map<std::string, std::string>();
+    this->assetCacheMap = new Map<std::string_view , std::string_view>("");
 }

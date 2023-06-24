@@ -4,8 +4,9 @@
 
 #include "../Include/Core/Invoker/Graphic/Elements/Mesh.h"
 #include "../Include/General/Container/ContainSerialize/VectorSerialize.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/General/Container/Queue.h"
+#include "../Include/General/Tool/String.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -49,23 +50,23 @@ int Mesh::Size() const {
     return this->memorySize;
 }
 
-void Mesh::Cache(std::string file) {
+void Mesh::Cache(std::string_view file) {
     //用Assimp加载mesh
     this->LoadMesh(file);
 }
 
-void Mesh::LoadMesh(const std::string& file) {
+void Mesh::LoadMesh(const std::string_view& file) {
     //import 会将scene node mesh等一同析构掉
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(file, aiProcess_Triangulate);
-    if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
+    const aiScene *scene = importer.ReadFile(file.data(), aiProcess_Triangulate);
+    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
     {
-        Debug::Warn("Mesh Load","Mesh Load Failed [" + path + "]");
+        Debug::Warn("Mesh Load", {"Mesh Load Failed [", path, "]"});
         return;
     }
 
-    auto meshes = new Queue<aiMesh*>();
-    auto nodes = new Queue<aiNode*>();
+    auto meshes = new Queue<aiMesh *>();
+    auto nodes = new Queue<aiNode *>();
     nodes->Push(scene->mRootNode);
 
     while (nodes->Size() > 0) {
@@ -85,11 +86,11 @@ void Mesh::LoadMesh(const std::string& file) {
     this->tangents = new Vector<float>();
     this->colors = new Vector<float>();
     this->uv0s = new Vector<float>();
-    this->uv1s= new Vector<float>();
-    this->uv2s= new Vector<float>();
+    this->uv1s = new Vector<float>();
+    this->uv2s = new Vector<float>();
 
-    meshes->IteratorWithout([this](aiMesh* am) {
-        for(unsigned int x = 0; x < am->mNumFaces; x++) {
+    meshes->IteratorWithout([this](aiMesh *am) {
+        for (unsigned int x = 0; x < am->mNumFaces; x++) {
             auto face = am->mFaces[x];
             for (unsigned int y = 0; y < face.mNumIndices; y++)
                 this->indices->Add(face.mIndices[y]);

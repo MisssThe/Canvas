@@ -6,15 +6,15 @@
 #include "../Include/Core/Scene/Entity/Transform.h"
 #include "../Include/Core/Invoker/Graphic/Renderer.h"
 
-Map<std::string,std::function<CustomPtr*()>> ReflectFactory::S_instances;
+Map<std::string_view,std::function<CustomPtr*()>> ReflectFactory::S_instances;
 
-CustomPtr *ReflectFactory::S_Instance(std::string type) {
+CustomPtr *ReflectFactory::S_Instance(std::string_view type) {
     if (!ReflectFactory::S_instances.Contain(type))
         return nullptr;
     return ReflectFactory::S_instances.Get(type)();
 }
 
-bool ReflectFactory::S_Register(std::string type, std::function<CustomPtr*()> func) {
+bool ReflectFactory::S_Register(std::string_view type, std::function<CustomPtr*()> func) {
     if (ReflectFactory::S_instances.Contain(type))
         return false;
     ReflectFactory::S_instances.Insert(type, func);

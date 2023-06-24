@@ -4,7 +4,8 @@
 
 #include <glad/glad.h>
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLMesh.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
+#include "../Include/General/Tool/String.h"
 
 void OpenGLMesh::CustomMark() {
 
@@ -49,7 +50,7 @@ bool OpenGLMesh::CompileMesh(Mesh *mesh) {
     if (offset < 1) {
         glDeleteVertexArrays(1, &this->vao);
         this->vao = 0;
-        Debug::Warn("OpenGL Mesh Compile", "Compile Failed [" + mesh->path + "]");
+        Debug::Warn("OpenGL Mesh Compile", {"Compile Failed [", mesh->path, "]"});
         return false;
     }
     return true;

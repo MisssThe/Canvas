@@ -1,7 +1,13 @@
 #include "Include/Canvas.h"
 
-int main() {
+//Start函数执行完后可以完全卸载掉内存
+void Start()
+{
     Canvas canvas;
     canvas.Invoke();
+}
+
+int main() {
+    Start();
     return 0;
 }

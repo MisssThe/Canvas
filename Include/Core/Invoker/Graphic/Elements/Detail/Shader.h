@@ -13,27 +13,26 @@
 class Shader : public Asset {
 public:
     enum ShaderInfoType {
-        Float, Bool,
-        Vec, Vec2, Vec3, Vec4,
-        Matrix2x2, Matrix3x3, Matrix4x4,
-        Texture2D, Texture3D, TextureCube
+        Float, Vector, Texture
     };
     struct ShaderInfo {
-        const char* name;
+        std::string_view name;
         ShaderInfoType type;
     };
-    void Cache(std::string file) override;
 public:
-//    Queue<ShaderInfo> property;
-    std::string vertexShaderCode;
-    std::string fragmentShaderCode;
+    void Cache(std::string_view file) override;
+    Shader();
+public:
+    Queue<ShaderInfo>* shaderInfo;
+    std::string_view vertexShaderCode;
+    std::string_view fragmentShaderCode;
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;
     void CustomMark() override;
     ~Shader() override = default;
 private:
-    void CompressShaderProperty(std::string& propertyPath);
+    void CompressShaderProperty(std::string_view & propertyPath);
 };
 
 

@@ -10,8 +10,8 @@
 class SceneSetting : public Asset
 {
 public:
-    std::string editorScenePath;
-    std::string activeScenePath;
+    std::string_view editorScenePath;
+    std::string_view activeScenePath;
 public:
     SceneSetting();
 protected:

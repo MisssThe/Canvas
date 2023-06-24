@@ -3,14 +3,14 @@
 //
 
 #include "../Include/Core/Setting/SceneSetting.h"
-#include "cereal/types/string.hpp"
+#include "../Include/General/Tool/String.h"
 
 void SceneSetting::Read(cereal::BinaryInputArchive &archive) {
-    archive(this->editorScenePath);
+    this->editorScenePath = String::Read(archive, 1)->Pop();
 }
 
 void SceneSetting::Write(cereal::BinaryOutputArchive &archive) {
-    archive(this->editorScenePath);
+    String::Write(archive, {this->editorScenePath});
 }
 
 void SceneSetting::CustomMark() {

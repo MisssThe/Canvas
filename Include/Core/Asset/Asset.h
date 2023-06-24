@@ -9,10 +9,10 @@
 
 class Asset : public Serialize {
 public:
-    std::string name;
-    std::string path;
+    std::string_view name;
+    std::string_view path;
 public:
-    virtual void Cache(std::string file) {};
+    virtual void Cache(std::string_view file) {};
 };
 
 

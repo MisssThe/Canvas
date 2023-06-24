@@ -13,6 +13,7 @@ template<class Key, class Value> class Map : public CustomPtr
 {
 private:
     std::unordered_map<Key, Value> map;
+    Value empty;
 protected:
     void CustomMark() override {
         this->Iterator([](Key k, Value v) {
@@ -21,22 +22,30 @@ protected:
         });
     }
 public:
-    Map() = default;
+    Map(Value defaultEmpty = nullptr)
+    {
+        this->empty = defaultEmpty;
+    }
     Map(std::initializer_list<std::pair<Key, Value>> list) {
-        for (auto init : list) {
-            this->Insert(init.first, init.second);
-        }
+        this->Insert(list);
     }
     //string无法使用建议使用下面At
     Value Get(Key& key) {
         auto temp = this->map.find(key);
         if (temp == this->map.end())
-            return nullptr;
+            return this->empty;
         return temp->second;
     }
-    //数据不存在时返回空
-    Value At(Key& key) {
-        return this->map[key];
+    bool Set(Key& key, Value& value) {
+        if (!this->Contain(key))
+            return false;
+        this->map[key] = value;
+        return true;
+    }
+    void Insert(std::initializer_list<std::pair<Key, Value>> list) {
+        for (auto init : list) {
+            this->Insert(init.first, init.second);
+        }
     }
     void Insert(Key key, Value value) {
         this->map.insert(std::pair<Key, Value>(key, value));

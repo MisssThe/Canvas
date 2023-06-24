@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Core/Framework/GarbageCollection.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 
 Queue<CustomPtr*>* GarbageCollection::S_ptrQueue;
 Queue<CustomPtr*>* GarbageCollection::S_rootQueue;
@@ -34,10 +34,11 @@ void GarbageCollection::S_Invoke() {
 
     if (GarbageCollection::S_rootQueue == nullptr || GarbageCollection::S_ptrQueue == nullptr)
         return;
-    Debug::Info("Garbage Collection", "Start Collection [" + std::to_string(GarbageCollection::S_rootQueue->Size()) + "]");
+    Debug::Info("Garbage Collection",
+                {"Start Collection [", std::to_string(GarbageCollection::S_rootQueue->Size()), "]"});
     //遍历root节点判断是否需要mark
-    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr* ptr) {
-       CustomPtr::S_Mark(ptr);
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr *ptr) {
+        CustomPtr::S_Mark(ptr);
         ptr->isMark = true;
     });
     int max = GarbageCollection::S_ptrQueue->Size();
@@ -52,10 +53,10 @@ void GarbageCollection::S_Invoke() {
             return false;
         }
     });
-    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr* ptr) {
+    GarbageCollection::S_rootQueue->IteratorWithout([](CustomPtr *ptr) {
         ptr->isMark = false;
     });
-    Debug::Info("Garbage Collection", "Collection Finish [" + std::to_string(dropCount) + "/" + std::to_string(max) + "]");
+    Debug::Info("Garbage Collection",{"Collection Finish [", std::to_string(dropCount), "/", std::to_string(max), "]"});
 }
 
 void GarbageCollection::S_Register(CustomPtr *ptr) {

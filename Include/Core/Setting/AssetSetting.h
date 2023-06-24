@@ -17,7 +17,7 @@ protected:
 public:
     AssetSetting();
 public:
-    Map<std::string, std::string>* assetCacheMap = nullptr;
+    Map<std::string_view , std::string_view>* assetCacheMap = nullptr;
 };
 
 

@@ -20,7 +20,7 @@ public:
     void OnInvoke() override;
     void OnDisable() override;
     void OnDestroy() override;
-    std::string Type() override;
+    std::string_view Type() override;
 protected:
     void ComponentRead(cereal::BinaryInputArchive &archive) override;
     void ComponentWrite(cereal::BinaryOutputArchive &archive) override;

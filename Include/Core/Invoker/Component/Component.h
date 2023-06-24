@@ -23,7 +23,7 @@ public:
     virtual void OnDisable() = 0;
     virtual void OnDestroy() = 0;
 public:
-    virtual std::string Type() = 0;
+    virtual std::string_view Type() = 0;
     void Destroy();
 public:
     Component();

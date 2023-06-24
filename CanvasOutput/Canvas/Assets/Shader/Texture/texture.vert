@@ -20,6 +20,5 @@ out VertexOutput vo;
 void main()
 {
     vo.color = color;
-    vo.uv0 = vec2(1,1);
     gl_Position = vec4(position.xyz, 1.0);
 }

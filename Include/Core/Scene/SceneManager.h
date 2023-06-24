@@ -19,13 +19,13 @@ public:
     Scene* Editor();
     Scene* Active();
 //    static void S_Config(SceneManagerConfig config);
-    Scene* Load(std::string path, bool single = true);
-    void Unload(std::string path);
+    Scene* Load(std::string_view path, bool single = true);
+    void Unload(std::string_view path);
     void Unload(Scene* scene);
 private:
-    Queue<std::string>* scenes;
+    Queue<std::string_view>* scenes;
 private:
-    void OnlyUnload(std::string path);
+    void OnlyUnload(std::string_view path);
 private:
     Scene* editorScene;
     Scene* activeScene;

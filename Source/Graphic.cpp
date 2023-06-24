@@ -2,7 +2,7 @@
 // Created by MisThe on 2023/5/28.
 //
 
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Invoker/Graphic/Graphic.h"
 #include "../Include/Core/Setting/GraphicSetting.h"
 #include "../Include/Core/Setting/SettingManager.h"
@@ -21,7 +21,7 @@ void Graphic::Invoke() {
         this->core->DrawRender(renderer->mesh, renderer->material);
     });
     this->core->EndFrame();
-    Debug::Info("Scene Graphic", "Start Invoker");
+    Debug::Info("Scene Graphic", {"Start Invoker"});
 }
 
 Graphic::Graphic() {
@@ -40,7 +40,7 @@ Graphic::Graphic() {
             core = nullptr;
             break;
     }
-    std::string path = setting->featurePath;
+    std::string_view path = setting->featurePath;
     this->features = Static::S_AssetManager()->Create<GraphicFeatures>(path);
     this->data = new GraphicData();
 }
@@ -65,7 +65,12 @@ void Graphic::SetGraphicData() {
         this->data->renderers->Push(renderer);
     });
     int sum = editorRenderers->Size() + activeRenderers->Size();
-    Debug::Info("Graphic Renderer", "Renderer Count Is [" + std::to_string(this->data->renderers->Size()) + "], All Renderer Count Is [" + std::to_string(sum) + "]");
+    Debug::Info("Graphic Renderer",{
+        "Renderer Count Is [",
+        std::to_string(this->data->renderers->Size()),
+        "], All Renderer Count Is [",
+        std::to_string(sum), "]"
+    });
     //填充摄像机信息
 
 }

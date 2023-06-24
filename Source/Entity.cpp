@@ -4,30 +4,32 @@
 
 #include "../Include/Core/Scene/Entity/Entity.h"
 #include "../Include/Core/Framework/ReflectFactory.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Framework/Static.h"
 
 void Entity::Read(cereal::BinaryInputArchive &archive) {
     int childSize, componentSize;
-    archive(this->name, childSize, componentSize);
-    std::string componentName;
+    this->name = String::Read(archive, 1)->Pop();
+    archive(childSize, componentSize);
+    std::string_view componentName;
     for (int index = 0; index < componentSize; ++index) {
-        archive(componentName);
-        Component* component = dynamic_cast<Component *>(ReflectFactory::S_Instance(componentName));
+        componentName = String::Read(archive, 1)->Pop();
+        auto *component = dynamic_cast<Component *>(ReflectFactory::S_Instance(componentName));
         archive(*component);
         this->components->Push(component);
     }
     for (int index = 0; index < childSize; ++index) {
-        Entity* entity = new Entity(true);
+        auto *entity = new Entity(true);
         entity->SetParent(this);
         archive(*entity);
     }
 }
 
 void Entity::Write(cereal::BinaryOutputArchive &archive) {
-    archive(this->name, this->children->Size(), this->components->Size());
+    String::Write(archive,{this->name});
+    archive(this->children->Size(), this->components->Size());
     this->components->IteratorWithout([&archive](Component *component) {
-        archive(component->Type());
+        String::Write(archive,{component->Type()});
         archive(*component);
     });
     this->children->IteratorWithout([&archive](Entity *entity) {
@@ -71,21 +73,21 @@ void Entity::AddComponent(Component *component) const {
     this->components->Push(component);
 }
 
-Component* Entity::AddComponent(std::string type) const {
-    Component* component = dynamic_cast<Component *>(ReflectFactory::S_Instance(type));
+Component* Entity::AddComponent(std::string_view type) const {
+    auto* component = dynamic_cast<Component *>(ReflectFactory::S_Instance(type));
     if (component == nullptr)
-        Debug::Warn("Add Component", "Invalid Component Type");
+        Debug::Warn("Add Component", {"Invalid Component Type"});
     this->AddComponent(component);
     return component;
 }
 
-Queue<Component *> *Entity::GetComponentsInChildren(std::string type, bool all) {
-    Queue<Component*>* result = new Queue<Component*>();
+Queue<Component *> *Entity::GetComponentsInChildren(std::string_view type, bool all) const {
+    auto* result = new Queue<Component*>();
     this->GetComponentsInChildren(type, result, all);
     return result;
 }
 
-void Entity::GetComponentsInChildren(std::string type, Queue<Component *>* result, bool all) {
+void Entity::GetComponentsInChildren(std::string_view type, Queue<Component *>* result, bool all) const {
     if (result == nullptr)
         return;
     Component *component = this->GetComponent(type);
@@ -96,7 +98,7 @@ void Entity::GetComponentsInChildren(std::string type, Queue<Component *>* resul
     });
 }
 
-Component *Entity::GetComponent(std::string type) {
+Component *Entity::GetComponent(std::string_view type) const {
     Component *result = nullptr;
     this->components->IteratorWithout([&type, &result](Component *component) {
         if (component->Type() == type)
@@ -105,16 +107,16 @@ Component *Entity::GetComponent(std::string type) {
     return result;
 }
 
-void Entity::SetActive(bool active) {
-    if (this->active == active)
+void Entity::SetActive(bool flag) {
+    if (this->active == flag)
         return;
-    this->active = active;
-    this->components->IteratorWithout([&active](Component* component) {
-       component->enable = active;
+    this->active = flag;
+    this->components->IteratorWithout([&flag](Component* component) {
+       component->enable = flag;
     });
 }
 
-bool Entity::IsActive() {
+bool Entity::IsActive() const {
     return this->active;
 }
 

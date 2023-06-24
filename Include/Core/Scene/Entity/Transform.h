@@ -15,7 +15,7 @@ public:
     void OnDisable() override;
     void OnDestroy() override;
 public:
-    std::string Type() override;
+    std::string_view Type() override;
 protected:
     void CustomMark() override;
 protected:

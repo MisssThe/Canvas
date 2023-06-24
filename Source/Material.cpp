@@ -16,20 +16,20 @@ void Material::CustomMark() {
 }
 
 void Material::Read(cereal::BinaryInputArchive &archive) {
-    std::string path;
-    archive(path);
-    this->shader = Static::S_AssetManager()->Instance<Shader>(path);
-    this->textureQueue = QueueSerialize::Read<Texture *>(archive, [&archive, &path]() -> Texture * {
-        archive(path);
-        Texture *texture = Static::S_AssetManager()->Instance<Texture>(path);
+    std::string_view p;
+    p = String::Read(archive, 1)->Pop();
+    this->shader = Static::S_AssetManager()->Instance<Shader>(p);
+    this->textureQueue = QueueSerialize::Read<Texture *>(archive, [&archive, &p]() -> Texture * {
+        p = String::Read(archive, 1)->Pop();
+        auto *texture = Static::S_AssetManager()->Instance<Texture>(p);
         return texture;
     });
 }
 
 void Material::Write(cereal::BinaryOutputArchive &archive) {
-    archive(this->shader->path);
-    QueueSerialize::Write<Texture*>(archive, this->textureQueue, [&archive](Texture* texture) {
-        archive(texture->path);
+    String::Write(archive, {this->shader->path});
+    QueueSerialize::Write<Texture *>(archive, this->textureQueue, [&archive](Texture *texture) {
+        String::Write(archive, {texture->path});
     });
 }
 

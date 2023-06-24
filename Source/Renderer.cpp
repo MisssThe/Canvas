@@ -3,7 +3,7 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/Renderer.h"
-#include "../Include/General/Debug.h"
+#include "../Include/General/Tool/Debug.h"
 #include "../Include/Core/Framework/Static.h"
 
 
@@ -29,22 +29,24 @@ void Renderer::OnDestroy() {
 
 }
 
-std::string Renderer::Type() {
+std::string_view Renderer::Type() {
     return "Renderer";
 }
 
 void Renderer::ComponentRead(cereal::BinaryInputArchive &archive) {
-    std::string meshPath, materialPath;
-    archive(meshPath, materialPath);
+    std::string_view meshPath, materialPath;
+    auto result = String::Read(archive, 2);
+    meshPath = result->Pop();
+    materialPath = result->Pop();
     this->mesh = Static::S_AssetManager()->Instance<Mesh>(meshPath);
     this->material = Static::S_AssetManager()->Instance<Material>(materialPath);
 }
 
 void Renderer::ComponentWrite(cereal::BinaryOutputArchive &archive) {
-    std::string meshPath, materialPath;
+    std::string_view meshPath, materialPath;
     if (this->mesh != nullptr)
         meshPath = this->mesh->path;
     if (this->material != nullptr)
         materialPath = this->material->path;
-    archive(meshPath, materialPath);
+    String::Write(archive, {meshPath, materialPath});
 }

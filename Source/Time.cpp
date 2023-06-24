@@ -15,7 +15,7 @@ unsigned long int Time::now = NowTime();
 unsigned long int Time::last = NowTime();
 unsigned long int Time::frame = 0;
 
-std::string Time::CanvasTimeWithStr() {
+std::string_view Time::CanvasTimeWithStr() {
     unsigned long int time = CanvasTime();
     return Time::CanvasTimeToStr(time);
 }
@@ -24,7 +24,7 @@ unsigned long int Time::CanvasTime() {
     return NowTime() - Time::begin;
 }
 
-std::string Time::CanvasTimeToStr(unsigned long int time) {
+std::string_view Time::CanvasTimeToStr(unsigned long int time) {
     int millisecond = time % (1000);
     time /= 1000;
     int second = time % 60;

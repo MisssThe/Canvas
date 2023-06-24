@@ -17,7 +17,7 @@ bool Canvas::S_notPause = true;
 
 Canvas::Canvas() {
     GarbageCollection::GarbageCollectionConfig config{
-            0
+            10
     };
     GarbageCollection::S_Config(config);
     ThreadPool::S_Config({});

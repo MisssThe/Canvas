@@ -3,28 +3,42 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/Elements/Detail/Shader.h"
-#include "../Include/General/IO.h"
-#include "../Include/General/String.h"
+#include "../Include/General/Tool/IO.h"
+#include "../Include/General/Tool/String.h"
 #include "../Include/Core/Asset/CustomJson.h"
+#include "../Include/General/Container/ContainSerialize/QueueSerialize.h"
 
 void Shader::Read(cereal::BinaryInputArchive &archive) {
-    archive(vertexShaderCode, fragmentShaderCode);
+    auto result = String::Read(archive, 2);
+    this->vertexShaderCode = result->Pop();
+    this->fragmentShaderCode = result->Pop();
+    QueueSerialize::Read<ShaderInfo>(archive, this->shaderInfo, [&archive]() -> ShaderInfo {
+        std::string_view n;
+        ShaderInfoType type;
+        n = String::Read(archive, 1)->Pop();
+        archive(type);
+        return {n, type};
+    });
 }
 
 void Shader::Write(cereal::BinaryOutputArchive &archive) {
-    archive(vertexShaderCode, fragmentShaderCode);
+    String::Write(archive, {vertexShaderCode, fragmentShaderCode});
+    QueueSerialize::Write<ShaderInfo>(archive, this->shaderInfo, [&archive](ShaderInfo info) {
+        String::Write(archive, {info.name});
+        archive(info.type);
+    });
 }
 
 void Shader::CustomMark() {
-
+    CustomPtr::S_Mark(this->shaderInfo);
 }
 
-void Shader::Cache(std::string file) {
+void Shader::Cache(std::string_view file) {
     //收集所有相关shader
-    std::string extension = IO::PathToExtension(file);
-    std::string propShaderPath = file;
-    std::string vertShaderPath = file;
-    std::string fragShaderPath = file;
+    std::string_view extension = IO::PathToExtension(file);
+    std::string_view propShaderPath = file;
+    std::string_view vertShaderPath = file;
+    std::string_view fragShaderPath = file;
     String::ReplaceLast(propShaderPath, extension, "sprop");
     String::ReplaceLast(vertShaderPath, extension, "vert");
     String::ReplaceLast(fragShaderPath, extension, "frag");
@@ -35,19 +49,38 @@ void Shader::Cache(std::string file) {
     this->CompressShaderProperty(propShaderPath);
 }
 
-void Shader::CompressShaderProperty(std::string &propertyPath) {
+void Shader::CompressShaderProperty(std::string_view &propertyPath) {
     //将SHADER_MATERIAL_PROPERTY 替换为 propertyPath
     std::string infoBegin = "struct Material {\n";
     std::string infoEnd = "}; uniform Material";
     std::string info;
     //解析property
-    CustomJson *cj = new CustomJson(propertyPath);
-    cj->Iterator([&info](std::string &key, Json::Value &value) {
+    auto *cj = new CustomJson(propertyPath);
+    cj->Iterator([&info, this](std::string_view &key, Json::Value &value) {
         if (!value.isString())
             return;
-        info += "   " + value.asString() + " " + key + ";\n";
+        std::string strType = value.asString();
+        ShaderInfoType type;
+        if (strType == "float") {
+            type = ShaderInfoType::Float;
+        } else if (strType == "vec2" || strType == "vec3" || strType == "vec4") {
+            type = ShaderInfoType::Vector;
+        } else if (strType == "sampler2D") {
+            type = ShaderInfoType::Texture;
+        } else {
+            return;
+        }
+        ShaderInfo tempShaderInfo;
+        tempShaderInfo.type = type;
+        tempShaderInfo.name = "sss";
+        this->shaderInfo->Push(tempShaderInfo);
+        info = info + strType + std::string(key) + ";\n";
     });
     std::string finalInfo = infoBegin + info + infoEnd;
     String::ReplaceFirst(this->vertexShaderCode, "SHADER_MATERIAL_PROPERTY", finalInfo);
     String::ReplaceFirst(this->fragmentShaderCode, "SHADER_MATERIAL_PROPERTY", finalInfo);
+}
+
+Shader::Shader() {
+    this->shaderInfo = new Queue<ShaderInfo>();
 }

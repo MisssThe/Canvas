@@ -17,8 +17,8 @@ private:
     static unsigned long int frame;
 public:
     static unsigned long int CanvasTime();                               //程序运行时间
-    static std::string CanvasTimeWithStr();                              //程序运行时间(输出格式（时：分：秒：毫秒）)
-    static std::string CanvasTimeToStr(unsigned long int time);          //程序运行时间(输出格式（时：分：秒：毫秒）)
+    static std::string_view CanvasTimeWithStr();                              //程序运行时间(输出格式（时：分：秒：毫秒）)
+    static std::string_view CanvasTimeToStr(unsigned long int time);          //程序运行时间(输出格式（时：分：秒：毫秒）)
     static unsigned long int UseTime(std::function<void()> func);        //function执行时间
     static unsigned long int FrameTime();                                //上一帧花费时间
 public:
