@@ -73,9 +73,10 @@ void String::Write(cereal::BinaryOutputArchive &archive, std::initializer_list<s
 }
 
 void String::Convert(const std::string& source, std::string_view& dest) {
-    char* str = new char[source.length()];
+    char* str = new char[source.length() + 1];
     String::stringViews.push(str);
     std::strcat(str,source.data());
+    str[source.length()] = '\0';
     dest = str;
 }
 

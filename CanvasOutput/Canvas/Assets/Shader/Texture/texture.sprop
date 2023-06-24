@@ -1,3 +1,5 @@
 {
-  "color": "vec4"
+  "color" : "vec4",
+  "mainTex" : "sampler2D",
+  "maskTex" : "sampler2D"
 }

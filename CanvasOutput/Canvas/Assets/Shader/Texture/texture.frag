@@ -13,7 +13,8 @@ out vec4 FragColor;
 
 void main()
 {
-    vec4 result = vec4(0,0,0,1);
-    result.rgb = vo.color.rgb;
+    vec4 result = texture(material.mainTex, vo.uv0);
+    result *= texture(material.maskTex, vo.uv0);
+    result.rgb *= vo.color.rgb;
     FragColor = result;
 }

@@ -11,8 +11,6 @@ void Material::CustomMark() {
     CustomPtr::S_Mark(this->shader);
     CustomPtr::S_Mark(this->textureQueue);
     CustomPtr::S_Mark(this->floatQueue);
-//    CustomPtr::S_Mark(this->shader);
-//    CustomPtr::S_Mark(this->shader);
 }
 
 void Material::Read(cereal::BinaryInputArchive &archive) {

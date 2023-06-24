@@ -3,6 +3,8 @@
 //
 
 #include "../Include/Core/Invoker/Graphic/Core/OpenGL/OpenGLTexture.h"
+#include "../Include/General/Tool/Debug.h"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #include <glad/glad.h>
@@ -12,11 +14,10 @@ void OpenGLTexture::CustomMark() {
 }
 
 OpenGLTexture::OpenGLTexture(Texture *texture) {
-//    this->CompileTexture(texture);
+    this->CompileTexture(texture);
 }
 
 void OpenGLTexture::CompileTexture(Texture *texture) {
-
     glGenTextures(1, &this->tex);
     glBindTexture(GL_TEXTURE_2D, this->tex);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
@@ -33,7 +34,7 @@ void OpenGLTexture::CompileTexture(Texture *texture) {
     }
     else
     {
-        std::cout << "Failed to load texture" << std::endl;
+        Debug::Warn("Texture", {"Compile Failed [", texture->texturePath, "]"});
     }
     stbi_image_free(data);
 }

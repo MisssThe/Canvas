@@ -52,33 +52,37 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     }
     OpenGLShader* openGlShader = this->shaders->Get(shaderKey);
     openGlShader->Bind();
+    //获取并设置属性
+    int textureIndex = 0;
+    shaderKey->shaderInfo->IteratorWithout([&openGlShader, &material, &textureIndex, this](Shader::ShaderInfo info) {
+        int location = openGlShader->GetLocation(info.name);
+        if (location < 0)
+            return;
+        switch (info.type) {
+            case Shader::Float:
+                glUniform1f(location, material->floatQueue->Next());
+                break;
+            case Shader::Vector:
+                glUniform4f(location, material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next());
+                break;
+            case Shader::Texture:
+                Texture* texture = material->textureQueue->Next();
+                if (texture == nullptr)
+                    return;
+                if (!this->textures->Contain(texture))
+                    this->textures->Insert(texture, new OpenGLTexture(texture));
+                glUniform1i(location, textureIndex);
+                this->textures->Get(texture)->Bind(textureIndex++);
+                break;
+        }
+    });
+
     //获取并绑定网格
     if (!this->meshes->Contain(mesh))
         this->meshes->Insert(mesh, new OpenGLMesh(mesh));
     OpenGLMesh* openGlMesh = this->meshes->Get(mesh);
     openGlMesh->Bind();
-    //获取并设置属性
-    shaderKey->shaderInfo->IteratorWithout([&openGlShader, &material](Shader::ShaderInfo info) {
-        switch (info.type) {
-            case Shader::Float:
-                openGlShader->SetFloat(info.name, material->floatQueue->Next());
-                break;
-            case Shader::Vector:
-                openGlShader->SetVector(info.name, material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next());
-                break;
-            case Shader::Texture:
-                break;
-        }
-    });
-    //绑定贴图
-//    int textureIndex = 0;
-//    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
-//        if (!this->textures->Contain(texture))
-//            this->textures->Insert(texture, new OpenGLTexture(texture));
-//        OpenGLTexture* openGlTexture = this->textures->Get(texture);
-//        openGlTexture->Bind(textureIndex++);
-//    });
-    //设置浮点属性
+    //绘制指令
     glDrawElements(GL_TRIANGLES, openGlMesh->Count(), GL_UNSIGNED_INT, 0);
 }
 

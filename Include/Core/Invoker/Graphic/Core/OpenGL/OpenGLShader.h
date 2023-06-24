@@ -7,9 +7,8 @@
 
 
 #include "../../Elements/Detail/Shader.h"
-#include "../GraphicShader.h"
 
-class OpenGLShader : public GraphicShader {
+class OpenGLShader : public CustomPtr {
 protected:
     void CustomMark() override;
     ~OpenGLShader() override;
@@ -19,11 +18,8 @@ private:
     void CompileShader(Shader* shader);
     unsigned int CompileShaderSource(int type, const std::string& code) const;
 public:
-    void SetFloat(std::string_view key,float x) override;
-    void SetVector(std::string_view key,float x, float y,float z,float w) override;
-//    void SetTexture(std::string key, Texture* texture) override;
-public:
     void Bind() const;
+    int GetLocation(std::string_view key);
 private:
     unsigned int program;
 };
