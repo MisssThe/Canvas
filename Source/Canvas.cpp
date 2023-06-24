@@ -42,6 +42,8 @@ void Canvas::Invoke() {
 
 Canvas::~Canvas() {
     GarbageCollection::S_Release();
+    //析构字符串
+    String::Release();
 }
 
 void Canvas::S_Quit() {

@@ -22,6 +22,8 @@ public:
     static void Write(cereal::BinaryOutputArchive &archive, std::initializer_list<std::string_view> str);
     static void Convert(const std::string& source, std::string_view& dest);
     static std::string_view Combine(std::initializer_list<std::string_view> str);
+public:
+    static void Release();
 private:
     static std::queue<char*> stringViews;
 //    static std::string_view Combine(std::initializer_list<std::string_view> st);

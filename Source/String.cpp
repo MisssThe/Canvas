@@ -3,6 +3,7 @@
 //
 
 #include "../Include/General/Tool/String.h"
+#include "../Include/General/Tool/Debug.h"
 #include <cereal/types/string.hpp>
 
 std::queue<char*> String::stringViews;
@@ -95,4 +96,14 @@ std::string_view String::Combine(std::initializer_list<std::string_view> str) {
     std::string_view sv = result;
     String::stringViews.push(result);
     return sv;
+}
+
+void String::Release() {
+    int size = String::stringViews.size();
+    Debug::Info("String", {"Release Custom Constant String Count Is [ ", std::to_string(size) ," ]"});
+    for (int index = 0; index < size; ++index) {
+        char* ptr = String::stringViews.front();
+        String::stringViews.pop();
+        delete ptr;
+    }
 }
