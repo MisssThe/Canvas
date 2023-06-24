@@ -36,7 +36,8 @@ void CustomJson::PrivateIterator(const std::function<void(std::string_view &, Js
             this->PrivateIterator(call, temp);
         }
         else {
-            std::string_view sv = info;
+            std::string_view sv;
+            String::Convert(info,sv);
             call(sv, temp);
         }
     }

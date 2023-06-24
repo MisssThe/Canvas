@@ -71,10 +71,11 @@ void Shader::CompressShaderProperty(std::string_view &propertyPath) {
             return;
         }
         ShaderInfo tempShaderInfo;
-        tempShaderInfo.type = type;
-        tempShaderInfo.name = "sss";
+        tempShaderInfo.type =  type;
+
+        tempShaderInfo.name = key;
         this->shaderInfo->Push(tempShaderInfo);
-        info = info + strType + std::string(key) + ";\n";
+        info = info + strType + " " + std::string(key) + ";\n";
     });
     std::string finalInfo = infoBegin + info + infoEnd;
     String::ReplaceFirst(this->vertexShaderCode, "SHADER_MATERIAL_PROPERTY", finalInfo);
