@@ -1,6 +1,6 @@
 #version 330
 
-SHADER_MATERIAL_PROPERTY material;
+SHADER_MATERIAL_PROPERTY;
 
 out vec4 FragColor;
 

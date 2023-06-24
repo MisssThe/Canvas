@@ -37,6 +37,11 @@ public:
         this->queue.pop();
         return temp;
     }
+    T Next() {
+        T temp = this->Pop();
+        this->Push(temp);
+        return temp;
+    }
     void Remove(T t) {
         this->IteratorWithRemove([&t](T temp) {
             return temp != t;

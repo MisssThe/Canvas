@@ -19,7 +19,12 @@ void Material::Read(cereal::BinaryInputArchive &archive) {
     std::string_view p;
     p = String::Read(archive, 1)->Pop();
     this->shader = Static::S_AssetManager()->Instance<Shader>(p);
-    this->textureQueue = QueueSerialize::Read<Texture *>(archive, [&archive, &p]() -> Texture * {
+    QueueSerialize::Read<float>(archive, this->floatQueue,[&archive]()->float {
+        float temp;
+        archive(temp);
+        return temp;
+    });
+    QueueSerialize::Read<Texture *>(archive, this->textureQueue, [&archive, &p]() -> Texture * {
         p = String::Read(archive, 1)->Pop();
         auto *texture = Static::S_AssetManager()->Instance<Texture>(p);
         return texture;
@@ -28,13 +33,30 @@ void Material::Read(cereal::BinaryInputArchive &archive) {
 
 void Material::Write(cereal::BinaryOutputArchive &archive) {
     String::Write(archive, {this->shader->path});
+    QueueSerialize::Write<float>(archive, this->floatQueue, [&archive](float temp) {
+        archive(temp);
+    });
     QueueSerialize::Write<Texture *>(archive, this->textureQueue, [&archive](Texture *texture) {
         String::Write(archive, {texture->path});
     });
 }
 
 Material::Material() {
-    this->shader = Static::S_AssetManager()->Instance<Shader>("Canvas/Caches/Shader/Canvas_Assets_Shader_Texture_texture.Shader");
     this->textureQueue = new Queue<Texture*>();
     this->floatQueue = new Queue<float>();
+    this->SetShader(Static::S_AssetManager()->Instance<Shader>("Canvas/Caches/Shader/Canvas_Assets_Shader_Error_error.Shader"));
+}
+
+void Material::SetShader(Shader *target) {
+    if (target == nullptr || target == this->shader)
+        return;
+    this->shader = target;
+    //设置初始值
+    for (int index = 0; index < shader->floatSize; ++index) {
+        this->floatQueue->Push(0);
+    }
+    for (int index = 0; index < shader->textureSize; ++index) {
+        //Default Black Texture
+        this->textureQueue->Push(nullptr);
+    }
 }

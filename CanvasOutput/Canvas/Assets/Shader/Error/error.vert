@@ -8,7 +8,7 @@ layout (location = 0) in vec3 position;
 //layout (location = 5) in vec2 uv1;
 //layout (location = 6) in vec2 uv2;
 
-SHADER_MATERIAL_PROPERTY material;
+SHADER_MATERIAL_PROPERTY;
 
 void main()
 {

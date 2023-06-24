@@ -8,7 +8,7 @@ layout (location = 3) in vec4 color;
 //layout (location = 5) in vec2 uv1;
 //layout (location = 6) in vec2 uv2;
 
-SHADER_MATERIAL_PROPERTY material;
+SHADER_MATERIAL_PROPERTY;
 
 struct VertexOutput
 {
@@ -19,6 +19,6 @@ out VertexOutput vo;
 
 void main()
 {
-    vo.color = color;
+    vo.color = color * material.color;
     gl_Position = vec4(position.xyz, 1.0);
 }

@@ -63,3 +63,17 @@ void OpenGLShader::CompileShader(Shader* shader) {
 OpenGLShader::~OpenGLShader() {
     glDeleteProgram(this->program);
 }
+
+void OpenGLShader::SetFloat(std::string_view key, float x) {
+    int location = glGetUniformLocation(this->program, key.data());
+    if (location < 0)
+        return;
+    glUniform1f(location, x);
+}
+
+void OpenGLShader::SetVector(std::string_view key, float x, float y, float z, float w) {
+    int location = glGetUniformLocation(this->program, key.data());
+    if (location < 0)
+        return;
+    glUniform4f(location, x, y, z, w);
+}

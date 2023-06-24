@@ -26,6 +26,8 @@ public:
     Queue<ShaderInfo>* shaderInfo;
     std::string_view vertexShaderCode;
     std::string_view fragmentShaderCode;
+    unsigned int floatSize;
+    unsigned int textureSize;
 protected:
     void Read(cereal::BinaryInputArchive &archive) override;
     void Write(cereal::BinaryOutputArchive &archive) override;

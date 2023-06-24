@@ -18,6 +18,7 @@ protected:
     ~Material() override = default;
 public:
     Material();
+    void SetShader(Shader* target);
 public:
     Shader* shader;
     Queue<Texture*>* textureQueue;

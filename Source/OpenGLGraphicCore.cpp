@@ -58,14 +58,26 @@ void OpenGLGraphicCore::DrawRender(Mesh *mesh, Material *material) {
     OpenGLMesh* openGlMesh = this->meshes->Get(mesh);
     openGlMesh->Bind();
     //获取并设置属性
-    //绑定贴图
-    int textureIndex = 0;
-    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
-        if (!this->textures->Contain(texture))
-            this->textures->Insert(texture, new OpenGLTexture(texture));
-        OpenGLTexture* openGlTexture = this->textures->Get(texture);
-        openGlTexture->Bind(textureIndex++);
+    shaderKey->shaderInfo->IteratorWithout([&openGlShader, &material](Shader::ShaderInfo info) {
+        switch (info.type) {
+            case Shader::Float:
+                openGlShader->SetFloat(info.name, material->floatQueue->Next());
+                break;
+            case Shader::Vector:
+                openGlShader->SetVector(info.name, material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next(), material->floatQueue->Next());
+                break;
+            case Shader::Texture:
+                break;
+        }
     });
+    //绑定贴图
+//    int textureIndex = 0;
+//    material->textureQueue->IteratorWithout([this, &textureIndex](Texture* texture) {
+//        if (!this->textures->Contain(texture))
+//            this->textures->Insert(texture, new OpenGLTexture(texture));
+//        OpenGLTexture* openGlTexture = this->textures->Get(texture);
+//        openGlTexture->Bind(textureIndex++);
+//    });
     //设置浮点属性
     glDrawElements(GL_TRIANGLES, openGlMesh->Count(), GL_UNSIGNED_INT, 0);
 }

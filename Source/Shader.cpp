@@ -19,6 +19,7 @@ void Shader::Read(cereal::BinaryInputArchive &archive) {
         archive(type);
         return {n, type};
     });
+    archive(this->floatSize, this->textureSize);
 }
 
 void Shader::Write(cereal::BinaryOutputArchive &archive) {
@@ -27,6 +28,7 @@ void Shader::Write(cereal::BinaryOutputArchive &archive) {
         String::Write(archive, {info.name});
         archive(info.type);
     });
+    archive(this->floatSize, this->textureSize);
 }
 
 void Shader::CustomMark() {
@@ -52,28 +54,32 @@ void Shader::Cache(std::string_view file) {
 void Shader::CompressShaderProperty(std::string_view &propertyPath) {
     //将SHADER_MATERIAL_PROPERTY 替换为 propertyPath
     std::string infoBegin = "struct Material {\n";
-    std::string infoEnd = "}; uniform Material";
+    std::string infoEnd = "}; uniform Material material";
     std::string info;
     //解析property
     auto *cj = new CustomJson(propertyPath);
-    cj->Iterator([&info, this](std::string_view &key, Json::Value &value) {
+    int tempFloatSize = 0, tempTextureSize =0;
+    cj->Iterator([&info, this, &tempFloatSize, &tempTextureSize](std::string_view &key, Json::Value &value) {
         if (!value.isString())
             return;
         std::string strType = value.asString();
         ShaderInfoType type;
         if (strType == "float") {
             type = ShaderInfoType::Float;
+            tempFloatSize += 1;
         } else if (strType == "vec2" || strType == "vec3" || strType == "vec4") {
             type = ShaderInfoType::Vector;
+            tempFloatSize += 4;
         } else if (strType == "sampler2D") {
             type = ShaderInfoType::Texture;
+            tempTextureSize += 1;
         } else {
             return;
         }
         ShaderInfo tempShaderInfo;
         tempShaderInfo.type =  type;
 
-        tempShaderInfo.name = key;
+        tempShaderInfo.name = String::Combine({"material.", key});
         this->shaderInfo->Push(tempShaderInfo);
         info = info + strType + " " + std::string(key) + ";\n";
     });
